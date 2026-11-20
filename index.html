@@ -4,6 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>khanaGo - Food Delivery</title>
+  <meta name="theme-color" content="#FF512F" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="khanaGo" />
+
+  <!-- Custom khanaGo App / Favicon SVG Icon -->
+  <link id="appIconLink" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FF512F'/%3E%3Cstop offset='100%25' stop-color='%23F09819'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='128' height='128' rx='28' fill='url(%23g)'/%3E%3Cpath d='M24 84h80M30 84a34 34 0 0168 0M64 32v14M50 37h28M34 98h60' stroke='%23ffffff' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+  <link id="appleIconLink" rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FF512F'/%3E%3Cstop offset='100%25' stop-color='%23F09819'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='128' height='128' rx='28' fill='url(%23g)'/%3E%3Cpath d='M24 84h80M30 84a34 34 0 0168 0M64 32v14M50 37h28M34 98h60' stroke='%23ffffff' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -45,7 +53,6 @@
       </div>
 
       <form id="customerDetailsForm" class="p-6 space-y-4">
-        <!-- Current Location Box -->
         <div class="bg-orange-50 border border-orange-200 rounded-xl p-3.5 flex items-center justify-between gap-3">
           <div>
             <p class="text-sm font-bold text-gray-900">Use Current Location</p>
@@ -93,9 +100,9 @@
     </div>
   </main>
 
-  <!-- PAGE 2: ONBOARDED SHOPS LIST -->
-  <section id="pageShops" class="hidden max-w-6xl mx-auto w-full px-4 py-6 flex-1">
-    <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-200 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+  <!-- PAGE 2: ONBOARDED SHOPS & ORDERS -->
+  <section id="pageShops" class="hidden max-w-6xl mx-auto w-full px-4 py-6 flex-1 space-y-6">
+    <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
       <div>
         <div class="flex items-center gap-2">
           <span id="viewName" class="font-bold text-sm text-gray-900"></span>
@@ -109,45 +116,68 @@
       </button>
     </div>
 
-    <h2 class="text-xl font-extrabold text-gray-900 mb-4">Available Shops</h2>
-    <div id="shopsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    <!-- Recent Orders Status Box (Shows PAID status clearly) -->
+    <div id="ordersSection" class="hidden bg-white rounded-xl p-4 shadow-sm border border-green-200">
+      <h3 class="text-sm font-extrabold text-gray-900 mb-3">Your Orders</h3>
+      <div id="ordersList" class="space-y-2.5"></div>
+    </div>
+
+    <div>
+      <h2 class="text-xl font-extrabold text-gray-900 mb-4">Available Shops</h2>
+      <div id="shopsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    </div>
   </section>
 
   <!-- CART DRAWER -->
   <div id="cartDrawer" class="hidden fixed inset-0 bg-black/50 z-50 flex justify-end">
-    <div class="bg-white w-full max-w-md h-full flex flex-col justify-between p-5 shadow-2xl">
+    <div class="bg-white w-full max-w-md h-full flex flex-col justify-between p-5 shadow-2xl overflow-y-auto">
       <div>
         <div class="flex items-center justify-between border-b pb-3">
           <h3 class="text-lg font-extrabold">Your Cart</h3>
           <button onclick="toggleCart()" class="text-gray-500 hover:text-gray-900 font-bold text-xl">&times;</button>
         </div>
-        <div id="cartItems" class="mt-4 space-y-3 max-h-[55vh] overflow-y-auto"></div>
+        <div id="cartItems" class="mt-4 space-y-3 max-h-[45vh] overflow-y-auto"></div>
       </div>
 
-      <div class="border-t pt-4 space-y-3">
+      <div class="border-t pt-4 space-y-3 mt-4">
         <div class="flex justify-between font-extrabold text-base">
           <span>Total Amount</span>
           <span id="cartTotal">₹0</span>
         </div>
+
         <div class="space-y-2 text-xs font-semibold text-gray-700">
-          <label class="flex items-center gap-2 cursor-pointer">
-            <input type="radio" name="payMode" value="Cash on Delivery (COD)" checked />
+          <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg border border-gray-200">
+            <input type="radio" name="payMode" value="UPI" checked onchange="toggleUpiBox()" />
+            <span>Online Payment (UPI - Auto Amount)</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer p-2 rounded-lg border border-gray-200">
+            <input type="radio" name="payMode" value="Cash on Delivery (COD)" onchange="toggleUpiBox()" />
             <span>Cash on Delivery (COD)</span>
           </label>
-          <label class="flex items-center gap-2 cursor-pointer">
-            <input type="radio" name="payMode" value="UPI" />
-            <span>UPI</span>
-          </label>
         </div>
-        <button onclick="submitOrder()" class="w-full brand-bg text-white font-bold py-3.5 rounded-xl shadow-lg text-sm">
-          Place Order
+
+        <!-- Online UPI Auto Amount Box -->
+        <div id="upiPaymentBox" class="bg-orange-50 border border-orange-200 rounded-xl p-3 space-y-2.5">
+          <p class="text-xs font-bold text-gray-900">UPI ID: <span class="text-orange-700">9458834146@ybl</span></p>
+          <button type="button" onclick="openUpiAppWithAmount()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-lg text-xs shadow transition">
+            Pay <span id="upiPayBtnAmount">₹0</span> via UPI App →
+          </button>
+          <p class="text-[11px] text-gray-600">UPI app mein payment karne ke baad neeche button daba kar order <strong>PAID</strong> confirm karein.</p>
+        </div>
+
+        <button id="confirmOrderBtn" onclick="submitOrder()" class="w-full brand-bg text-white font-bold py-3.5 rounded-xl shadow-lg text-sm">
+          Confirm Payment & Place Order (PAID)
         </button>
       </div>
     </div>
   </div>
 
   <script>
-    // Yahan aap apne onboard kiye hue shops aur unka menu update kar sakte hain
+    // Apna WhatsApp number (country code 91 ke saath, bina + ya space ke) yahan dalein
+    const OWNER_WHATSAPP = "917599044129";
+    const MERCHANT_UPI_ID = "9458834146@ybl";
+    const MERCHANT_NAME = "khanaGo";
+
     const onboardedShops = [
       {
         id: 1,
@@ -174,13 +204,62 @@
     ];
 
     let customer = JSON.parse(localStorage.getItem("khanago_cust")) || null;
+    let savedOrders = JSON.parse(localStorage.getItem("khanago_orders")) || [];
     let cart = [];
+
+    // Inject dynamic PWA manifest so standalone app conversion uses khanaGo SVG icon
+    (function setupManifest() {
+      const iconSvg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23FF512F'/><stop offset='100%' stop-color='%23F09819'/></linearGradient></defs><rect width='128' height='128' rx='28' fill='url(%23g)'/><path d='M24 84h80M30 84a34 34 0 0168 0M64 32v14M50 37h28M34 98h60' stroke='%23ffffff' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>`;
+      const iconUrl = "data:image/svg+xml," + encodeURIComponent(iconSvg);
+      const manifest = {
+        name: "khanaGo",
+        short_name: "khanaGo",
+        start_url: ".",
+        display: "standalone",
+        background_color: "#ffffff",
+        theme_color: "#FF512F",
+        icons: [{ src: iconUrl, sizes: "128x128 512x512", type: "image/svg+xml", purpose: "any maskable" }]
+      };
+      const blob = new Blob([JSON.stringify(manifest)], { type: "application/json" });
+      const link = document.createElement("link");
+      link.rel = "manifest";
+      link.href = URL.createObjectURL(blob);
+      document.head.appendChild(link);
+    })();
 
     window.onload = () => {
       if (customer) {
         showShopsPage();
       }
     };
+
+    function getCartTotal() {
+      return cart.reduce((sum, item) => sum + Number(item.price), 0);
+    }
+
+    function toggleUpiBox() {
+      const mode = document.querySelector('input[name="payMode"]:checked').value;
+      const box = document.getElementById("upiPaymentBox");
+      const btn = document.getElementById("confirmOrderBtn");
+      if (mode === "UPI") {
+        box.classList.remove("hidden");
+        btn.textContent = "Confirm Payment & Place Order (PAID)";
+      } else {
+        box.classList.add("hidden");
+        btn.textContent = "Place Order (COD)";
+      }
+    }
+
+    function openUpiAppWithAmount() {
+      const amount = getCartTotal();
+      if (amount <= 0) {
+        alert("Pehle cart mein koi item add karein.");
+        return;
+      }
+      const txnNote = encodeURIComponent("khanaGo Order");
+      const upiUrl = `upi://pay?pa=${encodeURIComponent(MERCHANT_UPI_ID)}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${amount.toFixed(2)}&cu=INR&tn=${txnNote}`;
+      window.location.href = upiUrl;
+    }
 
     function requestCurrentLocation() {
       const status = document.getElementById("locStatus");
@@ -216,9 +295,7 @@
                 document.getElementById("addressInput").value = info.display_name;
               }
             }
-          } catch (err) {
-            // Manual address entry remains available
-          }
+          } catch (err) {}
         },
         () => {
           status.innerHTML = `<span class="text-red-600 font-semibold">Location allow nahi ki gayi. Address manually bharein.</span>`;
@@ -256,6 +333,7 @@
         : "Manual Address";
 
       renderShops();
+      renderOrders();
     }
 
     function goToOnboarding() {
@@ -297,58 +375,18 @@
       `).join("");
     }
 
-    function addItem(shopName, itemName, price) {
-      cart.push({ shopName, itemName, price });
-      refreshCart();
-    }
-
-    function removeItem(idx) {
-      cart.splice(idx, 1);
-      refreshCart();
-    }
-
-    function refreshCart() {
-      document.getElementById("cartCount").textContent = cart.length;
-      const list = document.getElementById("cartItems");
-      let total = 0;
-
-      if (cart.length === 0) {
-        list.innerHTML = `<p class="text-sm text-gray-500 text-center py-8">Cart khali hai.</p>`;
-      } else {
-        list.innerHTML = cart.map((c, i) => {
-          total += c.price;
-          return `
-            <div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
-              <div>
-                <p class="font-bold text-sm">${c.itemName}</p>
-                <p class="text-xs text-gray-500">${c.shopName}</p>
-              </div>
-              <div class="flex items-center gap-3">
-                <span class="font-bold text-sm">₹${c.price}</span>
-                <button onclick="removeItem(${i})" class="text-red-500 text-xs font-bold">✕</button>
-              </div>
-            </div>
-          `;
-        }).join("");
+    function renderOrders() {
+      const sec = document.getElementById("ordersSection");
+      const list = document.getElementById("ordersList");
+      if (!savedOrders.length) {
+        sec.classList.add("hidden");
+        return;
       }
-      document.getElementById("cartTotal").textContent = "₹" + total;
-    }
-
-    function toggleCart() {
-      document.getElementById("cartDrawer").classList.toggle("hidden");
-      refreshCart();
-    }
-
-    function submitOrder() {
-      if (cart.length === 0) return alert("Pehle koi item add karein.");
-      const mode = document.querySelector('input[name="payMode"]:checked').value;
-      alert(
-        `Order placed!\n\nName: ${customer.name}\nPhone: ${customer.phone}\nAddress: ${customer.building}, ${customer.address} (${customer.pincode})\nPayment: ${mode}`
-      );
-      cart = [];
-      refreshCart();
-      toggleCart();
-    }
-  </script>
-</body>
-</html>
+      sec.classList.remove("hidden");
+      list.innerHTML = savedOrders.map(ord => `
+        <div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg border border-gray-200 text-xs">
+          <div>
+            <p class="font-bold text-gray-900">Order #${ord.id} • ₹${ord.total}</p>
+            <p class="text-gray-500">${ord.itemsSummary} (${ord.paymentMode})</p>
+          </div>
+          <span class="px-2.5 py-1 rounded-full font-extrabold ${ord.status === "PAID" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-800"}
