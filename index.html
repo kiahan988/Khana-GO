@@ -8,9 +8,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="khanaGo" />
 
-  <!-- Custom khanaGo App / Favicon SVG Icon -->
-  <link id="appIconLink" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FF512F'/%3E%3Cstop offset='100%25' stop-color='%23F09819'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='128' height='128' rx='28' fill='url(%23g)'/%3E%3Cpath d='M24 84h80M30 84a34 34 0 0168 0M64 32v14M50 37h28M34 98h60' stroke='%23ffffff' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
-  <link id="appleIconLink" rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FF512F'/%3E%3Cstop offset='100%25' stop-color='%23F09819'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='128' height='128' rx='28' fill='url(%23g)'/%3E%3Cpath d='M24 84h80M30 84a34 34 0 0168 0M64 32v14M50 37h28M34 98h60' stroke='%23ffffff' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FF512F'/%3E%3Cstop offset='100%25' stop-color='%23F09819'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='128' height='128' rx='28' fill='url(%23g)'/%3E%3Cpath d='M24 84h80M30 84a34 34 0 0168 0M64 32v14M50 37h28M34 98h60' stroke='%23ffffff' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FF512F'/%3E%3Cstop offset='100%25' stop-color='%23F09819'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='128' height='128' rx='28' fill='url(%23g)'/%3E%3Cpath d='M24 84h80M30 84a34 34 0 0168 0M64 32v14M50 37h28M34 98h60' stroke='%23ffffff' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,7 +20,7 @@
 </head>
 <body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
 
-  <!-- Top Header with khanaGo Logo -->
+  <!-- Top Header -->
   <header class="bg-white shadow-sm sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div onclick="goToOnboarding()" class="flex items-center gap-2.5 cursor-pointer">
@@ -37,7 +36,7 @@
         </div>
       </div>
 
-      <button id="cartBtn" onclick="toggleCart()" class="hidden bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-gray-800 transition">
+      <button id="cartBtn" type="button" onclick="toggleCart()" style="display: none;" class="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-semibold items-center gap-2 hover:bg-gray-800 transition">
         <span>Cart</span>
         <span id="cartCount" class="bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full">0</span>
       </button>
@@ -56,7 +55,7 @@
         <div class="bg-orange-50 border border-orange-200 rounded-xl p-3.5 flex items-center justify-between gap-3">
           <div>
             <p class="text-sm font-bold text-gray-900">Use Current Location</p>
-            <p id="locStatus" class="text-xs text-gray-500">Location allow karne ke liye button dabayein</p>
+            <p id="locStatus" class="text-xs text-gray-600">Tap karein aur browser mein location allow karein</p>
           </div>
           <button type="button" id="locBtn" onclick="requestCurrentLocation()" class="shrink-0 bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold px-3.5 py-2.5 rounded-lg shadow transition">
             Use Current Location
@@ -101,7 +100,7 @@
   </main>
 
   <!-- PAGE 2: ONBOARDED SHOPS & ORDERS -->
-  <section id="pageShops" class="hidden max-w-6xl mx-auto w-full px-4 py-6 flex-1 space-y-6">
+  <section id="pageShops" style="display: none;" class="max-w-6xl mx-auto w-full px-4 py-6 flex-1 space-y-6">
     <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
       <div>
         <div class="flex items-center gap-2">
@@ -111,13 +110,12 @@
         <p id="viewAddress" class="text-xs text-gray-600 mt-0.5"></p>
         <p id="viewGps" class="text-[11px] text-green-600 font-semibold mt-0.5"></p>
       </div>
-      <button onclick="goToOnboarding()" class="text-xs font-bold text-orange-600 hover:underline self-start sm:self-center">
+      <button type="button" onclick="goToOnboarding()" class="text-xs font-bold text-orange-600 hover:underline self-start sm:self-center">
         Edit Details / Location
       </button>
     </div>
 
-    <!-- Recent Orders Status Box (Shows PAID status clearly) -->
-    <div id="ordersSection" class="hidden bg-white rounded-xl p-4 shadow-sm border border-green-200">
+    <div id="ordersSection" style="display: none;" class="bg-white rounded-xl p-4 shadow-sm border border-green-200">
       <h3 class="text-sm font-extrabold text-gray-900 mb-3">Your Orders</h3>
       <div id="ordersList" class="space-y-2.5"></div>
     </div>
@@ -129,12 +127,12 @@
   </section>
 
   <!-- CART DRAWER -->
-  <div id="cartDrawer" class="hidden fixed inset-0 bg-black/50 z-50 flex justify-end">
+  <div id="cartDrawer" style="display: none;" class="fixed inset-0 bg-black/50 z-50 justify-end">
     <div class="bg-white w-full max-w-md h-full flex flex-col justify-between p-5 shadow-2xl overflow-y-auto">
       <div>
         <div class="flex items-center justify-between border-b pb-3">
           <h3 class="text-lg font-extrabold">Your Cart</h3>
-          <button onclick="toggleCart()" class="text-gray-500 hover:text-gray-900 font-bold text-xl">&times;</button>
+          <button type="button" onclick="toggleCart()" class="text-gray-500 hover:text-gray-900 font-bold text-xl">&times;</button>
         </div>
         <div id="cartItems" class="mt-4 space-y-3 max-h-[45vh] overflow-y-auto"></div>
       </div>
@@ -156,7 +154,6 @@
           </label>
         </div>
 
-        <!-- Online UPI Auto Amount Box -->
         <div id="upiPaymentBox" class="bg-orange-50 border border-orange-200 rounded-xl p-3 space-y-2.5">
           <p class="text-xs font-bold text-gray-900">UPI ID: <span class="text-orange-700">9458834146@ybl</span></p>
           <button type="button" onclick="openUpiAppWithAmount()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-lg text-xs shadow transition">
@@ -165,7 +162,7 @@
           <p class="text-[11px] text-gray-600">UPI app mein payment karne ke baad neeche button daba kar order <strong>PAID</strong> confirm karein.</p>
         </div>
 
-        <button id="confirmOrderBtn" onclick="submitOrder()" class="w-full brand-bg text-white font-bold py-3.5 rounded-xl shadow-lg text-sm">
+        <button id="confirmOrderBtn" type="button" onclick="submitOrder()" class="w-full brand-bg text-white font-bold py-3.5 rounded-xl shadow-lg text-sm">
           Confirm Payment & Place Order (PAID)
         </button>
       </div>
@@ -173,7 +170,6 @@
   </div>
 
   <script>
-    // Apna WhatsApp number (country code 91 ke saath, bina + ya space ke) yahan dalein
     const OWNER_WHATSAPP = "917599044129";
     const MERCHANT_UPI_ID = "9458834146@ybl";
     const MERCHANT_NAME = "khanaGo";
@@ -203,151 +199,154 @@
       }
     ];
 
-    let customer = JSON.parse(localStorage.getItem("khanago_cust")) || null;
-    let savedOrders = JSON.parse(localStorage.getItem("khanago_orders")) || [];
+    let customer = null;
+    let savedOrders = [];
     let cart = [];
 
-    // Inject dynamic PWA manifest so standalone app conversion uses khanaGo SVG icon
+    try {
+      customer = JSON.parse(localStorage.getItem("khanago_cust")) || null;
+      savedOrders = JSON.parse(localStorage.getItem("khanago_orders")) || [];
+    } catch (e) {
+      customer = null;
+      savedOrders = [];
+    }
+
     (function setupManifest() {
-      const iconSvg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23FF512F'/><stop offset='100%' stop-color='%23F09819'/></linearGradient></defs><rect width='128' height='128' rx='28' fill='url(%23g)'/><path d='M24 84h80M30 84a34 34 0 0168 0M64 32v14M50 37h28M34 98h60' stroke='%23ffffff' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>`;
-      const iconUrl = "data:image/svg+xml," + encodeURIComponent(iconSvg);
-      const manifest = {
-        name: "khanaGo",
-        short_name: "khanaGo",
-        start_url: ".",
-        display: "standalone",
-        background_color: "#ffffff",
-        theme_color: "#FF512F",
-        icons: [{ src: iconUrl, sizes: "128x128 512x512", type: "image/svg+xml", purpose: "any maskable" }]
-      };
-      const blob = new Blob([JSON.stringify(manifest)], { type: "application/json" });
-      const link = document.createElement("link");
-      link.rel = "manifest";
-      link.href = URL.createObjectURL(blob);
-      document.head.appendChild(link);
+      try {
+        const iconSvg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23FF512F'/><stop offset='100%25' stop-color='%23F09819'/></linearGradient></defs><rect width='128' height='128' rx='28' fill='url(%23g)'/><path d='M24 84h80M30 84a34 34 0 0168 0M64 32v14M50 37h28M34 98h60' stroke='%23ffffff' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>`;
+        const iconUrl = "data:image/svg+xml," + encodeURIComponent(iconSvg);
+        const manifest = {
+          name: "khanaGo",
+          short_name: "khanaGo",
+          start_url: ".",
+          display: "standalone",
+          background_color: "#ffffff",
+          theme_color: "#FF512F",
+          icons: [{ src: iconUrl, sizes: "128x128 512x512", type: "image/svg+xml", purpose: "any maskable" }]
+        };
+        const blob = new Blob([JSON.stringify(manifest)], { type: "application/json" });
+        const link = document.createElement("link");
+        link.rel = "manifest";
+        link.href = URL.createObjectURL(blob);
+        document.head.appendChild(link);
+      } catch (e) {}
     })();
 
-    window.onload = () => {
-      if (customer) {
+    document.addEventListener("DOMContentLoaded", () => {
+      if (customer && customer.name && customer.phone) {
         showShopsPage();
-      }
-    };
-
-    function getCartTotal() {
-      return cart.reduce((sum, item) => sum + Number(item.price), 0);
-    }
-
-    function toggleUpiBox() {
-      const mode = document.querySelector('input[name="payMode"]:checked').value;
-      const box = document.getElementById("upiPaymentBox");
-      const btn = document.getElementById("confirmOrderBtn");
-      if (mode === "UPI") {
-        box.classList.remove("hidden");
-        btn.textContent = "Confirm Payment & Place Order (PAID)";
       } else {
-        box.classList.add("hidden");
-        btn.textContent = "Place Order (COD)";
+        showOnboardingPage();
       }
+    });
+
+    function showOnboardingPage() {
+      document.getElementById("pageCustomerDetails").style.display = "flex";
+      document.getElementById("pageShops").style.display = "none";
+      document.getElementById("cartBtn").style.display = "none";
     }
 
-    function openUpiAppWithAmount() {
-      const amount = getCartTotal();
-      if (amount <= 0) {
-        alert("Pehle cart mein koi item add karein.");
-        return;
+    function goToOnboarding() {
+      if (customer) {
+        document.getElementById("nameInput").value = customer.name || "";
+        document.getElementById("phoneInput").value = customer.phone || "";
+        document.getElementById("buildingInput").value = customer.building || "";
+        document.getElementById("pincodeInput").value = customer.pincode || "";
+        document.getElementById("addressInput").value = customer.address || "";
+        document.getElementById("latInput").value = customer.lat || "";
+        document.getElementById("lngInput").value = customer.lng || "";
       }
-      const txnNote = encodeURIComponent("khanaGo Order");
-      const upiUrl = `upi://pay?pa=${encodeURIComponent(MERCHANT_UPI_ID)}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${amount.toFixed(2)}&cu=INR&tn=${txnNote}`;
-      window.location.href = upiUrl;
+      showOnboardingPage();
     }
 
     function requestCurrentLocation() {
       const status = document.getElementById("locStatus");
       const btn = document.getElementById("locBtn");
 
-      if (!navigator.geolocation) {
-        status.textContent = "Browser location support nahi karta.";
+      if (!("geolocation" in navigator)) {
+        status.innerHTML = `<span class="text-red-600 font-semibold">Is device/browser mein GPS support nahi hai. Address manually bharein.</span>`;
         return;
       }
 
-      status.textContent = "Location permission maangi ja rahi hai...";
-      btn.textContent = "Fetching...";
+      status.textContent = "Location permission maangi ja rahi hai... Allow dabayein.";
+      btn.disabled = true;
+      btn.textContent = "Locating...";
 
       navigator.geolocation.getCurrentPosition(
-        async (pos) => {
+        (pos) => {
           const lat = pos.coords.latitude.toFixed(6);
           const lng = pos.coords.longitude.toFixed(6);
           document.getElementById("latInput").value = lat;
           document.getElementById("lngInput").value = lng;
 
           status.innerHTML = `<span class="text-green-600 font-bold">Location allowed & captured (${lat}, ${lng})</span>`;
+          btn.disabled = false;
           btn.textContent = "Location Set ✓";
-          btn.classList.replace("bg-orange-600", "bg-green-600");
+          btn.classList.remove("bg-orange-600", "hover:bg-orange-700");
+          btn.classList.add("bg-green-600", "hover:bg-green-700");
 
-          try {
-            const resp = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
-            const info = await resp.json();
-            if (info && info.address) {
-              if (info.address.postcode) {
-                document.getElementById("pincodeInput").value = info.address.postcode;
+          fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+            .then((resp) => resp.json())
+            .then((info) => {
+              if (info && info.address) {
+                if (info.address.postcode && !document.getElementById("pincodeInput").value) {
+                  document.getElementById("pincodeInput").value = info.address.postcode.replace(/\D/g, "").slice(0, 6);
+                }
+                if (info.display_name && !document.getElementById("addressInput").value) {
+                  document.getElementById("addressInput").value = info.display_name;
+                }
               }
-              if (info.display_name && !document.getElementById("addressInput").value) {
-                document.getElementById("addressInput").value = info.display_name;
-              }
-            }
-          } catch (err) {}
+            })
+            .catch(() => {});
         },
-        () => {
-          status.innerHTML = `<span class="text-red-600 font-semibold">Location allow nahi ki gayi. Address manually bharein.</span>`;
+        (err) => {
+          btn.disabled = false;
           btn.textContent = "Allow Location";
+          if (err && err.code === 1) {
+            status.innerHTML = `<span class="text-red-600 font-semibold">Location permission block/denied hai. Browser settings se Location Allow karein ya address manually bharein.</span>`;
+          } else {
+            status.innerHTML = `<span class="text-red-600 font-semibold">Location fetch nahi ho payi. Dobara try karein ya address manually bharein.</span>`;
+          }
         },
-        { enableHighAccuracy: true }
+        { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
       );
     }
 
-    document.getElementById("customerDetailsForm").addEventListener("submit", (e) => {
+    document.getElementById("customerDetailsForm").addEventListener("submit", function (e) {
       e.preventDefault();
+
       customer = {
         name: document.getElementById("nameInput").value.trim(),
         phone: document.getElementById("phoneInput").value.trim(),
         building: document.getElementById("buildingInput").value.trim(),
         pincode: document.getElementById("pincodeInput").value.trim(),
         address: document.getElementById("addressInput").value.trim(),
-        lat: document.getElementById("latInput").value,
-        lng: document.getElementById("lngInput").value
+        lat: document.getElementById("latInput").value.trim(),
+        lng: document.getElementById("lngInput").value.trim()
       };
-      localStorage.setItem("khanago_cust", JSON.stringify(customer));
+
+      try {
+        localStorage.setItem("khanago_cust", JSON.stringify(customer));
+      } catch (err) {}
+
       showShopsPage();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
     function showShopsPage() {
-      document.getElementById("pageCustomerDetails").classList.add("hidden");
-      document.getElementById("pageShops").classList.remove("hidden");
-      document.getElementById("cartBtn").classList.remove("hidden");
+      document.getElementById("pageCustomerDetails").style.display = "none";
+      document.getElementById("pageShops").style.display = "block";
+      document.getElementById("cartBtn").style.display = "flex";
 
       document.getElementById("viewName").textContent = customer.name;
       document.getElementById("viewPhone").textContent = customer.phone;
       document.getElementById("viewAddress").textContent = `${customer.building}, ${customer.address} - ${customer.pincode}`;
-      document.getElementById("viewGps").textContent = customer.lat
+      document.getElementById("viewGps").textContent = (customer.lat && customer.lng)
         ? `Current Location: ${customer.lat}, ${customer.lng}`
         : "Manual Address";
 
       renderShops();
       renderOrders();
-    }
-
-    function goToOnboarding() {
-      if (customer) {
-        document.getElementById("nameInput").value = customer.name;
-        document.getElementById("phoneInput").value = customer.phone;
-        document.getElementById("buildingInput").value = customer.building;
-        document.getElementById("pincodeInput").value = customer.pincode;
-        document.getElementById("addressInput").value = customer.address;
-        document.getElementById("latInput").value = customer.lat || "";
-        document.getElementById("lngInput").value = customer.lng || "";
-      }
-      document.getElementById("pageShops").classList.add("hidden");
-      document.getElementById("pageCustomerDetails").classList.remove("hidden");
     }
 
     function renderShops() {
@@ -365,7 +364,7 @@
                   <p class="font-semibold text-gray-800">${item.name}</p>
                   <p class="text-xs font-bold text-orange-600">₹${item.price}</p>
                 </div>
-                <button onclick="addItem('${shop.name}', '${item.name}', ${item.price})" class="bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">
+                <button type="button" onclick="addItem('${shop.name}', '${item.name}', ${item.price})" class="bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">
                   Add
                 </button>
               </div>
@@ -379,14 +378,15 @@
       const sec = document.getElementById("ordersSection");
       const list = document.getElementById("ordersList");
       if (!savedOrders.length) {
-        sec.classList.add("hidden");
+        sec.style.display = "none";
         return;
       }
-      sec.classList.remove("hidden");
+      sec.style.display = "block";
       list.innerHTML = savedOrders.map(ord => `
         <div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg border border-gray-200 text-xs">
           <div>
             <p class="font-bold text-gray-900">Order #${ord.id} • ₹${ord.total}</p>
             <p class="text-gray-500">${ord.itemsSummary} (${ord.paymentMode})</p>
           </div>
-          <span class="px-2.5 py-1 rounded-full font-extrabold ${ord.status === "PAID" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-800"}
+          <span class="px-2.5 py-1 rounded-full font-extrabold ${ord.status === "PAID" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-800"}">
+            $
