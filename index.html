@@ -4,524 +4,481 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KhanaGo | Order Food Online</title>
+<title>KhanaGo | Food Delivery</title>
+<meta name="theme-color" content="#f15a24">
 <style>
+:root{--orange:#f15a24;--dark:#252525;--muted:#777;--bg:#fffaf6;--line:#eee}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#fffaf5;color:#222}
-header{background:#f15a24;color:white;padding:18px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.logo{font-size:27px;font-weight:bold}
-header span{font-size:13px}
-.container{max-width:1100px;margin:auto;padding:18px}
-.hero{background:#fff0e8;padding:25px;border-radius:15px;margin:15px 0}
-h1{margin:0 0 8px;font-size:26px}
-h2{font-size:21px;margin-top:25px}
-input,textarea,button{font:inherit}
-input,textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:9px;margin:7px 0}
-button{border:0;border-radius:9px;padding:12px 16px;background:#f15a24;color:white;font-weight:bold;cursor:pointer}
-button:disabled{opacity:.5;cursor:not-allowed}
-.secondary{background:#333}
-.green{background:#16834a}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
-.card{background:white;border:1px solid #eee;border-radius:13px;padding:15px;box-shadow:0 2px 8px #00000008}
-.card h3{margin:5px 0}
-.muted{color:#777;font-size:13px}
-.price{font-weight:bold;color:#e65320}
-.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.smallbtn{padding:8px 12px;font-size:13px}
-.section{background:white;border:1px solid #eee;border-radius:13px;padding:17px;margin:18px 0}
-#cartItems div{padding:9px 0;border-bottom:1px solid #eee}
-#status{padding:10px;border-radius:8px;background:#fff0e8;margin:10px 0;font-size:14px}
-.chatbox{height:260px;overflow-y:auto;border:1px solid #ddd;border-radius:10px;padding:10px;background:#fafafa;margin:10px 0}
-.msg{padding:9px 12px;border-radius:10px;margin:7px 0;max-width:85%;font-size:14px;overflow-wrap:anywhere}
-.mine{background:#ffe0d2;margin-left:auto}
-.theirs{background:#e9e9e9;margin-right:auto}
-footer{text-align:center;padding:25px;color:#777;font-size:13px}
-.hidden{display:none}
+body{margin:0;background:#fff;color:var(--dark);font-family:Arial,Helvetica,sans-serif}
+button,input,textarea{font:inherit}
+button{cursor:pointer;border:0}
+.topbar{background:#fff;position:sticky;top:0;z-index:20;border-bottom:1px solid var(--line)}
+.nav{max-width:1180px;margin:auto;padding:13px 18px;display:flex;align-items:center;gap:18px}
+.logo{font-size:27px;font-weight:900;color:var(--orange);white-space:nowrap}
+.location{min-width:0;flex:1}
+.location strong{display:block;font-size:13px}
+.location small{color:var(--muted)}
+.navbtn{background:#fff3ec;color:var(--orange);padding:11px 14px;border-radius:10px;font-weight:bold}
+.cartnav{background:var(--orange);color:white;padding:11px 16px;border-radius:10px;font-weight:bold}
+.container{max-width:1180px;margin:auto;padding:20px 18px}
+.hero{background:linear-gradient(115deg,#fff0e6,#fff8f1);border-radius:22px;padding:35px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;overflow:hidden}
+.hero h1{font-size:clamp(27px,5vw,43px);margin:0 0 10px;line-height:1.12}
+.hero p{color:#666;margin:0 0 20px}
+.hero .heroicon{font-size:90px}
+.search{display:flex;gap:8px;max-width:540px}
+.search input{flex:1;min-width:0}
+input,textarea{border:1px solid #ddd;border-radius:10px;padding:13px;background:#fff;width:100%;outline:none}
+input:focus,textarea:focus{border-color:var(--orange)}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:28px 0 15px}
+.sectionhead h2{margin:0;font-size:23px}
+.muted{color:var(--muted);font-size:13px}
+.categories{display:flex;gap:12px;overflow-x:auto;padding:5px 0 12px}
+.category{min-width:88px;background:#fff;border:1px solid var(--line);border-radius:15px;padding:13px 10px;text-align:center;color:#333}
+.category.active{border:2px solid var(--orange);background:#fff5ef;color:var(--orange)}
+.category .emoji{font-size:29px;display:block;margin-bottom:7px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.restaurant{border:1px solid var(--line);border-radius:17px;overflow:hidden;background:white;transition:.2s;cursor:pointer}
+.restaurant:hover{box-shadow:0 8px 25px #00000012;transform:translateY(-2px)}
+.restaurant img{width:100%;height:175px;object-fit:cover;background:#f7eee7}
+.restaurantbody{padding:14px}
+.restaurantbody h3{margin:0 0 7px;font-size:18px}
+.meta{font-size:13px;color:#666;display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}
+.pill{background:#f4f4f4;padding:5px 8px;border-radius:7px}
+.rating{color:#16834a;font-weight:bold}
+.primary{background:var(--orange);color:#fff;padding:13px 18px;border-radius:10px;font-weight:bold}
+.secondary{background:#f3f3f3;color:#333;padding:11px 15px;border-radius:10px;font-weight:bold}
+.full{width:100%}
+.page{display:none}
+.page.active{display:block}
+.back{background:#fff1e9;color:var(--orange);padding:10px 14px;border-radius:9px;font-weight:bold;margin-bottom:15px}
+.shopbanner{border-radius:17px;width:100%;height:230px;object-fit:cover;background:#f7eee7}
+.shopinfo{padding:17px 0;border-bottom:1px solid var(--line)}
+.shopinfo h1{margin:0 0 8px;font-size:27px}
+.menurow{display:flex;justify-content:space-between;gap:15px;padding:17px 0;border-bottom:1px solid var(--line)}
+.menurow h3{margin:0 0 6px}
+.menurow p{color:#777;font-size:13px;margin:0 0 10px}
+.menurow img{width:112px;height:105px;object-fit:cover;border-radius:12px;background:#f5eee9}
+.menuprice{font-weight:bold;margin-right:10px}
+.addbtn{background:#fff;color:var(--orange);border:1px solid var(--orange);padding:8px 17px;border-radius:8px;font-weight:bold}
+.panel{border:1px solid var(--line);border-radius:16px;padding:18px;margin:15px 0;background:white}
+.cartline{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.qty button{background:#fff0e8;color:var(--orange);border-radius:6px;padding:6px 10px;font-weight:bold}
+.totalrow{display:flex;justify-content:space-between;padding:9px 0}
+.grand{font-size:20px;font-weight:bold;border-top:1px solid var(--line);margin-top:7px;padding-top:14px}
+.notice{background:#fff3e9;color:#85401e;padding:12px;border-radius:10px;font-size:13px;margin:10px 0}
+.status{padding:11px;border-radius:9px;background:#f6f6f6;margin:12px 0;font-size:13px}
+.chatbox{height:270px;overflow-y:auto;background:#fafafa;border:1px solid var(--line);padding:12px;border-radius:12px}
+.msg{max-width:85%;padding:10px 12px;margin:8px 0;border-radius:12px;font-size:14px;overflow-wrap:anywhere}
+.mine{margin-left:auto;background:#ffe1d2}
+.theirs{background:#eee}
+.chatcontrols{display:flex;gap:8px;margin-top:10px}
+.chatcontrols input{flex:1}
+.empty{padding:28px;text-align:center;color:#777;background:#fafafa;border-radius:13px}
+footer{margin-top:45px;background:#242424;color:white;padding:30px 18px;text-align:center}
+footer p{color:#bbb;font-size:13px}
+.hide{display:none!important}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero .heroicon{font-size:65px}}
+@media(max-width:540px){.nav{gap:9px;padding:11px}.logo{font-size:22px}.location{font-size:12px}.navbtn,.cartnav{padding:10px;font-size:12px}.container{padding:15px 13px}.hero{padding:25px 18px}.hero .heroicon{font-size:48px}.grid{grid-template-columns:1fr 1fr;gap:11px}.restaurant img{height:125px}.restaurantbody{padding:10px}.restaurantbody h3{font-size:15px}.meta{font-size:11px;gap:5px}.sectionhead h2{font-size:20px}.shopbanner{height:175px}}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">🍽️ KhanaGo</div>
-  <span>Fresh Food • Fast Delivery</span>
+<header class="topbar">
+ <div class="nav">
+  <div class="logo">KhanaGo</div>
+  <div class="location">
+   <strong>📍 Deliver to</strong>
+   <small id="navAddress">Select your location</small>
+  </div>
+  <button class="navbtn" id="detectBtn">Location</button>
+  <button class="cartnav" id="cartTop">🛒 Cart <span id="cartCount">0</span></button>
+ </div>
 </header>
 
 <main class="container">
-  <section class="hero">
-    <h1>Order your favourite food</h1>
-    <p>Apne pasand ke restaurant se tasty food order karein.</p>
-    <div id="loginStatus" class="muted">Connecting to KhanaGo...</div>
-  </section>
 
-  <div id="status">Website Firebase se connect ho rahi hai...</div>
-
-  <h2>Restaurants</h2>
-  <div id="restaurants" class="grid">
-    <div class="card">Restaurants load ho rahe hain...</div>
+<!-- HOME PAGE -->
+<section id="homePage" class="page active">
+ <div class="hero">
+  <div>
+   <h1>Good food.<br>Good mood.</h1>
+   <p>Your favourite food, delivered to your doorstep.</p>
+   <div class="search">
+    <input id="searchInput" placeholder="Search food or restaurant...">
+    <button class="primary" id="searchBtn">Search</button>
+   </div>
   </div>
+  <div class="heroicon">🍔</div>
+ </div>
 
-  <h2 id="menuHeading">Food Menu</h2>
-  <div id="menu" class="grid">
-    <div class="card">Restaurant select karein.</div>
+ <div class="sectionhead">
+  <h2>What's on your mind?</h2>
+ </div>
+ <div class="categories" id="categories">
+  <button class="category active" data-cat="All"><span class="emoji">🍽️</span>All</button>
+  <button class="category" data-cat="Pizza"><span class="emoji">🍕</span>Pizza</button>
+  <button class="category" data-cat="Burger"><span class="emoji">🍔</span>Burger</button>
+  <button class="category" data-cat="Biryani"><span class="emoji">🍛</span>Biryani</button>
+  <button class="category" data-cat="Chinese"><span class="emoji">🥡</span>Chinese</button>
+  <button class="category" data-cat="Sandwich"><span class="emoji">🥪</span>Sandwich</button>
+  <button class="category" data-cat="Dessert"><span class="emoji">🍰</span>Dessert</button>
+  <button class="category" data-cat="Drinks"><span class="emoji">🥤</span>Drinks</button>
+ </div>
+
+ <div class="sectionhead">
+  <h2>Restaurants near you</h2>
+  <span class="muted" id="restaurantCount"></span>
+ </div>
+ <div id="homeStatus" class="status">Restaurants load ho rahe hain...</div>
+ <div class="grid" id="restaurantGrid"></div>
+</section>
+
+<!-- RESTAURANT DETAILS PAGE -->
+<section id="restaurantPage" class="page">
+ <button class="back" id="backHome">← Back to restaurants</button>
+ <img id="shopImage" class="shopbanner" src="" alt="Restaurant">
+ <div class="shopinfo">
+  <h1 id="shopName">Restaurant</h1>
+  <p id="shopDescription" class="muted"></p>
+  <div class="meta">
+   <span class="rating" id="shopRating">★ New</span>
+   <span id="shopTime">Delivery time varies</span>
+   <span id="shopAddress"></span>
   </div>
+ </div>
+ <div class="sectionhead"><h2>Explore Menu</h2></div>
+ <input id="menuSearch" placeholder="Search in this menu...">
+ <div id="menuStatus" class="status">Menu load ho raha hai...</div>
+ <div id="menuList"></div>
+</section>
 
-  <section class="section">
-    <h2>🛒 Your Cart</h2>
-    <div id="cartItems">Abhi cart khaali hai.</div>
-    <div class="row">
-      <strong>Food Total:</strong>
-      <strong id="foodTotal">₹0</strong>
-    </div>
-    <div class="row">
-      <span>Delivery Fee:</span>
-      <span id="deliveryFee">₹30</span>
-    </div>
-    <hr>
-    <div class="row">
-      <strong>Total Amount:</strong>
-      <strong id="grandTotal">₹0</strong>
-    </div>
-  </section>
+<!-- CART AND CHECKOUT -->
+<section id="cartPage" class="page">
+ <button class="back" id="backFromCart">← Continue shopping</button>
+ <h1>Your Cart</h1>
+ <div class="panel">
+  <div id="cartItems"></div>
+  <div class="totalrow"><span>Item total</span><strong id="itemTotal">₹0</strong></div>
+  <div class="totalrow"><span>Delivery distance</span><strong id="distanceText">Not calculated</strong></div>
+  <div class="totalrow"><span>Delivery charge</span><strong id="deliveryText">₹0</strong></div>
+  <div class="totalrow grand"><span>To Pay</span><strong id="payTotal">₹0</strong></div>
+  <div class="notice">Delivery: first 2 km ₹30, uske baad har extra km ₹10.</div>
+ </div>
 
-  <section class="section">
-    <h2>📍 Delivery Location</h2>
-    <p class="muted">Location detect karne ke liye button dabayein aur browser permission allow karein.</p>
-    <button type="button" id="locationBtn" class="green">Detect My Current Location</button>
-    <div id="locationStatus" class="muted">Location abhi select nahi hui.</div>
-    <label>Full Address *</label>
-    <textarea id="address" rows="2" placeholder="House number, street, area, city..." required></textarea>
-    <label>Landmark</label>
-    <input id="landmark" placeholder="Nearby school, shop, etc.">
-    <label>Your Name *</label>
-    <input id="customerName" placeholder="Apna naam">
-    <label>Mobile Number *</label>
-    <input id="phone" type="tel" maxlength="10" placeholder="10 digit mobile number">
-    <label>Order Note (optional)</label>
-    <textarea id="orderNote" rows="2" placeholder="Koi special instruction?"></textarea>
-    <button type="button" id="placeOrderBtn">Place Order - Cash on Delivery</button>
-    <p class="muted">Abhi payment method Cash on Delivery hai. Online payment abhi add nahi hai.</p>
-  </section>
+ <div class="panel">
+  <h2>Delivery Address</h2>
+  <button class="secondary full" id="checkoutLocationBtn">📍 Detect Current Location</button>
+  <div id="checkoutLocationStatus" class="muted" style="margin:10px 0">Location select karein.</div>
+  <label>Your name</label>
+  <input id="customerName" placeholder="Full name">
+  <label>Mobile number</label>
+  <input id="customerPhone" type="tel" maxlength="10" placeholder="10 digit mobile number">
+  <label>Full address</label>
+  <textarea id="customerAddress" rows="3" placeholder="House no., street, area, city"></textarea>
+  <label>Landmark</label>
+  <input id="customerLandmark" placeholder="Nearby landmark">
+  <label>Order instructions</label>
+  <textarea id="orderNote" rows="2" placeholder="Optional instructions"></textarea>
+  <h3>Payment method</h3>
+  <div class="notice">Cash on Delivery (COD)</div>
+  <button class="primary full" id="placeOrderBtn">Place Order</button>
+ </div>
+</section>
 
-  <section class="section">
-    <h2>💬 Help & Support</h2>
-    <p class="muted">KhanaGo support team ko message bhejein. Admin dashboard se reply de sakta hai.</p>
-    <div id="chatMessages" class="chatbox">
-      <div class="muted">Support chat connect ho rahi hai...</div>
-    </div>
-    <textarea id="chatInput" rows="2" placeholder="Apna message likhein..."></textarea>
-    <button type="button" id="sendChatBtn">Send Message</button>
-    <p class="muted">Chat ka jawab aane ke liye website par internet connection zaroori hai.</p>
-  </section>
+<!-- ORDER PAGE -->
+<section id="ordersPage" class="page">
+ <h1>My Orders</h1>
+ <p class="muted">Aapke recent orders aur unka status.</p>
+ <div id="ordersList"></div>
+</section>
 
-  <section class="section">
-    <h2>📦 My Recent Orders</h2>
-    <div id="myOrders" class="muted">Aapke orders yahan dikhenge.</div>
-  </section>
+<!-- SUPPORT PAGE -->
+<section id="supportPage" class="page">
+ <h1>Help & Support</h1>
+ <p class="muted">KhanaGo support team se chat karein.</p>
+ <div class="panel">
+  <div class="chatbox" id="chatMessages">Support chat connect ho rahi hai...</div>
+  <div class="chatcontrols">
+   <input id="chatInput" placeholder="Write your message...">
+   <button class="primary" id="sendChatBtn">Send</button>
+  </div>
+ </div>
+</section>
+
 </main>
 
-<footer>© 2026 KhanaGo. All rights reserved.</footer>
+<footer>
+ <div class="logo">KhanaGo</div>
+ <p>Food you love, delivered with care.</p>
+ <p>
+  <a href="#" id="ordersLink" style="color:white">My Orders</a>
+  &nbsp; | &nbsp;
+  <a href="#" id="supportLink" style="color:white">Help & Support</a>
+ </p>
+ <p>© 2026 KhanaGo. All rights reserved.</p>
+</footer>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
-  getFirestore, collection, addDoc, getDocs, query, where,
-  onSnapshot, doc, setDoc, serverTimestamp, orderBy, limit
+ getFirestore,collection,getDocs,addDoc,doc,setDoc,query,where,
+ onSnapshot,serverTimestamp,orderBy,limit
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import {
-  getAuth, signInAnonymously, onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getAuth,signInAnonymously,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-/* KHANAGO FIREBASE CONFIG */
-const firebaseConfig = {
-  apiKey: "AIzaSyCfoYb2nBRXAmWggHV-d77qEywaMXXHI7Y",
-  authDomain: "khanago-11584.firebaseapp.com",
-  projectId: "khanago-11584",
-  storageBucket: "khanago-11584.firebasestorage.app",
-  messagingSenderId: "472974685789",
-  appId: "1:472974685789:web:dc9affa20898ad2bf3ffb4",
-  measurementId: "G-6EH5CP0VXM"
+/* YOUR FIREBASE PROJECT */
+const firebaseConfig={
+ apiKey:"AIzaSyCfoYb2nBRXAmWggHV-d77qEywaMXXHI7Y",
+ authDomain:"khanago-11584.firebaseapp.com",
+ projectId:"khanago-11584",
+ storageBucket:"khanago-11584.firebasestorage.app",
+ messagingSenderId:"472974685789",
+ appId:"1:472974685789:web:dc9affa20898ad2bf3ffb4",
+ measurementId:"G-6EH5CP0VXM"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+const auth=getAuth(app);
 
-let currentUser = null;
-let selectedShop = null;
-let allMenuItems = [];
-let cart = [];
-let latitude = null;
-let longitude = null;
-let stopChatListener = null;
-let stopOrderListener = null;
+let user=null;
+let shops=[];
+let selectedShop=null;
+let menuItems=[];
+let cart=[];
+let customerLat=null,customerLng=null;
+let deliveryKm=null,deliveryCharge=0;
+let currentCategory="All";
+let chatStop=null,orderStop=null;
 
-const $ = id => document.getElementById(id);
-const money = n => "₹" + Number(n || 0).toFixed(0);
+const $=id=>document.getElementById(id);
+const rupees=n=>"₹"+Math.round(Number(n)||0);
+const escapeHTML=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
-function showStatus(message, error=false) {
-  $("status").textContent = message;
-  $("status").style.background = error ? "#ffe1e1" : "#fff0e8";
+function showPage(page){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ $(page).classList.add("active");
+ window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function safeText(value) {
-  return String(value ?? "").replace(/[&<>"']/g, ch => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  })[ch]);
+function shopTitle(s){return s.name||s.shopName||s.restaurantName||"KhanaGo Restaurant"}
+function shopPhoto(s){return s.imageUrl||s.image||s.photoURL||"https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900"}
+function shopLat(s){return Number(s.latitude??s.lat??s.location?.latitude)}
+function shopLng(s){return Number(s.longitude??s.lng??s.location?.longitude)}
+
+function notify(message){
+ alert(message);
 }
 
-/* CUSTOMER LOGIN: Anonymous Firebase account */
-async function startCustomerSession() {
-  try {
-    const result = await signInAnonymously(auth);
-    currentUser = result.user;
-    $("loginStatus").textContent = "KhanaGo se connected ✓";
-    await startChat();
-    startMyOrders();
-    showStatus("KhanaGo Firebase se connected hai.");
-  } catch (error) {
-    console.error(error);
-    $("loginStatus").textContent = "Login connection failed.";
-    showStatus("Firebase login error: " + error.message, true);
-  }
-}
-
-onAuthStateChanged(auth, user => {
-  if (user) {
-    currentUser = user;
-    $("loginStatus").textContent = "KhanaGo se connected ✓";
-    startChat();
-    startMyOrders();
-  }
+/* CUSTOMER ANONYMOUS LOGIN */
+onAuthStateChanged(auth,async u=>{
+ if(u){
+  user=u;
+  loadCustomerOrders();
+  startSupportChat();
+ }
 });
 
-startCustomerSession();
+signInAnonymously(auth).catch(e=>{
+ console.error(e);
+ $("homeStatus").textContent="Firebase login error: "+e.message;
+});
 
 /* LOAD RESTAURANTS */
-async function loadRestaurants() {
-  try {
-    const q = query(collection(db, "shops"), where("approved", "==", true));
-    const snap = await getDocs(q);
-    const root = $("restaurants");
-    root.innerHTML = "";
-
-    if (snap.empty) {
-      root.innerHTML = '<div class="card">Abhi koi approved restaurant available nahi hai.</div>';
-      return;
-    }
-
-    snap.forEach(item => {
-      const shop = { id:item.id, ...item.data() };
-      const name = shop.name || shop.shopName || "KhanaGo Restaurant";
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <h3>${safeText(name)}</h3>
-        <p class="muted">${safeText(shop.address || shop.location || "KhanaGo Partner")}</p>
-        <button class="smallbtn">View Menu</button>
-      `;
-      card.querySelector("button").addEventListener("click", () => selectRestaurant(shop));
-      root.appendChild(card);
-    });
-  } catch (error) {
-    console.error(error);
-    $("restaurants").innerHTML = '<div class="card">Restaurants load nahi hue. Firebase rules check karein.</div>';
-  }
-}
-
-/* LOAD MENU ITEMS */
-async function selectRestaurant(shop) {
-  selectedShop = shop;
-  $("menuHeading").textContent = "Menu - " + (shop.name || shop.shopName || "Restaurant");
-  $("menu").innerHTML = '<div class="card">Menu load ho raha hai...</div>';
-
-  try {
-    const snap = await getDocs(collection(db, "menuItems"));
-    allMenuItems = [];
-    snap.forEach(item => {
-      const data = item.data();
-      const itemShopId = data.shopId || data.restaurantId || data.shopID;
-      const isAvailable = data.available !== false && data.isAvailable !== false;
-      if (itemShopId === shop.id && isAvailable) {
-        allMenuItems.push({id:item.id, ...data});
-      }
-    });
-    renderMenu();
-  } catch (error) {
-    console.error(error);
-    $("menu").innerHTML = '<div class="card">Menu load nahi hua. Firebase rules check karein.</div>';
-  }
-}
-
-function renderMenu() {
-  const root = $("menu");
-  root.innerHTML = "";
-  if (!allMenuItems.length) {
-    root.innerHTML = '<div class="card">Is restaurant ka menu abhi available nahi hai.</div>';
-    return;
-  }
-
-  allMenuItems.forEach(item => {
-    const name = item.name || item.title || item.itemName || "Food Item";
-    const price = Number(item.price || item.sellingPrice || 0);
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <h3>${safeText(name)}</h3>
-      <p class="muted">${safeText(item.description || "Fresh and delicious food")}</p>
-      <div class="row">
-        <span class="price">${money(price)}</span>
-        <button class="smallbtn">Add to Cart</button>
-      </div>
-    `;
-    card.querySelector("button").addEventListener("click", () => addToCart(item));
-    root.appendChild(card);
+async function loadShops(){
+ try{
+  const snap=await getDocs(collection(db,"shops"));
+  shops=[];
+  snap.forEach(d=>{
+   const s={id:d.id,...d.data()};
+   if(s.approved===true) shops.push(s);
   });
+  renderShops();
+  $("homeStatus").textContent=shops.length?
+   "Choose a restaurant and explore its menu.":
+   "Abhi koi approved restaurant available nahi hai.";
+ }catch(e){
+  console.error(e);
+  $("homeStatus").textContent="Restaurants load nahi hue. Firebase Firestore rules check karein.";
+ }
+}
+
+function renderShops(){
+ const term=$("searchInput").value.trim().toLowerCase();
+ const grid=$("restaurantGrid");
+ grid.innerHTML="";
+ const filtered=shops.filter(s=>{
+  const name=shopTitle(s).toLowerCase();
+  const category=String(s.category||s.cuisine||"").toLowerCase();
+  const searchMatch=!term||name.includes(term)||category.includes(term);
+  const categoryMatch=currentCategory==="All"||
+   category.includes(currentCategory.toLowerCase())||
+   (s.tags||[]).some(t=>String(t).toLowerCase().includes(currentCategory.toLowerCase()));
+  return searchMatch&&categoryMatch;
+ });
+ $("restaurantCount").textContent=filtered.length+" restaurants";
+
+ filtered.forEach(s=>{
+  const card=document.createElement("article");
+  card.className="restaurant";
+  card.innerHTML=`
+   <img src="${escapeHTML(shopPhoto(s))}" alt="${escapeHTML(shopTitle(s))}" loading="lazy">
+   <div class="restaurantbody">
+    <h3>${escapeHTML(shopTitle(s))}</h3>
+    <div class="muted">${escapeHTML(s.cuisine||s.category||"Food & Restaurant")}</div>
+    <div class="meta">
+     <span class="rating">★ ${escapeHTML(s.rating||"New")}</span>
+     <span>⏱ ${escapeHTML(s.deliveryTime||"30-40 min")}</span>
+    </div>
+    <div class="meta"><span>${escapeHTML(s.address||s.locationName||"Location not added")}</span></div>
+   </div>`;
+  card.addEventListener("click",()=>openShop(s));
+  card.querySelector("img").onerror=e=>{e.target.src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900"};
+  grid.appendChild(card);
+ });
+ if(!filtered.length)grid.innerHTML='<div class="empty">Koi restaurant nahi mila. Dusra search karein.</div>';
+}
+
+/* OPEN RESTAURANT DETAILS */
+async function openShop(shop){
+ selectedShop=shop;
+ $("shopImage").src=shopPhoto(shop);
+ $("shopName").textContent=shopTitle(shop);
+ $("shopDescription").textContent=shop.description||shop.cuisine||"Fresh and delicious food.";
+ $("shopRating").textContent="★ "+(shop.rating||"New");
+ $("shopTime").textContent="⏱ "+(shop.deliveryTime||"30-40 min");
+ $("shopAddress").textContent=shop.address||"";
+ $("menuStatus").textContent="Menu load ho raha hai...";
+ $("menuList").innerHTML="";
+ $("menuSearch").value="";
+ showPage("restaurantPage");
+ try{
+  const snap=await getDocs(collection(db,"menuItems"));
+  menuItems=[];
+  snap.forEach(d=>{
+   const m={id:d.id,...d.data()};
+   const sid=m.shopId||m.restaurantId||m.shopID;
+   if(sid===shop.id && m.available!==false && m.isAvailable!==false)menuItems.push(m);
+  });
+  renderMenu();
+  $("menuStatus").textContent=menuItems.length?"Select your favourite food.":"Is restaurant ka menu abhi available nahi hai.";
+ }catch(e){
+  console.error(e);
+  $("menuStatus").textContent="Menu load nahi hua. Firestore rules check karein.";
+ }
+}
+
+/* MENU */
+function renderMenu(){
+ const root=$("menuList");
+ root.innerHTML="";
+ const term=$("menuSearch").value.toLowerCase();
+ const filtered=menuItems.filter(m=>
+  String(m.name||m.title||m.itemName||"").toLowerCase().includes(term)
+ );
+ if(!filtered.length){
+  root.innerHTML='<div class="empty">Menu item nahi mila.</div>';
+  return;
+ }
+ filtered.forEach(m=>{
+  const name=m.name||m.title||m.itemName||"Food Item";
+  const price=Number(m.price||m.sellingPrice||0);
+  const image=m.imageUrl||m.image||"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300";
+  const row=document.createElement("div");
+  row.className="menurow";
+  row.innerHTML=`
+   <div style="flex:1">
+    <h3>${escapeHTML(name)}</h3>
+    <p>${escapeHTML(m.description||"Freshly prepared and delicious.")}</p>
+    <span class="menuprice">${rupees(price)}</span>
+    <button class="addbtn">ADD +</button>
+   </div>
+   <img src="${escapeHTML(image)}" alt="${escapeHTML(name)}">
+  `;
+  row.querySelector("button").addEventListener("click",()=>addCart(m));
+  row.querySelector("img").onerror=e=>{e.target.src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300"};
+  root.appendChild(row);
+ });
 }
 
 /* CART */
-function addToCart(item) {
-  if (!selectedShop) return;
-  if (cart.length && cart[0].shopId !== selectedShop.id) {
-    alert("Ek order mein ek hi restaurant ka food add kar sakte hain. Pehle cart empty karein.");
-    return;
-  }
-  const found = cart.find(x => x.id === item.id);
-  if (found) found.quantity += 1;
-  else cart.push({
-    id:item.id,
-    name:item.name || item.title || item.itemName || "Food Item",
-    price:Number(item.price || item.sellingPrice || 0),
-    quantity:1,
-    shopId:selectedShop.id
-  });
-  renderCart();
+function addCart(m){
+ if(!selectedShop)return;
+ if(cart.length && cart[0].shopId!==selectedShop.id){
+  return notify("Aapke cart mein doosre restaurant ka item hai. Pehle cart empty karein.");
+ }
+ const id=m.id;
+ const found=cart.find(x=>x.id===id);
+ if(found)found.qty++;
+ else cart.push({
+  id,
+  shopId:selectedShop.id,
+  name:m.name||m.title||m.itemName||"Food",
+  price:Number(m.price||m.sellingPrice||0),
+  qty:1
+ });
+ renderCart();
+ $("cartCount").textContent=cart.reduce((n,x)=>n+x.qty,0);
 }
 
-function renderCart() {
-  const root = $("cartItems");
-  root.innerHTML = "";
-  if (!cart.length) root.textContent = "Abhi cart khaali hai.";
-
-  cart.forEach(item => {
-    const line = document.createElement("div");
-    line.className = "row";
-    line.innerHTML = `
-      <span>${safeText(item.name)} × ${item.quantity}</span>
-      <span>${money(item.price * item.quantity)}</span>
-      <button class="smallbtn secondary">−</button>
-      <button class="smallbtn">+</button>
-    `;
-    const buttons = line.querySelectorAll("button");
-    buttons[0].addEventListener("click", () => changeQuantity(item.id, -1));
-    buttons[1].addEventListener("click", () => changeQuantity(item.id, 1));
-    root.appendChild(line);
-  });
-
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  $("foodTotal").textContent = money(total);
-  $("deliveryFee").textContent = money(cart.length ? 30 : 0);
-  $("grandTotal").textContent = money(total + (cart.length ? 30 : 0));
+function changeQty(id,change){
+ const item=cart.find(x=>x.id===id);
+ if(!item)return;
+ item.qty+=change;
+ if(item.qty<=0)cart=cart.filter(x=>x.id!==id);
+ renderCart();
 }
 
-function changeQuantity(id, change) {
-  const item = cart.find(x => x.id === id);
-  if (!item) return;
-  item.quantity += change;
-  if (item.quantity <= 0) cart = cart.filter(x => x.id !== id);
-  renderCart();
+function renderCart(){
+ $("cartCount").textContent=cart.reduce((n,x)=>n+x.qty,0);
+ const root=$("cartItems");
+ root.innerHTML="";
+ if(!cart.length){
+  root.innerHTML='<div class="empty">Your cart is empty. Restaurant se food add karein.</div>';
+  $("itemTotal").textContent="₹0";
+  $("distanceText").textContent="Not calculated";
+  $("deliveryText").textContent="₹0";
+  $("payTotal").textContent="₹0";
+  deliveryCharge=0;
+  return;
+ }
+ cart.forEach(item=>{
+  const line=document.createElement("div");
+  line.className="cartline";
+  line.innerHTML=`
+   <div><strong>${escapeHTML(item.name)}</strong><div class="muted">${rupees(item.price)} each</div></div>
+   <div class="qty">
+    <button class="minus">−</button>
+    <strong>${item.qty}</strong>
+    <button class="plus">+</button>
+   </div>
+   <strong>${rupees(item.price*item.qty)}</strong>`;
+  line.querySelector(".minus").onclick=()=>changeQty(item.id,-1);
+  line.querySelector(".plus").onclick=()=>changeQty(item.id,1);
+  root.appendChild(line);
+ });
+ updateTotals();
 }
 
-/* CURRENT LOCATION */
-$("locationBtn").addEventListener("click", () => {
-  if (!navigator.geolocation) {
-    $("locationStatus").textContent = "Aapke browser mein location support nahi hai.";
-    return;
-  }
-  $("locationStatus").textContent = "Aapki location li ja rahi hai...";
-  navigator.geolocation.getCurrentPosition(
-    position => {
-      latitude = position.coords.latitude;
-      longitude = position.coords.longitude;
-      $("locationStatus").innerHTML =
-        `Location mil gayi ✓ <a target="_blank" rel="noopener" href="https://www.google.com/maps?q=${latitude},${longitude}">Google Maps par dekhein</a>`;
-    },
-    error => {
-      $("locationStatus").textContent = "Location nahi mili. Browser permission allow karein ya address manually likhein.";
-      console.error(error);
-    },
-    {enableHighAccuracy:true, timeout:15000, maximumAge:0}
-  );
-});
-
-/* PLACE ORDER */
-$("placeOrderBtn").addEventListener("click", async () => {
-  if (!currentUser) return alert("Website connect ho rahi hai. Thodi der baad try karein.");
-  if (!cart.length) return alert("Pehle food cart mein add karein.");
-  if (!selectedShop) return alert("Pehle restaurant select karein.");
-  const name = $("customerName").value.trim();
-  const phone = $("phone").value.trim();
-  const address = $("address").value.trim();
-
-  if (!name || !address || !/^[0-9]{10}$/.test(phone)) {
-    return alert("Apna naam, poora address aur sahi 10 digit mobile number bharein.");
-  }
-
-  const foodTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const deliveryCharge = 30;
-  const orderData = {
-    customerUid: currentUser.uid,
-    customerName:name,
-    phone,
-    address,
-    landmark:$("landmark").value.trim(),
-    latitude,
-    longitude,
-    note:$("orderNote").value.trim(),
-    shopId:selectedShop.id,
-    shopName:selectedShop.name || selectedShop.shopName || "Restaurant",
-    items:cart.map(item => ({
-      itemId:item.id,
-      name:item.name,
-      price:item.price,
-      quantity:item.quantity
-    })),
-    subtotal:foodTotal,
-    deliveryFee:deliveryCharge,
-    total:foodTotal + deliveryCharge,
-    paymentMethod:"Cash on Delivery",
-    status:"Order Placed",
-    createdAt:serverTimestamp()
-  };
-
-  const btn = $("placeOrderBtn");
-  btn.disabled = true;
-  btn.textContent = "Order place ho raha hai...";
-
-  try {
-    const ref = await addDoc(collection(db, "orders"), orderData);
-    alert("Order successfully place ho gaya! Order ID: " + ref.id);
-    cart = [];
-    renderCart();
-    $("orderNote").value = "";
-    showStatus("Aapka order place ho gaya hai. Order ID: " + ref.id);
-  } catch (error) {
-    console.error(error);
-    alert("Order place nahi hua: " + error.message);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "Place Order - Cash on Delivery";
-  }
-});
-
-/* CUSTOMER SUPPORT CHAT */
-async function startChat() {
-  if (!currentUser) return;
-  if (stopChatListener) stopChatListener();
-
-  const chatId = "customer_" + currentUser.uid;
-  const chatRef = doc(db, "chats", chatId);
-
-  try {
-    await setDoc(chatRef, {
-      customerUid:currentUser.uid,
-      customerName:$("customerName").value.trim() || "Customer",
-      status:"open",
-      updatedAt:serverTimestamp()
-    }, {merge:true});
-
-    const messagesRef = collection(db, "chats", chatId, "messages");
-    const messagesQuery = query(messagesRef, orderBy("createdAt", "asc"), limit(100));
-
-    stopChatListener = onSnapshot(messagesQuery, snapshot => {
-      const root = $("chatMessages");
-      root.innerHTML = "";
-      if (snapshot.empty) {
-        root.innerHTML = '<div class="muted">Namaste! KhanaGo Support mein aapka swagat hai. Apna message bhejein.</div>';
-        return;
-      }
-      snapshot.forEach(messageDoc => {
-        const msg = messageDoc.data();
-        const div = document.createElement("div");
-        div.className = "msg " + (msg.senderUid === currentUser.uid ? "mine" : "theirs");
-        div.textContent = (msg.senderRole === "admin" ? "KhanaGo Support: " : "") + (msg.text || "");
-        root.appendChild(div);
-      });
-      root.scrollTop = root.scrollHeight;
-    }, error => {
-      console.error(error);
-      $("chatMessages").textContent = "Chat load nahi hui. Firebase security rules publish karein.";
-    });
-  } catch (error) {
-    console.error(error);
-    $("chatMessages").textContent = "Support chat connect nahi hui.";
-  }
+function subtotal(){
+ return cart.reduce((n,x)=>n+x.price*x.qty,0);
 }
 
-$("sendChatBtn").addEventListener("click", async () => {
-  if (!currentUser) return alert("Website connect ho rahi hai. Thodi der baad try karein.");
-  const text = $("chatInput").value.trim();
-  if (!text) return;
-  const chatId = "customer_" + currentUser.uid;
-
-  try {
-    await addDoc(collection(db, "chats", chatId, "messages"), {
-      text,
-      senderUid:currentUser.uid,
-      senderRole:"customer",
-      createdAt:serverTimestamp()
-    });
-    await setDoc(doc(db, "chats", chatId), {
-      customerUid:currentUser.uid,
-      status:"open",
-      updatedAt:serverTimestamp()
-    }, {merge:true});
-    $("chatInput").value = "";
-  } catch (error) {
-    console.error(error);
-    alert("Message send nahi hua. Firebase rules check karein.");
-  }
-});
-
-/* CUSTOMER ORDERS */
-function startMyOrders() {
-  if (!currentUser) return;
-  if (stopOrderListener) stopOrderListener();
-
-  const q = query(
-    collection(db, "orders"),
-    where("customerUid", "==", currentUser.uid),
-    limit(20)
-  );
-
-  stopOrderListener = onSnapshot(q, snapshot => {
-    const root = $("myOrders");
-    root.innerHTML = "";
-    if (snapshot.empty) {
-      root.textContent = "Abhi aapne koi order place nahi kiya.";
-      return;
-    }
-    snapshot.forEach(orderDoc => {
-      const order = orderDoc.data();
-      const div = document.createElement("div");
-      div.className = "card";
-      div.style.margin = "10px 0";
-      div.innerHTML = `
-        <strong>Order ID:</strong> ${safeText(orderDoc.id)}<br>
-        <strong>Restaurant:</strong> ${safeText(order.shopName || "")}<br>
-        <strong>Status:</strong> ${safeText(order.status || "Order Placed")}<br>
-        <strong>Total:</strong> ${money(order.total)}
-      `;
-      root.appendChild(div);
-    });
-  }, error => {
-    console.error(error);
-    $("myOrders").textContent = "Orders load nahi hue. Firebase rules check karein.";
-  });
+function calculateFee(km){
+ if(km===null||!Number.isFinite(km))return 0;
+ if(km<=2)return 30;
+ return 30+Math.ceil(km-2)*10;
 }
 
-/* START WEBSITE */
-loadRestaurants();
-renderCart();
-</script>
-</body>
-</html>
+function updateTotals(){
+ const sub=subtotal();
+ $("itemTotal").textContent=rupees(sub);
+ $("distanceText").textContent=deliveryKm===null?"Not calculated":deliveryKm.toFixed(1)+" km";
+ $("deliveryText").textContent=deliveryKm===null?"Calculate after location":rupees(deliveryCharge);
+ $("payTotal").textContent=rupees(sub+(deliveryKm===null?0:deliveryCharge));
+}
+
+/* CUSTOMER LOCATION */
+function detectLocation(){
+ if(!navigator.geolocation)return notify("Aapke browser mein location available nahi hai.");
+ $("checkoutLoc
