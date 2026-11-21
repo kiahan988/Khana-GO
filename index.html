@@ -4,36 +4,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KhanaGo - Food Ordering</title>
+<title>KhanaGo | Food Ordering</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f5f7f6;color:#222}
-header{background:#138a50;color:white;text-align:center;padding:20px}
-header h1{margin:0}
-nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;background:white;padding:12px;position:sticky;top:0;z-index:5}
-button{border:0;padding:11px 15px;border-radius:9px;background:#138a50;color:white;font-weight:bold;cursor:pointer}
-button:active{opacity:.7}
-.secondary{background:#e9eeeb;color:#222}
-.container{max-width:900px;margin:auto;padding:15px}
-.card{background:white;padding:16px;border-radius:14px;margin:12px 0;box-shadow:0 2px 8px #0000000d}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.food-icon{font-size:65px;text-align:center;background:#f0f5f1;border-radius:12px;padding:15px}
-.price{color:#138a50;font-weight:bold;font-size:18px}
-.small{font-size:13px;color:#666;line-height:1.5}
-input,textarea{width:100%;padding:12px;margin:7px 0;border:1px solid #ddd;border-radius:9px;font-size:15px}
-textarea{min-height:80px}
+:root {
+  --green:#15803d;
+  --dark:#166534;
+  --bg:#f1f5f9;
+  --white:#fff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --border:#e2e8f0;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:var(--bg);color:var(--text);padding-bottom:30px}
+header{background:var(--green);color:white;text-align:center;padding:25px 12px}
+header h1{font-size:30px}
+header p{margin-top:7px}
+nav{background:white;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:12px;position:sticky;top:0;z-index:10;border-bottom:1px solid var(--border)}
+button{cursor:pointer}
+.btn{background:var(--green);color:white;border:0;padding:11px 16px;border-radius:8px;font-weight:bold}
+.btn:hover{background:var(--dark)}
+.outline{background:white;color:var(--green);border:1px solid var(--green)}
+.container{max-width:850px;margin:20px auto;padding:0 12px}
+.card{background:white;border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:0 2px 5px #00000008}
+h2{margin-bottom:15px}
+h3{margin:15px 0 10px}
+.field{margin-bottom:13px}
+label{display:block;font-weight:bold;color:var(--muted);font-size:14px;margin-bottom:6px}
+input,textarea,select{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:16px;background:white}
+.menu-item,.cart-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid var(--border)}
+.menu-item:last-child{border-bottom:0}
+.price{color:var(--green);font-weight:bold}
 .hidden{display:none!important}
-.row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:10px 0}
-.qty{display:flex;align-items:center;gap:8px}
-.qty button{padding:5px 12px}
-.total{font-size:19px;font-weight:bold;border-top:1px solid #ddd;padding-top:14px}
-.full{width:100%;margin-top:10px}
-.pay{display:flex;gap:10px;margin:12px 0}
-.pay button{flex:1}
-.active{outline:3px solid #8ad6ad}
-.status{padding:10px;background:#eaf8ef;border-radius:9px;margin:10px 0}
+.msg{margin-top:12px;font-weight:bold;font-size:14px}
+.ok{color:var(--green)}
+.err{color:#dc2626}
+.order-box{background:#f8fafc;border:1px solid var(--border);padding:14px;border-radius:10px;margin:12px 0}
+.badge{display:inline-block;padding:5px 9px;background:#dcfce7;color:#166534;border-radius:20px;font-size:12px;font-weight:bold}
+.small{font-size:13px;color:var(--muted);margin-top:7px;line-height:1.5}
+.total{font-size:19px;font-weight:bold;margin:14px 0}
+button:disabled{opacity:.55;cursor:not-allowed}
+footer{text-align:center;color:var(--muted);padding:20px;font-size:13px}
 </style>
 </head>
+
 <body>
 
 <header>
@@ -42,368 +57,446 @@ textarea{min-height:80px}
 </header>
 
 <nav>
-<button onclick="showPage('shops')">Shops</button>
-<button onclick="showPage('track')">Track Order</button>
-<button onclick="showPage('help')">Help / Chat</button>
+<button class="btn" onclick="showSection('orderSec')">🍔 Order Food</button>
+<button class="btn outline" onclick="showSection('helpSec')">💬 Help / Chat</button>
+<button class="btn outline" onclick="showSection('adminSec')">🔐 Admin Dashboard</button>
 </nav>
 
-<main class="container">
+<div class="container">
 
-<section id="shops">
-<h2>Available Shops</h2>
-<p class="small">Choose your favourite shop and order food.</p>
-<div id="shopList" class="grid"></div>
-</section>
+<section id="orderSec" class="card">
+<h2>🍽️ Our Food Menu</h2>
 
-<section id="menuPage" class="hidden">
-<button class="secondary" onclick="showPage('shops')">← Back to Shops</button>
-<h2 id="shopName"></h2>
-<div id="menuList" class="grid"></div>
+<div class="menu-item">
+<div>
+<strong>Special Veg Thali</strong>
+<div class="small">Shree Bhojnalaya</div>
+<div class="price">₹179</div>
+</div>
+<button class="btn" onclick="addItem('Special Veg Thali',179)">+ Add</button>
+</div>
 
-<div class="card">
+<div class="menu-item">
+<div>
+<strong>Paneer Masala Sandwich</strong>
+<div class="small">Fresh & Delicious</div>
+<div class="price">₹99</div>
+</div>
+<button class="btn" onclick="addItem('Paneer Masala Sandwich',99)">+ Add</button>
+</div>
+
+<div class="menu-item">
+<div>
+<strong>Cheese Schezwan Veg Sandwich</strong>
+<div class="small">Spicy & Cheesy</div>
+<div class="price">₹119</div>
+</div>
+<button class="btn" onclick="addItem('Cheese Schezwan Veg Sandwich',119)">+ Add</button>
+</div>
+
+<div class="menu-item">
+<div>
+<strong>Brownie Shake</strong>
+<div class="small">Chocolate Dessert Shake</div>
+<div class="price">₹129</div>
+</div>
+<button class="btn" onclick="addItem('Brownie Shake',129)">+ Add</button>
+</div>
+
 <h3>🛒 Your Cart</h3>
-<div id="cartList">Cart is empty</div>
-<div class="row"><span>Item Total</span><b id="subtotal">₹0</b></div>
-<div class="row"><span>Delivery Fee</span><b id="delivery">₹30</b></div>
-<div class="row total"><span>Grand Total</span><span id="grand">₹30</span></div>
-<p class="small">₹299+ order par 2 km tak free delivery. Final delivery eligibility shop location se distance verify hone par depend karegi.</p>
+<div id="cartBox">Cart is empty.</div>
+<div class="total" id="cartTotal">Total: ₹0</div>
+
+<form id="orderForm">
+<h3>Delivery Details</h3>
+
+<div class="field">
+<label>Your Name</label>
+<input id="ordName" required maxlength="60" placeholder="Enter your name">
 </div>
 
-<div class="card">
-<h3>📍 Delivery Location</h3>
-<button onclick="getLocation()">Detect My Location</button>
-<p id="locationStatus" class="small">Location not detected.</p>
-<input id="address" placeholder="Full delivery address / landmark">
+<div class="field">
+<label>Mobile Number</label>
+<input id="ordPhone" type="tel" required pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10 digit mobile number">
 </div>
 
-<div class="card">
-<h3>💳 Payment Method</h3>
-<div class="pay">
-<button id="onlineBtn" class="active" onclick="setPayment('ONLINE')">UPI Payment</button>
-<button id="codBtn" class="secondary" onclick="setPayment('COD')">Cash on Delivery</button>
-</div>
-<div id="upiBox">
-<p class="small">Pay using your UPI app. Payment will remain pending until manually verified.</p>
-<p><b>UPI ID: 9458834146@ybl</b></p>
-<button class="full" onclick="payUPI()">Open UPI App</button>
-</div>
+<div class="field">
+<label>Delivery Address</label>
+<textarea id="ordAddress" required maxlength="500" rows="3" placeholder="House, street, area"></textarea>
 </div>
 
-<div class="card">
-<h3>👤 Customer Details</h3>
-<input id="customerName" placeholder="Your Name">
-<input id="customerPhone" placeholder="Mobile Number" type="tel">
-<button class="full" onclick="placeOrder()">Place Order</button>
-<p id="orderMessage" class="small"></p>
-</div>
+<button class="btn" id="orderBtn" type="submit" style="width:100%">Place Order</button>
+<div id="orderStatusMsg" class="msg"></div>
+</form>
 </section>
 
-<section id="successPage" class="hidden">
-<div class="card">
-<h2>✅ Order Placed!</h2>
-<p>Your order has been saved on this device.</p>
-<div id="successDetails"></div>
-<button class="full" onclick="showPage('track')">Track Your Order</button>
-<button class="full secondary" onclick="showPage('shops')">Back to Home</button>
+<section id="helpSec" class="card hidden">
+<h2>💬 Customer Support</h2>
+<form id="helpForm">
+<div class="field">
+<label>Your Name</label>
+<input id="helpName" required maxlength="60" placeholder="Your name">
 </div>
+<div class="field">
+<label>Phone Number</label>
+<input id="helpPhone" required type="tel" pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10 digit mobile">
+</div>
+<div class="field">
+<label>Your Message</label>
+<textarea id="helpText" required maxlength="1000" rows="4" placeholder="How can we help you?"></textarea>
+</div>
+<button class="btn" id="helpBtn" style="width:100%">Send Message</button>
+<div id="helpStatusMsg" class="msg"></div>
+</form>
 </section>
 
-<section id="track" class="hidden">
-<div class="card">
-<h2>📦 Track Your Order</h2>
-<input id="trackId" placeholder="Enter Order ID">
-<button onclick="trackOrder()">Track Order</button>
-<div id="trackResult"></div>
+<section id="adminSec" class="card hidden">
+<h2>🔐 KhanaGo Admin Dashboard</h2>
+
+<div id="loginBox">
+<p class="small">Only authorized admin can access orders and customer messages.</p>
+<div class="field">
+<label>Admin Email</label>
+<input type="email" id="adminEmail" value="kishangihar8@gmail.com">
+</div>
+<div class="field">
+<label>Password</label>
+<input type="password" id="adminPass" required placeholder="Enter Firebase password">
+</div>
+<button class="btn" id="loginBtn" onclick="adminLogin()">Admin Login</button>
+<div id="adminMsg" class="msg"></div>
+</div>
+
+<div id="dashboardContent" class="hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+<strong>🟢 Live Admin Panel</strong>
+<button class="btn outline" onclick="adminLogout()">Logout</button>
+</div>
+
+<div class="order-box">
+<strong>Dashboard Connection</strong>
+<p class="small" id="connectionStatus">Connecting to Firebase...</p>
+</div>
+
+<h3>📦 Live Orders</h3>
+<div id="ordersList">Loading orders...</div>
+
+<h3>💬 Customer Help Messages</h3>
+<div id="helpsList">Loading messages...</div>
 </div>
 </section>
-
-<section id="help" class="hidden">
-<div class="card">
-<h2>Customer Help</h2>
-<input id="helpName" placeholder="Your Name">
-<input id="helpPhone" placeholder="Mobile Number">
-<textarea id="helpText" placeholder="How can we help you?"></textarea>
-<button class="full" onclick="sendHelp()">Send WhatsApp Message</button>
 </div>
-</section>
 
-</main>
+<footer>© 2026 KhanaGo | Fresh Food, Fast Delivery</footer>
 
-<script>
-const ADMIN_WHATSAPP = "917599044129";
-const UPI_ID = "9458834146@ybl";
+<script type="module">
+import { initializeApp } from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-const shops = [
-{
- id:"shop1",
- name:"Shree Bhojnalaya",
- area:"Ramlila Road / Main Market",
- items:[
-  {name:"Special Veg Thali",price:149,icon:"🍛"},
-  {name:"Paneer Paratha",price:99,icon:"🫓"},
-  {name:"Paneer Butter Masala",price:179,icon:"🥘"},
-  {name:"Dal Makhani",price:149,icon:"🍲"},
-  {name:"Veg Biryani",price:129,icon:"🍚"},
-  {name:"Cold Drink",price:40,icon:"🥤"}
- ]
+import {
+ getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+ getFirestore, collection, addDoc, onSnapshot,
+ query, orderBy, updateDoc, doc, serverTimestamp
+} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* PASTE YOUR REAL FIREBASE CONFIG HERE */
+const firebaseConfig = {
+ apiKey: "PASTE_YOUR_API_KEY",
+ authDomain: "khanago-11584.firebaseapp.com",
+ projectId: "khanago-11584",
+ storageBucket: "khanago-11584.firebasestorage.app",
+ messagingSenderId: "PASTE_YOUR_SENDER_ID",
+ appId: "PASTE_YOUR_APP_ID"
+};
+
+const ADMIN_EMAIL = "kishangihar8@gmail.com";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let cart = [];
+let unsubOrders = null;
+let unsubHelps = null;
+let busy = false;
+
+const $ = id => document.getElementById(id);
+
+window.showSection = id => {
+ ["orderSec","helpSec","adminSec"].forEach(s =>
+  $(s).classList.toggle("hidden",s !== id)
+ );
+};
+
+function message(id,text,type="ok"){
+ $(id).textContent = text;
+ $(id).className = "msg " + type;
 }
-];
 
-let currentShop=null;
-let cart={};
-let payment="ONLINE";
-let locationData=null;
-let lastOrder=null;
-
-function showPage(id){
- ["shops","menuPage","successPage","track","help"].forEach(x=>
- document.getElementById(x).classList.add("hidden"));
- document.getElementById(id).classList.remove("hidden");
- window.scrollTo({top:0,behavior:"smooth"});
+function make(tag,text,className=""){
+ const el=document.createElement(tag);
+ el.textContent=text;
+ if(className)el.className=className;
+ return el;
 }
 
-function renderShops(){
- document.getElementById("shopList").innerHTML=shops.map((s,i)=>`
- <div class="card">
- <div class="food-icon">🏪</div>
- <h3>${s.name}</h3>
- <p class="small">${s.area}</p>
- <p>${s.items.length} food items available</p>
- <button onclick="openShop(${i})">View Menu</button>
- </div>`).join("");
-}
-
-function openShop(i){
- currentShop=shops[i];
- cart={};
- document.getElementById("shopName").innerText=currentShop.name;
- document.getElementById("address").value="";
- document.getElementById("orderMessage").innerText="";
- renderMenu();
+window.addItem = (name,price) => {
+ const item=cart.find(x=>x.name===name);
+ if(item)item.qty++;
+ else cart.push({name,price,qty:1});
  renderCart();
- showPage("menuPage");
-}
+};
 
-function renderMenu(){
- document.getElementById("menuList").innerHTML=currentShop.items.map((item,i)=>`
- <div class="card">
- <div class="food-icon">${item.icon}</div>
- <h3>${item.name}</h3>
- <p class="price">₹${item.price}</p>
- <button onclick="addItem(${i})">Add to Cart</button>
- </div>`).join("");
-}
-
-function addItem(i){
- cart[i]=(cart[i]||0)+1;
+window.removeItem = name => {
+ cart=cart.filter(x=>x.name!==name);
  renderCart();
-}
-
-function changeQty(i,n){
- cart[i]=(cart[i]||0)+n;
- if(cart[i]<=0) delete cart[i];
- renderCart();
-}
-
-function getSubtotal(){
- return Object.keys(cart).reduce((sum,i)=>
- sum+currentShop.items[i].price*cart[i],0);
-}
-
-function getDistance(){
- if(!locationData || !currentShop || !currentShop.lat) return null;
- const R=6371;
- const dLat=(currentShop.lat-locationData.lat)*Math.PI/180;
- const dLon=(currentShop.lng-locationData.lng)*Math.PI/180;
- const a=Math.sin(dLat/2)**2+
- Math.cos(locationData.lat*Math.PI/180)*
- Math.cos(currentShop.lat*Math.PI/180)*Math.sin(dLon/2)**2;
- return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-}
-
-function getDelivery(){
- const distance=getDistance();
- if(getSubtotal()>=299 && distance!==null && distance<=2) return 0;
- return 30;
-}
+};
 
 function renderCart(){
- let html="";
- Object.keys(cart).forEach(i=>{
- const item=currentShop.items[i];
- html+=`<div class="row">
- <span>${item.name}<br>₹${item.price}</span>
- <div class="qty">
- <button onclick="changeQty(${i},-1)">−</button>
- <b>${cart[i]}</b>
- <button onclick="changeQty(${i},1)">+</button>
- </div>
- </div>`;
+ const box=$("cartBox");
+ box.replaceChildren();
+
+ if(!cart.length){
+  box.textContent="Cart is empty.";
+  $("cartTotal").textContent="Total: ₹0";
+  return;
+ }
+
+ cart.forEach(item=>{
+  const row=document.createElement("div");
+  row.className="cart-item";
+  row.append(
+   make("span",`${item.name} × ${item.qty} = ₹${item.price*item.qty}`),
+   Object.assign(make("button","Remove","btn outline"),{
+    onclick:()=>removeItem(item.name)
+   })
+  );
+  box.append(row);
  });
- document.getElementById("cartList").innerHTML=html||"Cart is empty";
- const sub=getSubtotal();
- const fee=getDelivery();
- document.getElementById("subtotal").innerText="₹"+sub;
- document.getElementById("delivery").innerText="₹"+fee;
- document.getElementById("grand").innerText="₹"+(sub+fee);
+
+ const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+ $("cartTotal").textContent="Total: ₹"+total;
 }
 
-function setPayment(method){
- payment=method;
- document.getElementById("onlineBtn").className=method==="ONLINE"?"active":"secondary";
- document.getElementById("codBtn").className=method==="COD"?"active":"secondary";
- document.getElementById("upiBox").classList.toggle("hidden",method!=="ONLINE");
-}
+$("orderForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ if(busy)return;
 
-function payUPI(){
- const total=getSubtotal()+getDelivery();
- if(getSubtotal()<=0){alert("Please add food to cart.");return;}
- const uri="upi://pay?pa="+encodeURIComponent(UPI_ID)+
- "&pn=KhanaGo&am="+total.toFixed(2)+"&cu=INR&tn=KhanaGo%20Order";
- window.location.href=uri;
-}
-
-function getLocation(){
- const status=document.getElementById("locationStatus");
- if(!navigator.geolocation){
- status.innerText="GPS is not supported by this browser.";
- return;
- }
- status.innerText="Getting your location...";
- navigator.geolocation.getCurrentPosition(pos=>{
- locationData={
- lat:pos.coords.latitude,
- lng:pos.coords.longitude
- };
- status.innerText="Location detected successfully.";
- renderCart();
- },()=>{
- status.innerText="Location permission denied. Please enter address manually.";
- },{enableHighAccuracy:true,timeout:15000});
-}
-
-function placeOrder(){
- const name=document.getElementById("customerName").value.trim();
- const phone=document.getElementById("customerPhone").value.trim();
- const address=document.getElementById("address").value.trim();
- const subtotal=getSubtotal();
-
- if(!currentShop){alert("Select a shop first.");return;}
- if(subtotal<=0){alert("Please add items to cart.");return;}
- if(!name||!phone||!address){
- alert("Please enter name, phone and delivery address.");
- return;
- }
- if(!/^[0-9]{10}$/.test(phone)){
- alert("Enter a valid 10 digit mobile number.");
- return;
+ if(!cart.length){
+  message("orderStatusMsg","Please add food to your cart.","err");
+  return;
  }
 
- const total=subtotal+getDelivery();
- const order={
- id:"KG"+Date.now().toString().slice(-8),
- name,phone,address,
- shop:currentShop.name,
- items:Object.keys(cart).map(i=>({
- name:currentShop.items[i].name,
- qty:cart[i],
- price:currentShop.items[i].price
- })),
- subtotal,
- delivery:getDelivery(),
- total,
- payment,
- paymentStatus:payment==="COD"?"COD - Pay on Delivery":"Pending Verification",
- status:"Order Received",
- date:new Date().toLocaleString("en-IN")
- };
+ const btn=$("orderBtn");
+ busy=true;
+ btn.disabled=true;
+ btn.textContent="Placing Order...";
 
  try{
- const orders=JSON.parse(localStorage.getItem("khanago_orders")||"[]");
- orders.unshift(order);
- localStorage.setItem("khanago_orders",JSON.stringify(orders));
- }catch(e){
- alert("Could not save order on this device.");
- return;
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+
+  const result=await addDoc(collection(db,"orders"),{
+   name:$("ordName").value.trim(),
+   phone:$("ordPhone").value.trim(),
+   address:$("ordAddress").value.trim(),
+   items:cart.map(i=>({...i})),
+   total,
+   status:"Order Placed",
+   createdAt:serverTimestamp()
+  });
+
+  cart=[];
+  renderCart();
+  e.target.reset();
+  message("orderStatusMsg","Order successfully placed! Order ID: "+result.id);
+ }catch(err){
+  message("orderStatusMsg","Order failed: "+err.message,"err");
+ }finally{
+  busy=false;
+  btn.disabled=false;
+  btn.textContent="Place Order";
+ }
+});
+
+$("helpForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const btn=$("helpBtn");
+ btn.disabled=true;
+
+ try{
+  await addDoc(collection(db,"helpMessages"),{
+   name:$("helpName").value.trim(),
+   phone:$("helpPhone").value.trim(),
+   message:$("helpText").value.trim(),
+   createdAt:serverTimestamp()
+  });
+  e.target.reset();
+  message("helpStatusMsg","Your message has been sent to KhanaGo!");
+ }catch(err){
+  message("helpStatusMsg","Message failed: "+err.message,"err");
+ }finally{
+  btn.disabled=false;
+ }
+});
+
+window.adminLogin=async()=>{
+ const email=$("adminEmail").value.trim().toLowerCase();
+ const pass=$("adminPass").value;
+ const btn=$("loginBtn");
+
+ if(email!==ADMIN_EMAIL){
+  message("adminMsg","This email is not authorized.","err");
+  return;
  }
 
- lastOrder=order;
- document.getElementById("successDetails").innerHTML=`
- <div class="status"><b>Order ID:</b> ${order.id}</div>
- <p><b>Shop:</b> ${order.shop}</p>
- <p><b>Name:</b> ${order.name}</p>
- <p><b>Phone:</b> ${order.phone}</p>
- <p><b>Address:</b> ${order.address}</p>
- ${order.items.map(x=>`<p>${x.name} × ${x.qty} — ₹${x.price*x.qty}</p>`).join("")}
- <hr>
- <p>Item Total: ₹${subtotal}</p>
- <p>Delivery: ₹${order.delivery}</p>
- <h3>Total: ₹${total}</h3>
- <p>Payment: ${order.paymentStatus}</p>
- `;
- showPage("successPage");
-
- const message=
- "NEW KHANAGO ORDER%0A"+
- "Order ID: "+order.id+"%0A"+
- "Shop: "+order.shop+"%0A"+
- "Customer: "+order.name+"%0A"+
- "Phone: "+order.phone+"%0A"+
- "Address: "+order.address+"%0A"+
- "Items: "+order.items.map(x=>x.name+" x "+x.qty).join(", ")+"%0A"+
- "Total: Rs "+total+"%0A"+
- "Payment: "+order.paymentStatus;
-
- window.open("https://wa.me/"+ADMIN_WHATSAPP+"?text="+encodeURIComponent(
- "NEW KHANAGO ORDER\n"+
- "Order ID: "+order.id+"\n"+
- "Shop: "+order.shop+"\n"+
- "Customer: "+order.name+"\n"+
- "Phone: "+order.phone+"\n"+
- "Address: "+order.address+"\n"+
- "Items: "+order.items.map(x=>x.name+" x "+x.qty).join(", ")+"\n"+
- "Total: Rs "+total+"\n"+
- "Payment: "+order.paymentStatus
- ),"_blank");
-}
-
-function trackOrder(){
- const id=document.getElementById("trackId").value.trim();
- const result=document.getElementById("trackResult");
- const orders=JSON.parse(localStorage.getItem("khanago_orders")||"[]");
- const order=orders.find(x=>x.id.toLowerCase()===id.toLowerCase());
-
- if(!order){
- result.innerHTML="<p class='small'>Order not found on this device. Please check your Order ID.</p>";
- return;
+ btn.disabled=true;
+ try{
+  await signInWithEmailAndPassword(auth,email,pass);
+  $("adminPass").value="";
+  message("adminMsg","");
+ }catch(err){
+  message("adminMsg","Login failed: "+err.message,"err");
+ }finally{
+  btn.disabled=false;
  }
+};
 
- result.innerHTML=`
- <div class="status">
- <h3>${order.status}</h3>
- <p><b>Order ID:</b> ${order.id}</p>
- <p><b>Shop:</b> ${order.shop}</p>
- <p><b>Total:</b> ₹${order.total}</p>
- <p><b>Payment:</b> ${order.paymentStatus}</p>
- <p><b>Date:</b> ${order.date}</p>
- </div>`;
-}
-
-function sendHelp(){
- const name=document.getElementById("helpName").value.trim();
- const phone=document.getElementById("helpPhone").value.trim();
- const msg=document.getElementById("helpText").value.trim();
-
- if(!name||!phone||!msg){
- alert("Please fill all details.");
- return;
+window.adminLogout=async()=>{
+ try{
+  await signOut(auth);
+ }catch(err){
+  message("adminMsg",err.message,"err");
  }
- const text="KHANAGO CUSTOMER HELP\nName: "+name+
- "\nPhone: "+phone+"\nMessage: "+msg;
- window.open("https://wa.me/"+ADMIN_WHATSAPP+"?text="+encodeURIComponent(text),"_blank");
+};
+
+window.changeOrderStatus=async(orderId,newStatus,select)=>{
+ const allowed=[
+  "Order Placed","Preparing","Ready",
+  "Out for Delivery","Completed","Cancelled"
+ ];
+ if(!allowed.includes(newStatus))return;
+
+ select.disabled=true;
+ try{
+  await updateDoc(doc(db,"orders",orderId),{
+   status:newStatus,
+   updatedAt:serverTimestamp()
+  });
+ }catch(err){
+  alert("Status update failed: "+err.message);
+  select.disabled=false;
+ }
+};
+
+function stopListeners(){
+ if(unsubOrders){unsubOrders();unsubOrders=null;}
+ if(unsubHelps){unsubHelps();unsubHelps=null;}
 }
 
-renderShops();
+function startListeners(){
+ stopListeners();
+ $("connectionStatus").textContent="Connected. Listening for live updates.";
+
+ const qOrders=query(collection(db,"orders"),orderBy("createdAt","desc"));
+
+ unsubOrders=onSnapshot(qOrders,snap=>{
+  const list=$("ordersList");
+  list.replaceChildren();
+
+  if(snap.empty){
+   list.textContent="No orders yet.";
+   return;
+  }
+
+  snap.forEach(d=>{
+   const o=d.data();
+   const card=document.createElement("div");
+   card.className="order-box";
+
+   card.append(make("strong",o.name||"Customer"));
+   card.append(make("p","Phone: "+(o.phone||"")));
+   card.append(make("p","Address: "+(o.address||"")));
+   card.append(make("p","Items: "+(o.items||[]).map(i=>
+    `${i.name} × ${i.qty}`
+   ).join(", ")));
+   card.append(make("p","Total: ₹"+(o.total||0)));
+
+   const status=make("span",o.status||"Order Placed","badge");
+   card.append(status);
+
+   const select=document.createElement("select");
+   const statuses=[
+    "Order Placed","Preparing","Ready",
+    "Out for Delivery","Completed","Cancelled"
+   ];
+
+   statuses.forEach(s=>{
+    const option=make("option",s);
+    option.value=s;
+    option.selected=(o.status||"Order Placed")===s;
+    select.append(option);
+   });
+
+   select.addEventListener("change",()=>{
+    window.changeOrderStatus(d.id,select.value,select);
+   });
+
+   const label=make("label","Update Order Status");
+   label.style.marginTop="12px";
+   card.append(label,select);
+   card.append(make("p","Order ID: "+d.id,"small"));
+   list.append(card);
+  });
+ },err=>{
+  $("connectionStatus").textContent="Order error: "+err.message;
+ });
+
+ const qHelps=query(collection(db,"helpMessages"),orderBy("createdAt","desc"));
+
+ unsubHelps=onSnapshot(qHelps,snap=>{
+  const list=$("helpsList");
+  list.replaceChildren();
+
+  if(snap.empty){
+   list.textContent="No help messages yet.";
+   return;
+  }
+
+  snap.forEach(d=>{
+   const h=d.data();
+   const card=document.createElement("div");
+   card.className="order-box";
+   card.append(make("strong",h.name||"Customer"));
+   card.append(make("p","Phone: "+(h.phone||"")));
+   card.append(make("p",h.message||""));
+   list.append(card);
+  });
+ },err=>{
+  $("helpsList").textContent="Help messages error: "+err.message;
+ });
+}
+
+onAuthStateChanged(auth,user=>{
+ const login=$("loginBox");
+ const dash=$("dashboardContent");
+
+ if(user && user.email?.toLowerCase()===ADMIN_EMAIL){
+  login.classList.add("hidden");
+  dash.classList.remove("hidden");
+  startListeners();
+ }else{
+  stopListeners();
+  dash.classList.add("hidden");
+  login.classList.remove("hidden");
+  $("connectionStatus").textContent="Not connected.";
+  if(user)signOut(auth);
+ }
+});
 </script>
 </body>
 </html>
