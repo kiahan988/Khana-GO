@@ -1,345 +1,527 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KhanaGo - Fast Local Food Ordering</title>
-  <style>
-    :root {
-      --primary: #15803d;
-      --primary-dark: #166534;
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --text: #0f172a;
-      --muted: #64748b;
-      --border: #e2e8f0;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding-bottom: 40px; }
-    header {
-      background: var(--primary);
-      color: #fff;
-      padding: 20px 16px;
-      text-align: center;
-    }
-    header p { opacity: 0.9; margin-top: 4px; font-size: 0.95rem; }
-    .nav {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      padding: 12px;
-      background: #fff;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .btn {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .btn:hover { background: var(--primary-dark); }
-    .btn-outline {
-      background: #fff;
-      color: var(--primary);
-      border: 1px solid var(--primary);
-    }
-    .btn-sm { padding: 7px 12px; font-size: 0.88rem; }
-    .container { max-width: 760px; margin: 20px auto; padding: 0 14px; }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 18px;
-      margin-bottom: 16px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-    }
-    .card h2, .card h3 { margin-bottom: 12px; }
-    .shop-card {
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      background: #fff;
-    }
-    .shop-meta { font-size: 0.88rem; color: var(--muted); margin-top: 3px; }
-    .shop-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      padding-bottom: 12px;
-      margin-bottom: 12px;
-      border-bottom: 1px solid var(--border);
-    }
-    .field { margin-bottom: 12px; }
-    .field label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; color: var(--muted); }
-    .field input, .field textarea {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 1rem;
-    }
-    .menu-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .menu-item:last-child { border-bottom: none; }
-    .hidden { display: none; }
-    .msg { margin-top: 10px; font-size: 0.92rem; font-weight: 600; }
-    .ok { color: #15803d; }
-    .err { color: #dc2626; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KhanaGo | Order Food Online</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#fffaf5;color:#222}
+header{background:#f15a24;color:white;padding:18px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-size:27px;font-weight:bold}
+header span{font-size:13px}
+.container{max-width:1100px;margin:auto;padding:18px}
+.hero{background:#fff0e8;padding:25px;border-radius:15px;margin:15px 0}
+h1{margin:0 0 8px;font-size:26px}
+h2{font-size:21px;margin-top:25px}
+input,textarea,button{font:inherit}
+input,textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:9px;margin:7px 0}
+button{border:0;border-radius:9px;padding:12px 16px;background:#f15a24;color:white;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+.secondary{background:#333}
+.green{background:#16834a}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
+.card{background:white;border:1px solid #eee;border-radius:13px;padding:15px;box-shadow:0 2px 8px #00000008}
+.card h3{margin:5px 0}
+.muted{color:#777;font-size:13px}
+.price{font-weight:bold;color:#e65320}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.smallbtn{padding:8px 12px;font-size:13px}
+.section{background:white;border:1px solid #eee;border-radius:13px;padding:17px;margin:18px 0}
+#cartItems div{padding:9px 0;border-bottom:1px solid #eee}
+#status{padding:10px;border-radius:8px;background:#fff0e8;margin:10px 0;font-size:14px}
+.chatbox{height:260px;overflow-y:auto;border:1px solid #ddd;border-radius:10px;padding:10px;background:#fafafa;margin:10px 0}
+.msg{padding:9px 12px;border-radius:10px;margin:7px 0;max-width:85%;font-size:14px;overflow-wrap:anywhere}
+.mine{background:#ffe0d2;margin-left:auto}
+.theirs{background:#e9e9e9;margin-right:auto}
+footer{text-align:center;padding:25px;color:#777;font-size:13px}
+.hidden{display:none}
+</style>
 </head>
 <body>
-  <header>
-    <h1>🍔 KhanaGo</h1>
-    <p>Fast Local Food Ordering</p>
-  </header>
 
-  <div class="nav">
-    <button class="btn" onclick="showSection('orderSec')">Order Food</button>
-    <button class="btn btn-outline" onclick="showSection('helpSec')">Help / Chat</button>
+<header>
+  <div class="logo">🍽️ KhanaGo</div>
+  <span>Fresh Food • Fast Delivery</span>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <h1>Order your favourite food</h1>
+    <p>Apne pasand ke restaurant se tasty food order karein.</p>
+    <div id="loginStatus" class="muted">Connecting to KhanaGo...</div>
+  </section>
+
+  <div id="status">Website Firebase se connect ho rahi hai...</div>
+
+  <h2>Restaurants</h2>
+  <div id="restaurants" class="grid">
+    <div class="card">Restaurants load ho rahe hain...</div>
   </div>
 
-  <div class="container">
-    <!-- CUSTOMER SHOPS & ORDER SECTION -->
-    <section id="orderSec" class="card">
-      <div id="shopsListView">
-        <h2>Partner Shops</h2>
-        <p class="shop-meta" style="margin-bottom:14px;">Kisi bhi shop ka menu dekhne ke liye "View Menu" par tap karein.</p>
-        <div id="shopsContainer"></div>
-      </div>
-
-      <div id="shopMenuView" class="hidden">
-        <div class="shop-header">
-          <div>
-            <h2 id="activeShopName" style="margin-bottom:2px;">Shop Name</h2>
-            <div id="activeShopSub" class="shop-meta"></div>
-          </div>
-          <button class="btn btn-outline btn-sm" onclick="backToShops()">← All Shops</button>
-        </div>
-        <div id="shopMenuItems"></div>
-      </div>
-
-      <div style="margin-top:18px; padding-top:14px; border-top:2px solid var(--border);">
-        <h3>Your Cart</h3>
-        <div id="cartBox" style="margin: 10px 0 14px; font-size: 0.95rem;">Cart is empty.</div>
-
-        <form id="orderForm">
-          <div class="field">
-            <label>Your Name</label>
-            <input type="text" id="ordName" required placeholder="Enter your name" />
-          </div>
-          <div class="field">
-            <label>Phone Number</label>
-            <input type="tel" id="ordPhone" required placeholder="10-digit mobile number" />
-          </div>
-          <div class="field">
-            <label>Delivery Address</label>
-            <input type="text" id="ordAddress" required placeholder="House / Street / Area" />
-          </div>
-          <button class="btn" type="submit" style="width:100%;">Place Order</button>
-          <div id="orderStatusMsg" class="msg"></div>
-        </form>
-      </div>
-    </section>
-
-    <!-- CUSTOMER HELP SECTION -->
-    <section id="helpSec" class="card hidden">
-      <h2>Customer Help</h2>
-      <form id="helpForm">
-        <div class="field">
-          <label>Your Name</label>
-          <input type="text" id="helpName" required placeholder="Your name" />
-        </div>
-        <div class="field">
-          <label>Phone Number</label>
-          <input type="tel" id="helpPhone" required placeholder="Your phone number" />
-        </div>
-        <div class="field">
-          <label>Message</label>
-          <textarea id="helpText" rows="3" required placeholder="How can we help you?"></textarea>
-        </div>
-        <button class="btn" type="submit" style="width:100%;">Send Message</button>
-        <div id="helpStatusMsg" class="msg"></div>
-      </form>
-    </section>
+  <h2 id="menuHeading">Food Menu</h2>
+  <div id="menu" class="grid">
+    <div class="card">Restaurant select karein.</div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import {
-      getFirestore, collection, addDoc, serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  <section class="section">
+    <h2>🛒 Your Cart</h2>
+    <div id="cartItems">Abhi cart khaali hai.</div>
+    <div class="row">
+      <strong>Food Total:</strong>
+      <strong id="foodTotal">₹0</strong>
+    </div>
+    <div class="row">
+      <span>Delivery Fee:</span>
+      <span id="deliveryFee">₹30</span>
+    </div>
+    <hr>
+    <div class="row">
+      <strong>Total Amount:</strong>
+      <strong id="grandTotal">₹0</strong>
+    </div>
+  </section>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCfoYb2nBRXAmWggHV-d77qEywaMXXHI7Y",
-      authDomain: "khanago-11584.firebaseapp.com",
-      projectId: "khanago-11584",
-      storageBucket: "khanago-11584.firebasestorage.app",
-      messagingSenderId: "472974685789",
-      appId: "1:472974685789:web:dc9affa20898ad2bf3ffb4",
-      measurementId: "G-6EH5CP0VXM"
-    };
+  <section class="section">
+    <h2>📍 Delivery Location</h2>
+    <p class="muted">Location detect karne ke liye button dabayein aur browser permission allow karein.</p>
+    <button type="button" id="locationBtn" class="green">Detect My Current Location</button>
+    <div id="locationStatus" class="muted">Location abhi select nahi hui.</div>
+    <label>Full Address *</label>
+    <textarea id="address" rows="2" placeholder="House number, street, area, city..." required></textarea>
+    <label>Landmark</label>
+    <input id="landmark" placeholder="Nearby school, shop, etc.">
+    <label>Your Name *</label>
+    <input id="customerName" placeholder="Apna naam">
+    <label>Mobile Number *</label>
+    <input id="phone" type="tel" maxlength="10" placeholder="10 digit mobile number">
+    <label>Order Note (optional)</label>
+    <textarea id="orderNote" rows="2" placeholder="Koi special instruction?"></textarea>
+    <button type="button" id="placeOrderBtn">Place Order - Cash on Delivery</button>
+    <p class="muted">Abhi payment method Cash on Delivery hai. Online payment abhi add nahi hai.</p>
+  </section>
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  <section class="section">
+    <h2>💬 Help & Support</h2>
+    <p class="muted">KhanaGo support team ko message bhejein. Admin dashboard se reply de sakta hai.</p>
+    <div id="chatMessages" class="chatbox">
+      <div class="muted">Support chat connect ho rahi hai...</div>
+    </div>
+    <textarea id="chatInput" rows="2" placeholder="Apna message likhein..."></textarea>
+    <button type="button" id="sendChatBtn">Send Message</button>
+    <p class="muted">Chat ka jawab aane ke liye website par internet connection zaroori hai.</p>
+  </section>
 
-    const SHOPS = [
-      {
-        id: "shree-bhojnalaya",
-        name: "Shree Bhojnalaya",
-        category: "North Indian • Thali & Meals",
-        area: "Local Market",
-        menu: [
-          { id: "thali-1", name: "Special Veg Thali", desc: "Dal, Paneer, Sabzi, Roti, Rice & Salad", price: 179 },
-          { id: "roti-1", name: "Butter Roti (4 pcs)", desc: "Fresh tandoori rotis", price: 60 }
-        ]
-      },
-      {
-        id: "hunger-point",
-        name: "Hunger Point Cafe",
-        category: "Snacks • Sandwiches & Shakes",
-        area: "Main Road",
-        menu: [
-          { id: "sand-1", name: "Paneer Masala Sandwich", desc: "Fresh & Delicious", price: 99 },
-          { id: "sand-2", name: "Cheese Schezwan Veg Sandwich", desc: "Spicy & Cheesy", price: 119 },
-          { id: "shake-1", name: "Brownie Shake", desc: "Chocolate Dessert Shake", price: 129 }
-        ]
+  <section class="section">
+    <h2>📦 My Recent Orders</h2>
+    <div id="myOrders" class="muted">Aapke orders yahan dikhenge.</div>
+  </section>
+</main>
+
+<footer>© 2026 KhanaGo. All rights reserved.</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, getDocs, query, where,
+  onSnapshot, doc, setDoc, serverTimestamp, orderBy, limit
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  getAuth, signInAnonymously, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+/* KHANAGO FIREBASE CONFIG */
+const firebaseConfig = {
+  apiKey: "AIzaSyCfoYb2nBRXAmWggHV-d77qEywaMXXHI7Y",
+  authDomain: "khanago-11584.firebaseapp.com",
+  projectId: "khanago-11584",
+  storageBucket: "khanago-11584.firebasestorage.app",
+  messagingSenderId: "472974685789",
+  appId: "1:472974685789:web:dc9affa20898ad2bf3ffb4",
+  measurementId: "G-6EH5CP0VXM"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+let currentUser = null;
+let selectedShop = null;
+let allMenuItems = [];
+let cart = [];
+let latitude = null;
+let longitude = null;
+let stopChatListener = null;
+let stopOrderListener = null;
+
+const $ = id => document.getElementById(id);
+const money = n => "₹" + Number(n || 0).toFixed(0);
+
+function showStatus(message, error=false) {
+  $("status").textContent = message;
+  $("status").style.background = error ? "#ffe1e1" : "#fff0e8";
+}
+
+function safeText(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[ch]);
+}
+
+/* CUSTOMER LOGIN: Anonymous Firebase account */
+async function startCustomerSession() {
+  try {
+    const result = await signInAnonymously(auth);
+    currentUser = result.user;
+    $("loginStatus").textContent = "KhanaGo se connected ✓";
+    await startChat();
+    startMyOrders();
+    showStatus("KhanaGo Firebase se connected hai.");
+  } catch (error) {
+    console.error(error);
+    $("loginStatus").textContent = "Login connection failed.";
+    showStatus("Firebase login error: " + error.message, true);
+  }
+}
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    currentUser = user;
+    $("loginStatus").textContent = "KhanaGo se connected ✓";
+    startChat();
+    startMyOrders();
+  }
+});
+
+startCustomerSession();
+
+/* LOAD RESTAURANTS */
+async function loadRestaurants() {
+  try {
+    const q = query(collection(db, "shops"), where("approved", "==", true));
+    const snap = await getDocs(q);
+    const root = $("restaurants");
+    root.innerHTML = "";
+
+    if (snap.empty) {
+      root.innerHTML = '<div class="card">Abhi koi approved restaurant available nahi hai.</div>';
+      return;
+    }
+
+    snap.forEach(item => {
+      const shop = { id:item.id, ...item.data() };
+      const name = shop.name || shop.shopName || "KhanaGo Restaurant";
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h3>${safeText(name)}</h3>
+        <p class="muted">${safeText(shop.address || shop.location || "KhanaGo Partner")}</p>
+        <button class="smallbtn">View Menu</button>
+      `;
+      card.querySelector("button").addEventListener("click", () => selectRestaurant(shop));
+      root.appendChild(card);
+    });
+  } catch (error) {
+    console.error(error);
+    $("restaurants").innerHTML = '<div class="card">Restaurants load nahi hue. Firebase rules check karein.</div>';
+  }
+}
+
+/* LOAD MENU ITEMS */
+async function selectRestaurant(shop) {
+  selectedShop = shop;
+  $("menuHeading").textContent = "Menu - " + (shop.name || shop.shopName || "Restaurant");
+  $("menu").innerHTML = '<div class="card">Menu load ho raha hai...</div>';
+
+  try {
+    const snap = await getDocs(collection(db, "menuItems"));
+    allMenuItems = [];
+    snap.forEach(item => {
+      const data = item.data();
+      const itemShopId = data.shopId || data.restaurantId || data.shopID;
+      const isAvailable = data.available !== false && data.isAvailable !== false;
+      if (itemShopId === shop.id && isAvailable) {
+        allMenuItems.push({id:item.id, ...data});
       }
-    ];
+    });
+    renderMenu();
+  } catch (error) {
+    console.error(error);
+    $("menu").innerHTML = '<div class="card">Menu load nahi hua. Firebase rules check karein.</div>';
+  }
+}
 
-    let cart = [];
+function renderMenu() {
+  const root = $("menu");
+  root.innerHTML = "";
+  if (!allMenuItems.length) {
+    root.innerHTML = '<div class="card">Is restaurant ka menu abhi available nahi hai.</div>';
+    return;
+  }
 
-    window.showSection = (id) => {
-      ["orderSec", "helpSec"].forEach(s => {
-        document.getElementById(s).classList.toggle("hidden", s !== id);
+  allMenuItems.forEach(item => {
+    const name = item.name || item.title || item.itemName || "Food Item";
+    const price = Number(item.price || item.sellingPrice || 0);
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <h3>${safeText(name)}</h3>
+      <p class="muted">${safeText(item.description || "Fresh and delicious food")}</p>
+      <div class="row">
+        <span class="price">${money(price)}</span>
+        <button class="smallbtn">Add to Cart</button>
+      </div>
+    `;
+    card.querySelector("button").addEventListener("click", () => addToCart(item));
+    root.appendChild(card);
+  });
+}
+
+/* CART */
+function addToCart(item) {
+  if (!selectedShop) return;
+  if (cart.length && cart[0].shopId !== selectedShop.id) {
+    alert("Ek order mein ek hi restaurant ka food add kar sakte hain. Pehle cart empty karein.");
+    return;
+  }
+  const found = cart.find(x => x.id === item.id);
+  if (found) found.quantity += 1;
+  else cart.push({
+    id:item.id,
+    name:item.name || item.title || item.itemName || "Food Item",
+    price:Number(item.price || item.sellingPrice || 0),
+    quantity:1,
+    shopId:selectedShop.id
+  });
+  renderCart();
+}
+
+function renderCart() {
+  const root = $("cartItems");
+  root.innerHTML = "";
+  if (!cart.length) root.textContent = "Abhi cart khaali hai.";
+
+  cart.forEach(item => {
+    const line = document.createElement("div");
+    line.className = "row";
+    line.innerHTML = `
+      <span>${safeText(item.name)} × ${item.quantity}</span>
+      <span>${money(item.price * item.quantity)}</span>
+      <button class="smallbtn secondary">−</button>
+      <button class="smallbtn">+</button>
+    `;
+    const buttons = line.querySelectorAll("button");
+    buttons[0].addEventListener("click", () => changeQuantity(item.id, -1));
+    buttons[1].addEventListener("click", () => changeQuantity(item.id, 1));
+    root.appendChild(line);
+  });
+
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  $("foodTotal").textContent = money(total);
+  $("deliveryFee").textContent = money(cart.length ? 30 : 0);
+  $("grandTotal").textContent = money(total + (cart.length ? 30 : 0));
+}
+
+function changeQuantity(id, change) {
+  const item = cart.find(x => x.id === id);
+  if (!item) return;
+  item.quantity += change;
+  if (item.quantity <= 0) cart = cart.filter(x => x.id !== id);
+  renderCart();
+}
+
+/* CURRENT LOCATION */
+$("locationBtn").addEventListener("click", () => {
+  if (!navigator.geolocation) {
+    $("locationStatus").textContent = "Aapke browser mein location support nahi hai.";
+    return;
+  }
+  $("locationStatus").textContent = "Aapki location li ja rahi hai...";
+  navigator.geolocation.getCurrentPosition(
+    position => {
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
+      $("locationStatus").innerHTML =
+        `Location mil gayi ✓ <a target="_blank" rel="noopener" href="https://www.google.com/maps?q=${latitude},${longitude}">Google Maps par dekhein</a>`;
+    },
+    error => {
+      $("locationStatus").textContent = "Location nahi mili. Browser permission allow karein ya address manually likhein.";
+      console.error(error);
+    },
+    {enableHighAccuracy:true, timeout:15000, maximumAge:0}
+  );
+});
+
+/* PLACE ORDER */
+$("placeOrderBtn").addEventListener("click", async () => {
+  if (!currentUser) return alert("Website connect ho rahi hai. Thodi der baad try karein.");
+  if (!cart.length) return alert("Pehle food cart mein add karein.");
+  if (!selectedShop) return alert("Pehle restaurant select karein.");
+  const name = $("customerName").value.trim();
+  const phone = $("phone").value.trim();
+  const address = $("address").value.trim();
+
+  if (!name || !address || !/^[0-9]{10}$/.test(phone)) {
+    return alert("Apna naam, poora address aur sahi 10 digit mobile number bharein.");
+  }
+
+  const foodTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const deliveryCharge = 30;
+  const orderData = {
+    customerUid: currentUser.uid,
+    customerName:name,
+    phone,
+    address,
+    landmark:$("landmark").value.trim(),
+    latitude,
+    longitude,
+    note:$("orderNote").value.trim(),
+    shopId:selectedShop.id,
+    shopName:selectedShop.name || selectedShop.shopName || "Restaurant",
+    items:cart.map(item => ({
+      itemId:item.id,
+      name:item.name,
+      price:item.price,
+      quantity:item.quantity
+    })),
+    subtotal:foodTotal,
+    deliveryFee:deliveryCharge,
+    total:foodTotal + deliveryCharge,
+    paymentMethod:"Cash on Delivery",
+    status:"Order Placed",
+    createdAt:serverTimestamp()
+  };
+
+  const btn = $("placeOrderBtn");
+  btn.disabled = true;
+  btn.textContent = "Order place ho raha hai...";
+
+  try {
+    const ref = await addDoc(collection(db, "orders"), orderData);
+    alert("Order successfully place ho gaya! Order ID: " + ref.id);
+    cart = [];
+    renderCart();
+    $("orderNote").value = "";
+    showStatus("Aapka order place ho gaya hai. Order ID: " + ref.id);
+  } catch (error) {
+    console.error(error);
+    alert("Order place nahi hua: " + error.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Place Order - Cash on Delivery";
+  }
+});
+
+/* CUSTOMER SUPPORT CHAT */
+async function startChat() {
+  if (!currentUser) return;
+  if (stopChatListener) stopChatListener();
+
+  const chatId = "customer_" + currentUser.uid;
+  const chatRef = doc(db, "chats", chatId);
+
+  try {
+    await setDoc(chatRef, {
+      customerUid:currentUser.uid,
+      customerName:$("customerName").value.trim() || "Customer",
+      status:"open",
+      updatedAt:serverTimestamp()
+    }, {merge:true});
+
+    const messagesRef = collection(db, "chats", chatId, "messages");
+    const messagesQuery = query(messagesRef, orderBy("createdAt", "asc"), limit(100));
+
+    stopChatListener = onSnapshot(messagesQuery, snapshot => {
+      const root = $("chatMessages");
+      root.innerHTML = "";
+      if (snapshot.empty) {
+        root.innerHTML = '<div class="muted">Namaste! KhanaGo Support mein aapka swagat hai. Apna message bhejein.</div>';
+        return;
+      }
+      snapshot.forEach(messageDoc => {
+        const msg = messageDoc.data();
+        const div = document.createElement("div");
+        div.className = "msg " + (msg.senderUid === currentUser.uid ? "mine" : "theirs");
+        div.textContent = (msg.senderRole === "admin" ? "KhanaGo Support: " : "") + (msg.text || "");
+        root.appendChild(div);
       });
-    };
-
-    function renderShops() {
-      const container = document.getElementById("shopsContainer");
-      container.innerHTML = SHOPS.map(shop => `
-        <div class="shop-card">
-          <div>
-            <strong>${shop.name}</strong>
-            <div class="shop-meta">${shop.category} • ${shop.area}</div>
-          </div>
-          <button class="btn btn-sm" onclick="openShop('${shop.id}')">View Menu</button>
-        </div>
-      `).join("");
-    }
-
-    window.openShop = (shopId) => {
-      const shop = SHOPS.find(s => s.id === shopId);
-      if (!shop) return;
-      document.getElementById("shopsListView").classList.add("hidden");
-      document.getElementById("shopMenuView").classList.remove("hidden");
-      document.getElementById("activeShopName").textContent = shop.name;
-      document.getElementById("activeShopSub").textContent = `${shop.category} • ${shop.area}`;
-
-      document.getElementById("shopMenuItems").innerHTML = shop.menu.map(item => `
-        <div class="menu-item">
-          <div>
-            <strong>${item.name}</strong><br />
-            <small style="color:var(--muted);">${item.desc}</small><br />
-            <strong style="color:var(--primary);">₹${item.price}</strong>
-          </div>
-          <button class="btn btn-sm" onclick="addItem('${shop.name.replace(/'/g, "\\'")}', '${item.name.replace(/'/g, "\\'")}', ${item.price})">+ Add</button>
-        </div>
-      `).join("");
-    };
-
-    window.backToShops = () => {
-      document.getElementById("shopMenuView").classList.add("hidden");
-      document.getElementById("shopsListView").classList.remove("hidden");
-    };
-
-    window.addItem = (shopName, itemName, price) => {
-      const existing = cart.find(i => i.shopName === shopName && i.name === itemName);
-      if (existing) existing.qty += 1;
-      else cart.push({ shopName, name: itemName, price, qty: 1 });
-      renderCart();
-    };
-
-    function renderCart() {
-      const box = document.getElementById("cartBox");
-      if (!cart.length) {
-        box.textContent = "Cart is empty.";
-        return;
-      }
-      const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-      box.innerHTML = cart.map(i => `${i.name} <em>(${i.shopName})</em> × ${i.qty} = ₹${i.price * i.qty}`).join("<br>") +
-        `<br><strong style="display:inline-block; margin-top:6px;">Total: ₹${total}</strong>`;
-    }
-
-    document.getElementById("orderForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const msgEl = document.getElementById("orderStatusMsg");
-      if (!cart.length) {
-        msgEl.className = "msg err";
-        msgEl.textContent = "Pehle kisi shop ke andar jaakar kam se kam 1 item add karein.";
-        return;
-      }
-      const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-      const shopNames = [...new Set(cart.map(i => i.shopName))].join(", ");
-      try {
-        await addDoc(collection(db, "orders"), {
-          name: document.getElementById("ordName").value.trim(),
-          phone: document.getElementById("ordPhone").value.trim(),
-          address: document.getElementById("ordAddress").value.trim(),
-          shop: shopNames,
-          items: cart,
-          total: total,
-          status: "Order Placed",
-          createdAt: serverTimestamp()
-        });
-        cart = [];
-        renderCart();
-        e.target.reset();
-        msgEl.className = "msg ok";
-        msgEl.textContent = "Order placed successfully!";
-      } catch (err) {
-        msgEl.className = "msg err";
-        msgEl.textContent = "Error: " + err.message;
-      }
+      root.scrollTop = root.scrollHeight;
+    }, error => {
+      console.error(error);
+      $("chatMessages").textContent = "Chat load nahi hui. Firebase security rules publish karein.";
     });
+  } catch (error) {
+    console.error(error);
+    $("chatMessages").textContent = "Support chat connect nahi hui.";
+  }
+}
 
-    document.getElementById("helpForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const msgEl = document.getElementById("helpStatusMsg");
-      try {
-        await addDoc(collection(db, "helpMessages"), {
-          name: document.getElementById("helpName").value.trim(),
-          phone: document.getElementById("helpPhone").value.trim(),
-          message: document.getElementById("helpText").value.trim(),
-          createdAt: serverTimestamp()
-        });
-        e.target.reset();
-        msgEl.className = "msg ok";
-        msgEl.textContent = "Message sent!";
-      } catch (err) {
-        msgEl.className = "msg err";
-        msgEl.textContent = "Error: " + err.message;
-      }
+$("sendChatBtn").addEventListener("click", async () => {
+  if (!currentUser) return alert("Website connect ho rahi hai. Thodi der baad try karein.");
+  const text = $("chatInput").value.trim();
+  if (!text) return;
+  const chatId = "customer_" + currentUser.uid;
+
+  try {
+    await addDoc(collection(db, "chats", chatId, "messages"), {
+      text,
+      senderUid:currentUser.uid,
+      senderRole:"customer",
+      createdAt:serverTimestamp()
     });
+    await setDoc(doc(db, "chats", chatId), {
+      customerUid:currentUser.uid,
+      status:"open",
+      updatedAt:serverTimestamp()
+    }, {merge:true});
+    $("chatInput").value = "";
+  } catch (error) {
+    console.error(error);
+    alert("Message send nahi hua. Firebase rules check karein.");
+  }
+});
 
-    renderShops();
-  </script>
+/* CUSTOMER ORDERS */
+function startMyOrders() {
+  if (!currentUser) return;
+  if (stopOrderListener) stopOrderListener();
+
+  const q = query(
+    collection(db, "orders"),
+    where("customerUid", "==", currentUser.uid),
+    limit(20)
+  );
+
+  stopOrderListener = onSnapshot(q, snapshot => {
+    const root = $("myOrders");
+    root.innerHTML = "";
+    if (snapshot.empty) {
+      root.textContent = "Abhi aapne koi order place nahi kiya.";
+      return;
+    }
+    snapshot.forEach(orderDoc => {
+      const order = orderDoc.data();
+      const div = document.createElement("div");
+      div.className = "card";
+      div.style.margin = "10px 0";
+      div.innerHTML = `
+        <strong>Order ID:</strong> ${safeText(orderDoc.id)}<br>
+        <strong>Restaurant:</strong> ${safeText(order.shopName || "")}<br>
+        <strong>Status:</strong> ${safeText(order.status || "Order Placed")}<br>
+        <strong>Total:</strong> ${money(order.total)}
+      `;
+      root.appendChild(div);
+    });
+  }, error => {
+    console.error(error);
+    $("myOrders").textContent = "Orders load nahi hue. Firebase rules check karein.";
+  });
+}
+
+/* START WEBSITE */
+loadRestaurants();
+renderCart();
+</script>
 </body>
 </html>
