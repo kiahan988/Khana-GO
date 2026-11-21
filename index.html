@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KhanaGo - Shops & Ordering</title>
+<title>KhanaGo - Live Shops & Menu</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial;background:#f5f6fa;color:#222}
@@ -15,6 +15,7 @@ input,textarea{width:100%;padding:12px;margin:7px 0;border:1px solid #ccc;border
 .container{max-width:950px;margin:auto;padding:16px}
 .card{background:white;padding:15px;border-radius:12px;margin:12px 0;box-shadow:0 2px 8px #ddd}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.card-img{width:100%;height:145px;object-fit:cover;border-radius:8px;margin-bottom:10px;background:#eee}
 .price{font-weight:bold;color:#138a50}
 .hidden{display:none}
 .small{font-size:13px;color:#666}
@@ -26,7 +27,7 @@ h2{margin-top:10px}
 
 <header>
   <h1>🍔 KhanaGo</h1>
-  <p>Select a shop, view menu & order</p>
+  <p>Select a shop, view live menu & order</p>
 </header>
 
 <nav>
@@ -36,9 +37,10 @@ h2{margin-top:10px}
 
 <main class="container">
 
-<!-- 1. SHOPS LIST -->
+<!-- 1. LIVE SHOPS LIST -->
 <section id="shopsSection">
   <h2>Available Shops</h2>
+  <p class="small" id="shopsSyncStatus">Loading live shops from Firestore...</p>
   <div class="grid" id="shopsList"></div>
 </section>
 
@@ -106,45 +108,37 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// 2. Delivery Fee Rules (Apne hisaab se badal sakte hain)
-const BASE_FEE = 15;       // Minimum delivery charge (₹)
-const PER_KM_RATE = 8;     // Har km ka charge (₹)
-const FREE_ABOVE = 299;    // Is amount ke upar free delivery (0 karein agar free delivery nahi chahiye)
+// 2. Delivery Fee Rules
+const BASE_FEE = 15;
+const PER_KM_RATE = 8;
+const FREE_ABOVE = 299;
+const FALLBACK_IMG = "https://via.placeholder.com/400x250?text=KhanaGo+Item";
 
-// 3. Shops aur unka Menu + Shop Coordinates (lat, lng)
-const shops = [
+// Fallback data sirf tab kaam aayega jab Firestore `shops` collection khali ho
+const fallbackShops = [
   {
     id: "shop1",
     name: "Shree Bhojnalaya",
     area: "Ramlila Road / Main Market",
+    img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600",
     lat: 26.8756,
     lng: 78.8865,
     menu: [
-      { name: "Special Veg Thali", price: 149 },
-      { name: "Paneer Paratha", price: 99 },
-      { name: "Gulab Jamun", price: 69 }
-    ]
-  },
-  {
-    id: "shop2",
-    name: "Cafe Bites & Shakes",
-    area: "Ravad Market / Station Road",
-    lat: 26.8780,
-    lng: 78.8890,
-    menu: [
-      { name: "Cheese Paneer Sandwich", price: 119 },
-      { name: "Schezwan Veg Sandwich", price: 109 },
-      { name: "Brownie Shake", price: 129 },
-      { name: "Cold Coffee", price: 89 },
-      { name: "Chocolate Brownie", price: 99 }
+      { name: "Special Veg Thali", price: 149, img: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600" },
+      { name: "Paneer Paratha", price: 99, img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600" }
     ]
   }
 ];
 
-let activeShop = null;
+let shops = [];
+let activeShopId = null;
 let cart = {};
-let userLocation = null; // { lat, lng }
+let userLocation = null;
 let distanceKm = null;
+
+function getActiveShop(){
+  return shops.find(s => s.id === activeShopId) || null;
+}
 
 function showPage(pageId){
   ["shopsSection", "menuSection", "helpSection"].forEach(id => {
@@ -153,11 +147,69 @@ function showPage(pageId){
   document.getElementById(pageId).classList.remove("hidden");
 }
 
+// Firestore se real-time shops aur unke menu items load karna
+function listenToLiveShops(){
+  db.collection("shops").onSnapshot((snapshot) => {
+    const statusEl = document.getElementById("shopsSyncStatus");
+
+    if(snapshot.empty){
+      shops = fallbackShops;
+      statusEl.innerText = "Showing sample shops (Firestore `shops` collection mein data aate hi live update hoga).";
+    } else {
+      shops = snapshot.docs.map(doc => {
+        const d = doc.data();
+        const rawMenu = Array.isArray(d.menu) ? d.menu : (Array.isArray(d.items) ? d.items : []);
+        const cleanMenu = rawMenu
+          .filter(item => item && item.name)
+          .map(item => ({
+            name: String(item.name),
+            price: Number(item.price) || 0,
+            img: item.img || item.image || FALLBACK_IMG,
+            available: item.available !== false
+          }))
+          .filter(item => item.available);
+
+        return {
+          id: doc.id,
+          name: d.name || d.shopName || "Unnamed Shop",
+          area: d.area || d.address || "",
+          img: d.img || d.image || FALLBACK_IMG,
+          lat: Number(d.lat) || 26.8756,
+          lng: Number(d.lng) || 78.8865,
+          menu: cleanMenu
+        };
+      });
+      statusEl.innerText = `Live synced (${shops.length} shop${shops.length > 1 ? "s" : ""})`;
+    }
+
+    renderShops();
+
+    // Agar customer pehle se kisi shop ke menu par hai toh menu aur cart bhi live refresh honge
+    if(activeShopId){
+      const currentShop = getActiveShop();
+      if(currentShop){
+        document.getElementById("selectedShopTitle").innerText = currentShop.name;
+        document.getElementById("selectedShopInfo").innerText = currentShop.area ? ("Area: " + currentShop.area) : "";
+        if(userLocation) calculateDistanceAndFee();
+        renderMenu();
+        renderCart();
+      } else {
+        backToShops();
+      }
+    }
+  }, (error) => {
+    shops = fallbackShops;
+    document.getElementById("shopsSyncStatus").innerText = "Firestore read issue: " + error.message;
+    renderShops();
+  });
+}
+
 function renderShops(){
   document.getElementById("shopsList").innerHTML = shops.map((s, idx) => `
     <div class="card">
+      <img class="card-img" src="${s.img || FALLBACK_IMG}" alt="${s.name}" onerror="this.src='${FALLBACK_IMG}'">
       <h3>${s.name}</h3>
-      <p class="small">${s.area}</p>
+      <p class="small">${s.area || "Local Shop"}</p>
       <p class="small">Items: ${s.menu.length}</p>
       <button onclick="openShop(${idx})">View Menu</button>
     </div>
@@ -165,12 +217,15 @@ function renderShops(){
 }
 
 function openShop(idx){
-  activeShop = shops[idx];
+  const shop = shops[idx];
+  if(!shop) return;
+
+  activeShopId = shop.id;
   cart = {};
   distanceKm = null;
 
-  document.getElementById("selectedShopTitle").innerText = activeShop.name;
-  document.getElementById("selectedShopInfo").innerText = "Area: " + activeShop.area;
+  document.getElementById("selectedShopTitle").innerText = shop.name;
+  document.getElementById("selectedShopInfo").innerText = shop.area ? ("Area: " + shop.area) : "";
   document.getElementById("distanceInfo").innerText = "Distance: -- km";
   document.getElementById("orderStatus").innerText = "";
 
@@ -184,15 +239,23 @@ function openShop(idx){
 }
 
 function backToShops(){
-  activeShop = null;
+  activeShopId = null;
   cart = {};
   showPage("shopsSection");
 }
 
 function renderMenu(){
+  const activeShop = getActiveShop();
   if(!activeShop) return;
+
+  if(!activeShop.menu.length){
+    document.getElementById("menu").innerHTML = `<p class="small">Is shop ne abhi koi item add nahi kiya hai.</p>`;
+    return;
+  }
+
   document.getElementById("menu").innerHTML = activeShop.menu.map((item, i) => `
     <div class="card">
+      <img class="card-img" src="${item.img || FALLBACK_IMG}" alt="${item.name}" onerror="this.src='${FALLBACK_IMG}'">
       <h3>${item.name}</h3>
       <p class="price">₹${item.price}</p>
       <button onclick="addToCart(${i})">Add to Cart</button>
@@ -211,7 +274,6 @@ function changeQty(i, delta){
   renderCart();
 }
 
-// Haversine formula se 2 GPS points ke beech ki doori (km)
 function haversineKm(lat1, lon1, lat2, lon2){
   const R = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -251,6 +313,7 @@ function getCurrentLocation(){
 }
 
 function calculateDistanceAndFee(){
+  const activeShop = getActiveShop();
   if(!activeShop || !userLocation) return;
   const rawDist = haversineKm(userLocation.lat, userLocation.lng, activeShop.lat, activeShop.lng);
   distanceKm = Number(rawDist.toFixed(2));
@@ -258,6 +321,7 @@ function calculateDistanceAndFee(){
 }
 
 function getSubtotal(){
+  const activeShop = getActiveShop();
   if(!activeShop) return 0;
   return Object.keys(cart).reduce((sum, i) => {
     const item = activeShop.menu[i];
@@ -268,13 +332,15 @@ function getSubtotal(){
 function calculateDeliveryFee(subtotal){
   if(subtotal === 0) return 0;
   if(FREE_ABOVE > 0 && subtotal >= FREE_ABOVE) return 0;
-  if(distanceKm === null) return BASE_FEE; // Location na mile toh base fee
+  if(distanceKm === null) return BASE_FEE;
   return Math.round(BASE_FEE + (distanceKm * PER_KM_RATE));
 }
 
 function renderCart(){
+  const activeShop = getActiveShop();
   if(!activeShop) return;
-  const keys = Object.keys(cart);
+
+  const keys = Object.keys(cart).filter(i => activeShop.menu[i]);
   let html = "";
 
   keys.forEach(i => {
@@ -302,6 +368,7 @@ function renderCart(){
 }
 
 async function placeOrder(){
+  const activeShop = getActiveShop();
   if(!activeShop){
     alert("Pehle ek shop select karein.");
     return;
@@ -310,7 +377,7 @@ async function placeOrder(){
   const name = document.getElementById("customerName").value.trim();
   const phone = document.getElementById("customerPhone").value.trim();
   const address = document.getElementById("customerAddress").value.trim();
-  const keys = Object.keys(cart);
+  const keys = Object.keys(cart).filter(i => activeShop.menu[i]);
 
   if(!name || !phone || !address || !keys.length){
     alert("Please fill all details, add items to cart, and enter delivery address.");
@@ -395,7 +462,7 @@ async function sendHelp(){
   }
 }
 
-renderShops();
+listenToLiveShops();
 </script>
 </body>
 </html>
