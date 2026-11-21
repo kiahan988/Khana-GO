@@ -6,88 +6,100 @@
 <title>KhanaGo - Shops & Order Tracking</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Arial,sans-serif;background:#f7f7f9;color:#1f2421}
-header{background:#138a50;color:#fff;padding:16px;text-align:center}
-nav{display:flex;gap:8px;justify-content:center;padding:10px;background:#fff;border-bottom:1px solid #ececec;flex-wrap:wrap}
-button{border:0;border-radius:10px;padding:11px 16px;background:#e85332;color:#fff;font-weight:600;cursor:pointer}
+body{margin:0;font-family:system-ui,-apple-system,Arial,sans-serif;background:#f6f7f9;color:#1d2220}
+header{background:#138a50;color:#fff;padding:18px 16px;text-align:center}
+header h1{margin:0;font-size:24px}
+header p{margin:5px 0 0;font-size:13px;opacity:0.95}
+
+nav{display:flex;gap:8px;justify-content:center;padding:12px 14px;background:#fff;border-bottom:1px solid #eceef2;flex-wrap:wrap}
+button{border:0;border-radius:11px;padding:11px 16px;background:#d94e28;color:#fff;font-weight:600;font-size:14px;cursor:pointer;transition:opacity 0.15s}
+button:active{opacity:0.85}
 button.green{background:#138a50}
-button.secondary{background:#eef0f2;color:#222}
-button.ghost{background:transparent;color:#e85332;font-weight:600}
-input,textarea{width:100%;padding:12px;margin:7px 0;border:1px solid #d8dce0;border-radius:9px;font-size:15px}
-.container{max-width:920px;margin:auto;padding:14px}
-.card{background:#fff;padding:16px;border-radius:14px;margin:12px 0;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.card-img{width:100%;height:140px;object-fit:cover;border-radius:10px;margin-bottom:10px;background:#f0f2f5}
-.price{font-weight:700;color:#138a50;font-size:16px}
-.hidden{display:none}
-.small{font-size:13px;color:#666}
-.item-actions{display:inline-flex;gap:6px;align-items:center;margin-left:8px}
-.item-actions button{padding:4px 10px;border-radius:7px;font-size:14px}
-.bill-row{display:flex;justify-content:space-between;margin:8px 0;font-size:15px}
-.bill-total{display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px dashed #ddd;font-size:18px;font-weight:700}
+button.secondary{background:#eef0f4;color:#222}
+button.ghost{background:transparent;color:#d94e28;font-weight:700}
+
+input,textarea{width:100%;padding:12px 14px;margin:8px 0;border:1px solid #dce1e7;border-radius:10px;font-size:15px;background:#fff;color:#1d2220}
+input:focus,textarea:focus{outline:none;border-color:#138a50}
+
+.container{max-width:920px;margin:auto;padding:16px}
+.card{background:#fff;padding:16px;border-radius:16px;margin:14px 0;box-shadow:0 2px 10px rgba(0,0,0,0.05);border:1px solid #f0f1f4}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card-img{width:100%;height:148px;object-fit:cover;border-radius:12px;margin-bottom:10px;background:#eef1f4;display:block}
+.price{font-weight:700;color:#138a50;font-size:17px}
+.hidden{display:none !important}
+.small{font-size:13px;color:#626966;line-height:1.45}
+
+.item-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f2f3f5}
+.item-row:last-child{border-bottom:0}
+.item-actions{display:inline-flex;gap:6px;align-items:center}
+.item-actions button{padding:5px 11px;border-radius:8px;font-size:14px}
+
+.bill-row{display:flex;justify-content:space-between;margin:10px 0;font-size:15px}
+.bill-total{display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px dashed #dcdfe4;font-size:18px;font-weight:700}
 
 /* Payment Method & UPI QR Box */
-.pay-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
-.pay-choice{border:2px solid #e2e6ea;border-radius:12px;padding:12px;text-align:center;cursor:pointer;background:#fff;font-weight:600}
+.pay-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 14px}
+.pay-choice{border:2px solid #e4e7ec;border-radius:12px;padding:12px;text-align:center;cursor:pointer;background:#fff;font-weight:600;font-size:14px}
 .pay-choice.active{border-color:#138a50;background:#eef9f3;color:#138a50}
-.upi-box{border:1px solid #d9e7df;background:#f7fcf9;border-radius:12px;padding:14px;margin:12px 0;text-align:center}
-.qr-wrap{background:#fff;padding:10px;border-radius:12px;display:inline-block;border:1px solid #e5e8eb;margin:8px 0}
-.upi-id-row{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#fff;border:1px solid #dce2e7;padding:10px 12px;border-radius:9px;margin:10px 0;font-size:14px;flex-wrap:wrap}
+.upi-box{border:1px solid #d5e8dd;background:#f7fcf9;border-radius:14px;padding:16px;margin:12px 0 16px;text-align:center}
+.qr-wrap{background:#fff;padding:10px;border-radius:12px;display:inline-block;border:1px solid #e5e8eb;margin:10px 0}
+.upi-id-row{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#fff;border:1px solid #dce2e7;padding:10px 12px;border-radius:10px;margin:10px 0;font-size:14px;flex-wrap:wrap}
 
 /* Offer Popup Modal */
-.popup-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:999}
-.popup-backdrop.hidden{display:none}
-.popup-card{background:#fff;max-width:410px;width:100%;border-radius:16px;padding:22px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
-.offer-pill{display:inline-block;background:#e6f7ef;color:#138a50;font-weight:700;font-size:13px;padding:6px 12px;border-radius:20px;margin-bottom:10px}
+.popup-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;padding:18px;z-index:9999}
+.popup-card{position:relative;background:#fff;max-width:400px;width:100%;border-radius:18px;padding:24px 20px 20px;text-align:center;box-shadow:0 12px 32px rgba(0,0,0,0.22)}
+.popup-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;padding:0;background:#f1f3f5;color:#333;font-size:16px;line-height:32px}
+.offer-pill{display:inline-block;background:#e6f7ef;color:#138a50;font-weight:700;font-size:12px;padding:6px 12px;border-radius:20px;margin-bottom:10px}
 
 /* Order Placed Successfully Screen */
-.success-box{text-align:center;padding:12px 4px}
-.check-circle{width:64px;height:64px;border-radius:50%;background:#18b877;color:#fff;font-size:34px;line-height:64px;margin:0 auto 12px}
-.summary-box{text-align:left;border:1px solid #eceef2;border-radius:12px;padding:14px;margin:16px 0;background:#fcfcfd}
+.success-box{text-align:center;padding:16px 8px}
+.check-circle{width:66px;height:66px;border-radius:50%;background:#18b877;color:#fff;font-size:34px;line-height:66px;margin:0 auto 12px}
+.summary-box{text-align:left;border:1px solid #eceef2;border-radius:14px;padding:14px;margin:14px 0;background:#fcfcfd}
 .summary-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding-bottom:12px;border-bottom:1px solid #efefef}
 .summary-meta{display:flex;justify-content:space-between;margin:10px 0;font-size:14px}
-.badge{display:inline-block;padding:6px 12px;border-radius:20px;font-weight:700;font-size:13px;background:#e6f7ef;color:#138a50;margin:8px 0}
+.badge{display:inline-block;padding:6px 12px;border-radius:20px;font-weight:700;font-size:13px;background:#e6f7ef;color:#138a50;margin:6px 0}
 .badge.paid{background:#dcfce7;color:#15803d}
 .badge.unpaid{background:#fef3c7;color:#92400e}
 .badge.delayed{background:#fff3cd;color:#856404}
 .reason-box{background:#fff8e6;border-left:4px solid #e09f00;padding:10px 12px;border-radius:8px;margin:10px 0;text-align:left;font-size:14px}
-.full-btn{width:100%;padding:14px;font-size:16px;border-radius:12px;margin-top:8px}
+.full-btn{width:100%;padding:14px;font-size:15px;border-radius:12px;margin-top:8px}
 </style>
 </head>
 <body>
 
-<!-- Free Delivery Offer Popup (2 km tak) -->
-<div class="popup-backdrop" id="offerPopup">
-  <div class="popup-card">
+<!-- Free Delivery Offer Popup (Ek baar dikhne ke baad session mein dobara nahi aayega) -->
+<div class="popup-backdrop hidden" id="offerPopup" onclick="handleBackdropClick(event)">
+  <div class="popup-card" onclick="event.stopPropagation()">
+    <button type="button" class="popup-close" aria-label="Close popup" onclick="closeOfferPopup()">✕</button>
     <span class="offer-pill">🎉 KhanaGo Special Offer</span>
-    <h2 style="margin:4px 0 8px">₹299+ Order Par Free Delivery!</h2>
-    <p class="small" style="margin:0 0 16px;font-size:14px;color:#444;line-height:1.5">
+    <h2 style="margin:4px 0 8px;font-size:21px">₹299+ Order Par Free Delivery!</h2>
+    <p class="small" style="margin:0 0 18px;font-size:14px;color:#444">
       ₹299 ya usse zyada ka order place karein aur paayein <b>Free Delivery</b> — <b>sirf 2 km tak</b> ke orders ke liye valid.
     </p>
-    <button class="green full-btn" onclick="closeOfferPopup()">Order Now</button>
+    <button type="button" class="green full-btn" onclick="closeOfferPopup()">Order Now</button>
   </div>
 </div>
 
 <header>
   <h1>🍔 KhanaGo</h1>
-  <p style="margin:4px 0 0;font-size:14px;opacity:0.95">Fast local food ordering & live tracking</p>
+  <p>Fast local food ordering & live tracking</p>
 </header>
 
 <nav id="mainNav">
-  <button class="green" onclick="showPage('shopsSection')">Shops</button>
-  <button class="secondary" onclick="showPage('trackSection')">Track Order</button>
-  <button class="secondary" onclick="showPage('helpSection')">Help / Chat</button>
+  <button type="button" class="green" onclick="showPage('shopsSection')">Shops</button>
+  <button type="button" class="secondary" onclick="showPage('trackSection')">Track Order</button>
+  <button type="button" class="secondary" onclick="showPage('helpSection')">Help / Chat</button>
 </nav>
 
 <main class="container">
 
 <!-- 1. SHOPS LIST -->
 <section id="shopsSection">
-  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
     <h2 style="margin:6px 0">Available Shops</h2>
     <span class="small" id="shopsSyncStatus">Syncing live menu...</span>
   </div>
-  <p class="small" style="margin:2px 0 10px">
+  <p class="small" style="margin:0 0 12px">
     💡 Offer: ₹299+ order par Free Delivery (sirf 2 km tak).
   </p>
   <div class="grid" id="shopsList"></div>
@@ -95,27 +107,27 @@ input,textarea{width:100%;padding:12px;margin:7px 0;border:1px solid #d8dce0;bor
 
 <!-- 2. SELECTED SHOP MENU + LOCATION + CART + PAYMENT -->
 <section id="menuSection" class="hidden">
-  <button class="secondary" onclick="backToShops()">← Back to Shops</button>
-  <h2 id="selectedShopTitle" style="margin-bottom:2px">Shop Menu</h2>
-  <p class="small" id="selectedShopInfo"></p>
+  <button type="button" class="secondary" onclick="backToShops()">← Back to Shops</button>
+  <h2 id="selectedShopTitle" style="margin:12px 0 2px">Shop Menu</h2>
+  <p class="small" id="selectedShopInfo" style="margin:0 0 10px"></p>
 
   <div class="grid" id="menu"></div>
 
   <div class="card">
-    <h3 style="margin-top:0">Delivery Location & Distance</h3>
+    <h3 style="margin:0 0 8px">Delivery Location & Distance</h3>
     <button type="button" class="green" onclick="getCurrentLocation()">📍 Detect My Current Location</button>
-    <p class="small" id="locationStatus">Location not detected yet.</p>
-    <p class="small" id="distanceInfo">Distance: -- km</p>
+    <p class="small" id="locationStatus" style="margin:10px 0 4px">Location not detected yet.</p>
+    <p class="small" id="distanceInfo" style="margin:0">Distance: -- km</p>
   </div>
 
   <div class="card">
-    <h3 style="margin-top:0">Billing Details</h3>
+    <h3 style="margin:0 0 8px">Billing Details</h3>
     <div id="cart">Cart is empty</div>
     <div class="bill-row"><span>Item Total</span><span id="itemSubtotal">₹0</span></div>
     <div class="bill-row"><span id="deliveryFeeLabel">Delivery Fee</span><span id="deliveryFeeText">₹0</span></div>
     <div class="bill-total"><span>Total Amount</span><span id="grandTotal">₹0</span></div>
 
-    <h3>Payment Method</h3>
+    <h3 style="margin:18px 0 6px">Payment Method</h3>
     <div class="pay-options">
       <div class="pay-choice active" id="payOptOnline" onclick="selectPaymentMethod('ONLINE')">
         💳 Online UPI / QR
@@ -139,26 +151,26 @@ input,textarea{width:100%;padding:12px;margin:7px 0;border:1px solid #d8dce0;bor
         <button type="button" class="secondary" style="padding:7px 12px;font-size:13px" onclick="copyUpiId()">Copy ID</button>
       </div>
 
-      <a id="upiAppLink" href="#" style="display:inline-block;width:100%;text-decoration:none">
+      <a id="upiAppLink" href="#" style="display:block;text-decoration:none">
         <button type="button" class="green full-btn">Pay in UPI App (GPay / PhonePe / Paytm)</button>
       </a>
 
-      <input id="upiRefInput" placeholder="Optional: UPI UTR / Transaction ID (agar available ho)">
+      <input id="upiRefInput" placeholder="Optional: UPI UTR / Transaction ID">
 
       <button type="button" class="full-btn" onclick="markPreOrderPaid()">
         ✅ I Have Paid (Mark as Paid)
       </button>
-      <p class="small" id="preOrderPayStatus" style="margin-top:8px">
+      <p class="small" id="preOrderPayStatus" style="margin:10px 0 0">
         Status: <b>Unpaid</b> — Payment karne ke baad "I Have Paid" dabayein.
       </p>
     </div>
 
-    <h3>Customer Details</h3>
+    <h3 style="margin:16px 0 6px">Customer Details</h3>
     <input id="customerName" placeholder="Your name">
     <input id="customerPhone" placeholder="Mobile number">
     <textarea id="customerAddress" placeholder="Delivery address / landmark"></textarea>
-    <button class="full-btn" id="placeOrderBtn" onclick="placeOrder()">Place Order</button>
-    <p class="small" id="orderStatus"></p>
+    <button type="button" class="full-btn" id="placeOrderBtn" onclick="placeOrder()">Place Order</button>
+    <p class="small" id="orderStatus" style="margin:10px 0 0"></p>
   </div>
 </section>
 
@@ -173,14 +185,13 @@ input,textarea{width:100%;padding:12px;margin:7px 0;border:1px solid #d8dce0;bor
 
     <div class="summary-box" id="orderSuccessDetails"></div>
 
-    <!-- Agar order COD ya Unpaid online tha toh yahan se bhi Pay + Mark Paid kar sakta hai -->
     <div class="upi-box hidden" id="postOrderPayBox">
       <div style="font-weight:700;font-size:15px">Complete Online Payment</div>
       <div class="small">UPI ID: <b>9458834146@ybl</b></div>
       <div class="qr-wrap">
         <img id="postOrderQrImg" src="" alt="Order UPI QR" width="165" height="165" style="display:block">
       </div>
-      <a id="postOrderUpiLink" href="#" style="display:inline-block;width:100%;text-decoration:none">
+      <a id="postOrderUpiLink" href="#" style="display:block;text-decoration:none">
         <button type="button" class="green full-btn">Pay via UPI App</button>
       </a>
       <input id="postOrderUtrInput" placeholder="Optional: UPI UTR / Transaction ID">
@@ -191,18 +202,18 @@ input,textarea{width:100%;padding:12px;margin:7px 0;border:1px solid #d8dce0;bor
 
     <div id="liveOrderStatusBox"></div>
 
-    <button class="full-btn" onclick="focusLiveStatus()">Track Order</button>
-    <button class="ghost full-btn" onclick="backToShops()">Back to Home</button>
+    <button type="button" class="full-btn" onclick="focusLiveStatus()">Track Order</button>
+    <button type="button" class="ghost full-btn" onclick="backToShops()">Back to Home</button>
   </div>
 </section>
 
 <!-- 4. TRACK ORDER BY ID -->
 <section id="trackSection" class="hidden">
   <div class="card">
-    <h2 style="margin-top:0">Track Your Order</h2>
+    <h2 style="margin:0 0 6px">Track Your Order</h2>
     <p class="small">Apni Order ID daalein aur live status / payment status / delay reason dekhein.</p>
     <input id="trackOrderIdInput" placeholder="Enter Order ID">
-    <button class="green" onclick="trackByIdInput()">Track Status</button>
+    <button type="button" class="green" onclick="trackByIdInput()">Track Status</button>
     <div id="trackedOrderResult"></div>
   </div>
 </section>
@@ -210,15 +221,15 @@ input,textarea{width:100%;padding:12px;margin:7px 0;border:1px solid #d8dce0;bor
 <!-- 5. HELP SECTION -->
 <section id="helpSection" class="hidden">
   <div class="card">
-    <h2 style="margin-top:0">Customer Help</h2>
+    <h2 style="margin:0 0 6px">Customer Help</h2>
     <p class="small">Apni problem ya question yahan bhejein.</p>
     <input id="helpName" placeholder="Your name">
     <input id="helpPhone" placeholder="Mobile number">
     <textarea id="helpMessage" placeholder="How can we help you?"></textarea>
-    <button class="green" onclick="sendHelp()">Send Message</button>
-    <p class="small" id="helpStatus"></p>
+    <button type="button" class="green" onclick="sendHelp()">Send Message</button>
+    <p class="small" id="helpStatus" style="margin:10px 0 0"></p>
   </div>
-  <p>WhatsApp: <a href="https://wa.me/917599044129" target="_blank">Chat with KhanaGo</a></p>
+  <p class="small">WhatsApp: <a href="https://wa.me/917599044129" target="_blank">Chat with KhanaGo</a></p>
 </section>
 
 </main>
@@ -237,10 +248,10 @@ const firebaseConfig = {
   appId: "YOUR_APP_ID"
 };
 
-// Payment & WhatsApp Details
-const UPI_ID = "9458834146@ybl"; // Screenshot se li gayi UPI ID[span_2](start_span)[span_2](end_span)
+const UPI_ID = "9458834146@ybl";
 const UPI_PAYEE_NAME = "KhanaGo";
 const ADMIN_WHATSAPP_NUMBER = "917599044129";
+const OFFER_SEEN_KEY = "khanago_offer_popup_seen_v1";
 
 const FALLBACK_IMG = "data:image/svg+xml;utf8," + encodeURIComponent(
   `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="240" viewBox="0 0 400 240">
@@ -272,15 +283,36 @@ let activeShopId = null;
 let cart = {};
 let userLocation = null;
 let distanceKm = null;
-let paymentMethod = "ONLINE"; // "ONLINE" ya "COD"
+let paymentMethod = "ONLINE";
 let preOrderPaid = false;
 let currentPlacedOrderId = null;
 let currentPlacedOrderData = null;
 let unsubscribeOrder = null;
 let unsubscribeTrackedOrder = null;
 
+function initOfferPopupOnce(){
+  const popup = document.getElementById("offerPopup");
+  try {
+    if (!sessionStorage.getItem(OFFER_SEEN_KEY)) {
+      popup.classList.remove("hidden");
+    }
+  } catch (e) {
+    popup.classList.remove("hidden");
+  }
+}
+
 function closeOfferPopup(){
-  document.getElementById("offerPopup").classList.add("hidden");
+  const popup = document.getElementById("offerPopup");
+  popup.classList.add("hidden");
+  try {
+    sessionStorage.setItem(OFFER_SEEN_KEY, "1");
+  } catch (e) {}
+}
+
+function handleBackdropClick(event){
+  if (event.target && event.target.id === "offerPopup") {
+    closeOfferPopup();
+  }
 }
 
 function escapeHtml(text){
@@ -368,8 +400,8 @@ function renderShops(){
       <img class="card-img" loading="lazy" src="${s.img || FALLBACK_IMG}" alt="${escapeHtml(s.name)}" onerror="this.src='${FALLBACK_IMG}'">
       <h3 style="margin:4px 0">${escapeHtml(s.name)}</h3>
       <p class="small" style="margin:4px 0">${escapeHtml(s.area || "Local Shop")}</p>
-      <p class="small" style="margin:4px 0 10px">Items: ${s.menu.length}</p>
-      <button class="green" onclick="openShop(${idx})">View Menu</button>
+      <p class="small" style="margin:4px 0 12px">Items: ${s.menu.length}</p>
+      <button type="button" class="green" onclick="openShop(${idx})">View Menu</button>
     </div>
   `).join("");
 }
@@ -417,8 +449,8 @@ function renderMenu(){
     <div class="card">
       <img class="card-img" loading="lazy" src="${item.img || FALLBACK_IMG}" alt="${escapeHtml(item.name)}" onerror="this.src='${FALLBACK_IMG}'">
       <h3 style="margin:4px 0">${escapeHtml(item.name)}</h3>
-      <p class="price" style="margin:6px 0 10px">₹${item.price}</p>
-      <button class="green" onclick="addToCart(${i})">Add to Cart</button>
+      <p class="price" style="margin:6px 0 12px">₹${item.price}</p>
+      <button type="button" class="green" onclick="addToCart(${i})">Add to Cart</button>
     </div>
   `).join("");
 }
@@ -429,51 +461,4 @@ function addToCart(i){
 }
 
 function changeQty(i, delta){
-  cart[i] = (cart[i] || 0) + delta;
-  if(cart[i] <= 0) delete cart[i];
-  renderCart();
-}
-
-function haversineKm(lat1, lon1, lat2, lon2){
-  const R = 6371;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * Math.PI / 180) *
-    Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
-
-function getCurrentLocation(){
-  const statusEl = document.getElementById("locationStatus");
-  if(!navigator.geolocation){
-    statusEl.innerText = "Is browser mein GPS location support nahi hai.";
-    return;
-  }
-
-  statusEl.innerText = "Detecting your current location...";
-  navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      userLocation = {
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude
-      };
-      statusEl.innerText = `Location detected (${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)})`;
-      calculateDistanceAndFee();
-      renderCart();
-    },
-    (err) => {
-      statusEl.innerText = "Location permission denied ya fetch nahi ho paayi: " + err.message;
-    },
-    { enableHighAccuracy: true, timeout: 10000 }
-  );
-}
-
-function calculateDistanceAndFee(){
-  const activeShop = getActiveShop();
-  if(!activeShop || !userLocation) return;
-  const rawDist = haversineKm(userLocation.lat, userLocation.lng, activeShop.lat, activeShop.lng);
-  distanceKm = Number(
+  cart[i] = (cart[i] || 0) + delta
