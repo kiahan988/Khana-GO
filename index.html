@@ -1,461 +1,409 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KhanaGo - Shops & Order Tracking</title>
+<title>KhanaGo - Food Ordering</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Arial,sans-serif;background:#f6f7f9;color:#1d2220}
-header{background:#138a50;color:#fff;padding:18px 16px;text-align:center}
-header h1{margin:0;font-size:24px}
-header p{margin:5px 0 0;font-size:13px;opacity:0.95}
-
-nav{display:flex;gap:8px;justify-content:center;padding:12px 14px;background:#fff;border-bottom:1px solid #eceef2;flex-wrap:wrap}
-button{border:0;border-radius:11px;padding:11px 16px;background:#d94e28;color:#fff;font-weight:600;font-size:14px;cursor:pointer;touch-action:manipulation}
-button:active{opacity:0.85}
-button.green{background:#138a50}
-button.secondary{background:#eef0f4;color:#222}
-button.ghost{background:transparent;color:#d94e28;font-weight:700}
-
-input,textarea{width:100%;padding:12px 14px;margin:8px 0;border:1px solid #dce1e7;border-radius:10px;font-size:15px;background:#fff;color:#1d2220}
-input:focus,textarea:focus{outline:none;border-color:#138a50}
-
-.container{max-width:920px;margin:auto;padding:16px}
-.card{background:#fff;padding:16px;border-radius:16px;margin:14px 0;box-shadow:0 2px 10px rgba(0,0,0,0.05);border:1px solid #f0f1f4}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
-.card-img{width:100%;height:148px;object-fit:cover;border-radius:12px;margin-bottom:10px;background:#eef1f4;display:block}
-.price{font-weight:700;color:#138a50;font-size:17px}
-.hidden{display:none !important}
-.small{font-size:13px;color:#626966;line-height:1.45}
-
-.item-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f2f3f5}
-.item-row:last-child{border-bottom:0}
-.item-actions{display:inline-flex;gap:6px;align-items:center}
-.item-actions button{padding:5px 11px;border-radius:8px;font-size:14px}
-
-.bill-row{display:flex;justify-content:space-between;margin:10px 0;font-size:15px}
-.bill-total{display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px dashed #dcdfe4;font-size:18px;font-weight:700}
-
-/* Payment Method & UPI QR Box */
-.pay-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 14px}
-.pay-choice{border:2px solid #e4e7ec;border-radius:12px;padding:12px;text-align:center;cursor:pointer;background:#fff;font-weight:600;font-size:14px;touch-action:manipulation}
-.pay-choice.active{border-color:#138a50;background:#eef9f3;color:#138a50}
-.upi-box{border:1px solid #d5e8dd;background:#f7fcf9;border-radius:14px;padding:16px;margin:12px 0 16px;text-align:center}
-.qr-wrap{background:#fff;padding:10px;border-radius:12px;display:inline-block;border:1px solid #e5e8eb;margin:10px 0}
-.upi-id-row{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#fff;border:1px solid #dce2e7;padding:10px 12px;border-radius:10px;margin:10px 0;font-size:14px;flex-wrap:wrap}
-
-/* Offer Popup Modal */
-.popup-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;padding:18px;z-index:9999}
-.popup-card{position:relative;background:#fff;max-width:400px;width:100%;border-radius:18px;padding:24px 20px 20px;text-align:center;box-shadow:0 12px 32px rgba(0,0,0,0.22)}
-.popup-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:50%;padding:0;background:#f1f3f5;color:#333;font-size:16px;line-height:32px}
-.offer-pill{display:inline-block;background:#e6f7ef;color:#138a50;font-weight:700;font-size:12px;padding:6px 12px;border-radius:20px;margin-bottom:10px}
-
-/* Order Placed Successfully Screen */
-.success-box{text-align:center;padding:16px 8px}
-.check-circle{width:66px;height:66px;border-radius:50%;background:#18b877;color:#fff;font-size:34px;line-height:66px;margin:0 auto 12px}
-.summary-box{text-align:left;border:1px solid #eceef2;border-radius:14px;padding:14px;margin:14px 0;background:#fcfcfd}
-.summary-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding-bottom:12px;border-bottom:1px solid #efefef}
-.summary-meta{display:flex;justify-content:space-between;margin:10px 0;font-size:14px}
-.badge{display:inline-block;padding:6px 12px;border-radius:20px;font-weight:700;font-size:13px;background:#e6f7ef;color:#138a50;margin:6px 0}
-.badge.paid{background:#dcfce7;color:#15803d}
-.badge.unpaid{background:#fef3c7;color:#92400e}
-.badge.delayed{background:#fff3cd;color:#856404}
-.reason-box{background:#fff8e6;border-left:4px solid #e09f00;padding:10px 12px;border-radius:8px;margin:10px 0;text-align:left;font-size:14px}
-.full-btn{width:100%;padding:14px;font-size:15px;border-radius:12px;margin-top:8px}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7f6;color:#222}
+header{background:#138a50;color:white;text-align:center;padding:20px}
+header h1{margin:0}
+nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;background:white;padding:12px;position:sticky;top:0;z-index:5}
+button{border:0;padding:11px 15px;border-radius:9px;background:#138a50;color:white;font-weight:bold;cursor:pointer}
+button:active{opacity:.7}
+.secondary{background:#e9eeeb;color:#222}
+.container{max-width:900px;margin:auto;padding:15px}
+.card{background:white;padding:16px;border-radius:14px;margin:12px 0;box-shadow:0 2px 8px #0000000d}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.food-icon{font-size:65px;text-align:center;background:#f0f5f1;border-radius:12px;padding:15px}
+.price{color:#138a50;font-weight:bold;font-size:18px}
+.small{font-size:13px;color:#666;line-height:1.5}
+input,textarea{width:100%;padding:12px;margin:7px 0;border:1px solid #ddd;border-radius:9px;font-size:15px}
+textarea{min-height:80px}
+.hidden{display:none!important}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:10px 0}
+.qty{display:flex;align-items:center;gap:8px}
+.qty button{padding:5px 12px}
+.total{font-size:19px;font-weight:bold;border-top:1px solid #ddd;padding-top:14px}
+.full{width:100%;margin-top:10px}
+.pay{display:flex;gap:10px;margin:12px 0}
+.pay button{flex:1}
+.active{outline:3px solid #8ad6ad}
+.status{padding:10px;background:#eaf8ef;border-radius:9px;margin:10px 0}
 </style>
 </head>
 <body>
 
-<!-- Free Delivery Offer Popup (Ek baar dikhne ke baad session mein dobara nahi aayega) -->
-<div class="popup-backdrop hidden" id="offerPopup" onclick="handleBackdropClick(event)">
-  <div class="popup-card" onclick="event.stopPropagation()">
-    <button type="button" class="popup-close" aria-label="Close popup" onclick="closeOfferPopup()">✕</button>
-    <span class="offer-pill">🎉 KhanaGo Special Offer</span>
-    <h2 style="margin:4px 0 8px;font-size:21px">₹299+ Order Par Free Delivery!</h2>
-    <p class="small" style="margin:0 0 18px;font-size:14px;color:#444">
-      ₹299 ya usse zyada ka order place karein aur paayein <b>Free Delivery</b> — <b>sirf 2 km tak</b> ke orders ke liye valid.
-    </p>
-    <button type="button" class="green full-btn" onclick="closeOfferPopup()">Order Now</button>
-  </div>
-</div>
-
 <header>
-  <h1>🍔 KhanaGo</h1>
-  <p>Fast local food ordering & live tracking</p>
+<h1>🍔 KhanaGo</h1>
+<p>Fast Local Food Ordering & Tracking</p>
 </header>
 
-<nav id="mainNav">
-  <button type="button" class="green" onclick="showPage('shopsSection')">Shops</button>
-  <button type="button" class="secondary" onclick="showPage('trackSection')">Track Order</button>
-  <button type="button" class="secondary" onclick="showPage('helpSection')">Help / Chat</button>
+<nav>
+<button onclick="showPage('shops')">Shops</button>
+<button onclick="showPage('track')">Track Order</button>
+<button onclick="showPage('help')">Help / Chat</button>
 </nav>
 
 <main class="container">
 
-<!-- 1. SHOPS LIST -->
-<section id="shopsSection">
-  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
-    <h2 style="margin:6px 0">Available Shops</h2>
-    <span class="small" id="shopsSyncStatus">Syncing live menu...</span>
-  </div>
-  <p class="small" style="margin:0 0 12px">
-    💡 Offer: ₹299+ order par Free Delivery (sirf 2 km tak).
-  </p>
-  <div class="grid" id="shopsList"></div>
+<section id="shops">
+<h2>Available Shops</h2>
+<p class="small">Choose your favourite shop and order food.</p>
+<div id="shopList" class="grid"></div>
 </section>
 
-<!-- 2. SELECTED SHOP MENU + LOCATION + CART + PAYMENT -->
-<section id="menuSection" class="hidden">
-  <button type="button" class="secondary" onclick="backToShops()">← Back to Shops</button>
-  <h2 id="selectedShopTitle" style="margin:12px 0 2px">Shop Menu</h2>
-  <p class="small" id="selectedShopInfo" style="margin:0 0 10px"></p>
+<section id="menuPage" class="hidden">
+<button class="secondary" onclick="showPage('shops')">← Back to Shops</button>
+<h2 id="shopName"></h2>
+<div id="menuList" class="grid"></div>
 
-  <div class="grid" id="menu"></div>
+<div class="card">
+<h3>🛒 Your Cart</h3>
+<div id="cartList">Cart is empty</div>
+<div class="row"><span>Item Total</span><b id="subtotal">₹0</b></div>
+<div class="row"><span>Delivery Fee</span><b id="delivery">₹30</b></div>
+<div class="row total"><span>Grand Total</span><span id="grand">₹30</span></div>
+<p class="small">₹299+ order par 2 km tak free delivery. Final delivery eligibility shop location se distance verify hone par depend karegi.</p>
+</div>
 
-  <div class="card">
-    <h3 style="margin:0 0 8px">Delivery Location & Distance</h3>
-    <button type="button" class="green" onclick="getCurrentLocation()">📍 Detect My Current Location</button>
-    <p class="small" id="locationStatus" style="margin:10px 0 4px">Location not detected yet.</p>
-    <p class="small" id="distanceInfo" style="margin:0">Distance: -- km</p>
-  </div>
+<div class="card">
+<h3>📍 Delivery Location</h3>
+<button onclick="getLocation()">Detect My Location</button>
+<p id="locationStatus" class="small">Location not detected.</p>
+<input id="address" placeholder="Full delivery address / landmark">
+</div>
 
-  <div class="card">
-    <h3 style="margin:0 0 8px">Billing Details</h3>
-    <div id="cart">Cart is empty</div>
-    <div class="bill-row"><span>Item Total</span><span id="itemSubtotal">₹0</span></div>
-    <div class="bill-row"><span id="deliveryFeeLabel">Delivery Fee</span><span id="deliveryFeeText">₹0</span></div>
-    <div class="bill-total"><span>Total Amount</span><span id="grandTotal">₹0</span></div>
+<div class="card">
+<h3>💳 Payment Method</h3>
+<div class="pay">
+<button id="onlineBtn" class="active" onclick="setPayment('ONLINE')">UPI Payment</button>
+<button id="codBtn" class="secondary" onclick="setPayment('COD')">Cash on Delivery</button>
+</div>
+<div id="upiBox">
+<p class="small">Pay using your UPI app. Payment will remain pending until manually verified.</p>
+<p><b>UPI ID: 9458834146@ybl</b></p>
+<button class="full" onclick="payUPI()">Open UPI App</button>
+</div>
+</div>
 
-    <h3 style="margin:18px 0 6px">Payment Method</h3>
-    <div class="pay-options">
-      <div class="pay-choice active" id="payOptOnline" onclick="selectPaymentMethod('ONLINE')">
-        💳 Online UPI / QR
-      </div>
-      <div class="pay-choice" id="payOptCod" onclick="selectPaymentMethod('COD')">
-        💵 Cash on Delivery
-      </div>
-    </div>
-
-    <!-- Online UPI QR & ID Box -->
-    <div class="upi-box" id="upiPaymentBox">
-      <div style="font-weight:700;font-size:15px">Scan QR or Pay via UPI ID</div>
-      <div class="small" style="margin-top:2px">Amount to Pay: <b id="upiPayAmount">₹0</b></div>
-
-      <div class="qr-wrap">
-        <img id="upiQrImg" src="" alt="KhanaGo UPI QR Code" width="175" height="175" style="display:block">
-      </div>
-
-      <div class="upi-id-row">
-        <span><b>UPI ID:</b> <span id="upiIdDisplay">9458834146@ybl</span></span>
-        <button type="button" class="secondary" style="padding:7px 12px;font-size:13px" onclick="copyUpiId()">Copy ID</button>
-      </div>
-
-      <a id="upiAppLink" href="#" style="display:block;text-decoration:none">
-        <button type="button" class="green full-btn">Pay in UPI App (GPay / PhonePe / Paytm)</button>
-      </a>
-
-      <input id="upiRefInput" placeholder="Optional: UPI UTR / Transaction ID">
-
-      <button type="button" class="full-btn" onclick="markPreOrderPaid()">
-        ✅ I Have Paid (Mark as Paid)
-      </button>
-      <p class="small" id="preOrderPayStatus" style="margin:10px 0 0">
-        Status: <b>Unpaid</b> — Payment karne ke baad "I Have Paid" dabayein.
-      </p>
-    </div>
-
-    <h3 style="margin:16px 0 6px">Customer Details</h3>
-    <input id="customerName" placeholder="Your name">
-    <input id="customerPhone" placeholder="Mobile number">
-    <textarea id="customerAddress" placeholder="Delivery address / landmark"></textarea>
-    <button type="button" class="full-btn" id="placeOrderBtn" onclick="placeOrder()">Place Order</button>
-    <p class="small" id="orderStatus" style="margin:10px 0 0"></p>
-  </div>
+<div class="card">
+<h3>👤 Customer Details</h3>
+<input id="customerName" placeholder="Your Name">
+<input id="customerPhone" placeholder="Mobile Number" type="tel">
+<button class="full" onclick="placeOrder()">Place Order</button>
+<p id="orderMessage" class="small"></p>
+</div>
 </section>
 
-<!-- 3. ORDER PLACED SUCCESSFULLY SCREEN -->
-<section id="orderSuccessSection" class="hidden">
-  <div class="card success-box">
-    <div class="check-circle">✓</div>
-    <h2 style="margin:0 0 6px;font-size:24px">Order Placed Successfully!</h2>
-    <p class="small" style="margin:0 auto;max-width:420px;font-size:14px">
-      Thank you! Your order details are shown below.
-    </p>
-
-    <div class="summary-box" id="orderSuccessDetails"></div>
-
-    <div class="upi-box hidden" id="postOrderPayBox">
-      <div style="font-weight:700;font-size:15px">Complete Online Payment</div>
-      <div class="small">UPI ID: <b>9458834146@ybl</b></div>
-      <div class="qr-wrap">
-        <img id="postOrderQrImg" src="" alt="Order UPI QR" width="165" height="165" style="display:block">
-      </div>
-      <a id="postOrderUpiLink" href="#" style="display:block;text-decoration:none">
-        <button type="button" class="green full-btn">Pay via UPI App</button>
-      </a>
-      <input id="postOrderUtrInput" placeholder="Optional: UPI UTR / Transaction ID">
-      <button type="button" class="full-btn" onclick="confirmPlacedOrderPaid()">
-        ✅ I Have Paid (Update Status to Paid)
-      </button>
-    </div>
-
-    <div id="liveOrderStatusBox"></div>
-
-    <button type="button" class="full-btn" onclick="focusLiveStatus()">Track Order</button>
-    <button type="button" class="ghost full-btn" onclick="backToShops()">Back to Home</button>
-  </div>
+<section id="successPage" class="hidden">
+<div class="card">
+<h2>✅ Order Placed!</h2>
+<p>Your order has been saved on this device.</p>
+<div id="successDetails"></div>
+<button class="full" onclick="showPage('track')">Track Your Order</button>
+<button class="full secondary" onclick="showPage('shops')">Back to Home</button>
+</div>
 </section>
 
-<!-- 4. TRACK ORDER BY ID -->
-<section id="trackSection" class="hidden">
-  <div class="card">
-    <h2 style="margin:0 0 6px">Track Your Order</h2>
-    <p class="small">Apni Order ID daalein aur live status / payment status / delay reason dekhein.</p>
-    <input id="trackOrderIdInput" placeholder="Enter Order ID">
-    <button type="button" class="green" onclick="trackByIdInput()">Track Status</button>
-    <div id="trackedOrderResult"></div>
-  </div>
+<section id="track" class="hidden">
+<div class="card">
+<h2>📦 Track Your Order</h2>
+<input id="trackId" placeholder="Enter Order ID">
+<button onclick="trackOrder()">Track Order</button>
+<div id="trackResult"></div>
+</div>
 </section>
 
-<!-- 5. HELP SECTION -->
-<section id="helpSection" class="hidden">
-  <div class="card">
-    <h2 style="margin:0 0 6px">Customer Help</h2>
-    <p class="small">Apni problem ya question yahan bhejein.</p>
-    <input id="helpName" placeholder="Your name">
-    <input id="helpPhone" placeholder="Mobile number">
-    <textarea id="helpMessage" placeholder="How can we help you?"></textarea>
-    <button type="button" class="green" onclick="sendHelp()">Send Message</button>
-    <p class="small" id="helpStatus" style="margin:10px 0 0"></p>
-  </div>
-  <p class="small">WhatsApp: <a href="https://wa.me/917599044129" target="_blank">Chat with KhanaGo</a></p>
+<section id="help" class="hidden">
+<div class="card">
+<h2>Customer Help</h2>
+<input id="helpName" placeholder="Your Name">
+<input id="helpPhone" placeholder="Mobile Number">
+<textarea id="helpText" placeholder="How can we help you?"></textarea>
+<button class="full" onclick="sendHelp()">Send WhatsApp Message</button>
+</div>
 </section>
 
 </main>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-
 <script>
-// 1. Apni asli Firebase config yahan paste karein
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
+const ADMIN_WHATSAPP = "917599044129";
+const UPI_ID = "9458834146@ybl";
 
-const UPI_ID = "9458834146@ybl"; //[span_5](start_span)[span_5](end_span)
-const UPI_PAYEE_NAME = "KhanaGo";
-const ADMIN_WHATSAPP_NUMBER = "917599044129";
-const OFFER_SEEN_KEY = "khanago_offer_popup_seen_v1";
-
-const FALLBACK_IMG = "data:image/svg+xml;utf8," + encodeURIComponent(
-  `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="240" viewBox="0 0 400 240">
-    <rect width="400" height="240" fill="#eef2f0"/>
-    <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#138a50" font-family="Arial,sans-serif" font-size="22" font-weight="bold">KhanaGo</text>
-  </svg>`
-);
-
-const FREE_DELIVERY_MIN_AMOUNT = 299;
-const FREE_DELIVERY_MAX_KM = 2;
-
-const fallbackShops = [
-  {
-    id: "shop1",
-    name: "Shree Bhojnalaya",
-    area: "Ramlila Road / Main Market",
-    img: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&auto=format&fit=crop&q=70",
-    lat: 26.8756,
-    lng: 78.8865,
-    menu: [
-      { name: "Special Veg Thali", price: 149, img: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&auto=format&fit=crop&q=70" },
-      { name: "Paneer Paratha", price: 99, img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=500&auto=format&fit=crop&q=70" }
-    ]
-  }
+const shops = [
+{
+ id:"shop1",
+ name:"Shree Bhojnalaya",
+ area:"Ramlila Road / Main Market",
+ items:[
+  {name:"Special Veg Thali",price:149,icon:"🍛"},
+  {name:"Paneer Paratha",price:99,icon:"🫓"},
+  {name:"Paneer Butter Masala",price:179,icon:"🥘"},
+  {name:"Dal Makhani",price:149,icon:"🍲"},
+  {name:"Veg Biryani",price:129,icon:"🍚"},
+  {name:"Cold Drink",price:40,icon:"🥤"}
+ ]
+}
 ];
 
-let db = null;
-try {
-  if (typeof firebase !== "undefined" && firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY") {
-    firebase.initializeApp(firebaseConfig);
-    db = firebase.firestore();
-  }
-} catch (e) {
-  console.warn("Firebase init warning:", e);
-}
+let currentShop=null;
+let cart={};
+let payment="ONLINE";
+let locationData=null;
+let lastOrder=null;
 
-let shops = fallbackShops.slice();
-let activeShopId = null;
-let cart = {};
-let userLocation = null;
-let distanceKm = null;
-let paymentMethod = "ONLINE";
-let preOrderPaid = false;
-let currentPlacedOrderId = null;
-let currentPlacedOrderData = null;
-let unsubscribeOrder = null;
-let unsubscribeTrackedOrder = null;
-
-function initOfferPopupOnce(){
-  const popup = document.getElementById("offerPopup");
-  try {
-    if (!sessionStorage.getItem(OFFER_SEEN_KEY)) {
-      popup.classList.remove("hidden");
-    }
-  } catch (e) {
-    popup.classList.remove("hidden");
-  }
-}
-
-function closeOfferPopup(){
-  const popup = document.getElementById("offerPopup");
-  popup.classList.add("hidden");
-  try {
-    sessionStorage.setItem(OFFER_SEEN_KEY, "1");
-  } catch (e) {}
-}
-
-function handleBackdropClick(event){
-  if (event.target && event.target.id === "offerPopup") {
-    closeOfferPopup();
-  }
-}
-
-function escapeHtml(text){
-  return String(text || "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
-function showPage(pageId){
-  ["shopsSection", "menuSection", "orderSuccessSection", "trackSection", "helpSection"].forEach(id => {
-    document.getElementById(id).classList.add("hidden");
-  });
-  document.getElementById(pageId).classList.remove("hidden");
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function getActiveShop(){
-  return shops.find(s => s.id === activeShopId) || null;
-}
-
-function selectPaymentMethod(method){
-  paymentMethod = method;
-  document.getElementById("payOptOnline").classList.toggle("active", method === "ONLINE");
-  document.getElementById("payOptCod").classList.toggle("active", method === "COD");
-  document.getElementById("upiPaymentBox").classList.toggle("hidden", method !== "ONLINE");
-  if(method !== "ONLINE"){
-    preOrderPaid = false;
-    document.getElementById("preOrderPayStatus").innerHTML = "Method: <b>Cash on Delivery</b>";
-  } else {
-    updateUpiPaymentUI(getGrandTotal());
-  }
-}
-
-function buildUpiUri(amount, note){
-  const amt = Math.max(1, Number(amount || 1)).toFixed(2);
-  return `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(UPI_PAYEE_NAME)}&am=${encodeURIComponent(amt)}&cu=INR&tn=${encodeURIComponent(note || "KhanaGo Order")}`;
-}
-
-function buildQrUrl(upiUri){
-  return `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUri)}`;
-}
-
-function updateUpiPaymentUI(amount){
-  document.getElementById("upiIdDisplay").innerText = UPI_ID;
-  document.getElementById("upiPayAmount").innerText = "₹" + amount;
-  const uri = buildUpiUri(amount > 0 ? amount : 1, "KhanaGo Food Order");
-  document.getElementById("upiAppLink").href = uri;
-  document.getElementById("upiQrImg").src = buildQrUrl(uri);
-}
-
-function copyUpiId(){
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(UPI_ID).then(() => {
-      alert("UPI ID copied: " + UPI_ID);
-    }).catch(() => {
-      prompt("Copy UPI ID:", UPI_ID);
-    });
-  } else {
-    prompt("Copy UPI ID:", UPI_ID);
-  }
-}
-
-function markPreOrderPaid(){
-  const grandTotal = getGrandTotal();
-  if(grandTotal <= 0){
-    alert("Pehle cart mein item add karein.");
-    return;
-  }
-  preOrderPaid = true;
-  const utr = document.getElementById("upiRefInput").value.trim();
-  document.getElementById("preOrderPayStatus").innerHTML =
-    `Status: <b style="color:#15803d">PAID (₹${grandTotal})</b> ${utr ? `• UTR: <b>${escapeHtml(utr)}</b>` : ""} — Ab "Place Order" dabayein.`;
-}
-
-function sendWhatsAppNotification(text){
-  const url = `https://wa.me/${ADMIN_WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-  window.open(url, "_blank");
+function showPage(id){
+ ["shops","menuPage","successPage","track","help"].forEach(x=>
+ document.getElementById(x).classList.add("hidden"));
+ document.getElementById(id).classList.remove("hidden");
+ window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function renderShops(){
-  document.getElementById("shopsList").innerHTML = shops.map((s, idx) => `
-    <div class="card">
-      <img class="card-img" loading="lazy" src="${s.img || FALLBACK_IMG}" alt="${escapeHtml(s.name)}" onerror="this.src='${FALLBACK_IMG}'">
-      <h3 style="margin:4px 0">${escapeHtml(s.name)}</h3>
-      <p class="small" style="margin:4px 0">${escapeHtml(s.area || "Local Shop")}</p>
-      <p class="small" style="margin:4px 0 12px">Items: ${s.menu.length}</p>
-      <button type="button" class="green" onclick="openShop(${idx})">View Menu</button>
-    </div>
-  `).join("");
+ document.getElementById("shopList").innerHTML=shops.map((s,i)=>`
+ <div class="card">
+ <div class="food-icon">🏪</div>
+ <h3>${s.name}</h3>
+ <p class="small">${s.area}</p>
+ <p>${s.items.length} food items available</p>
+ <button onclick="openShop(${i})">View Menu</button>
+ </div>`).join("");
 }
 
-function openShop(idx){
-  const shop = shops[idx];
-  if(!shop) return;
-
-  activeShopId = shop.id;
-  cart = {};
-  distanceKm = null;
-  preOrderPaid = false;
-  document.getElementById("upiRefInput").value = "";
-  document.getElementById("preOrderPayStatus").innerHTML =
-    `Status: <b>Unpaid</b> — Payment karne ke baad "I Have Paid" dabayein.`;
-
-  document.getElementById("selectedShopTitle").innerText = shop.name;
-  document.getElementById("selectedShopInfo").innerText = shop.area ? ("Area: " + shop.area) : "";
-  document.getElementById("distanceInfo").innerText = "Distance: -- km";
-  document.getElementById("orderStatus").innerText = "";
-
-  if(userLocation) calculateDistanceAndFee();
-
-  renderMenu();
-  renderCart();
-  showPage("menuSection");
-}
-
-function backToShops(){
-  activeShopId = null;
-  cart = {};
-  showPage("shopsSection");
+function openShop(i){
+ currentShop=shops[i];
+ cart={};
+ document.getElementById("shopName").innerText=currentShop.name;
+ document.getElementById("address").value="";
+ document.getElementById("orderMessage").innerText="";
+ renderMenu();
+ renderCart();
+ showPage("menuPage");
 }
 
 function renderMenu(){
-  const activeShop = getActiveShop();
-  if(!activeShop) return;
+ document.getElementById("menuList").innerHTML=currentShop.items.map((item,i)=>`
+ <div class="card">
+ <div class="food-icon">${item.icon}</div>
+ <h3>${item.name}</h3>
+ <p class="price">₹${item.price}</p>
+ <button onclick="addItem(${i})">Add to Cart</button>
+ </div>`).join("");
+}
 
-  if(!activeShop.menu.length){
-    document.getElementById("menu").innerHTML = `<p class="small">Is shop ne abhi koi item add nahi kiya hai.</p>`;
-    return;
-  }
+function addItem(i){
+ cart[i]=(cart[i]||0)+1;
+ renderCart();
+}
 
-  document.getElementById("menu").innerHTML = activeShop.menu.map((item, i) => `
-    <div class="card">
-      <img class="card-img" loading="lazy" src="${item.img || FALLBACK_IMG}" alt="${escapeHtml(item.name)}" onerror="this.src='${FALLBACK_IMG}'">
-      <h3 style="margin:4px 0">${escapeHtml(i
+function changeQty(i,n){
+ cart[i]=(cart[i]||0)+n;
+ if(cart[i]<=0) delete cart[i];
+ renderCart();
+}
+
+function getSubtotal(){
+ return Object.keys(cart).reduce((sum,i)=>
+ sum+currentShop.items[i].price*cart[i],0);
+}
+
+function getDistance(){
+ if(!locationData || !currentShop || !currentShop.lat) return null;
+ const R=6371;
+ const dLat=(currentShop.lat-locationData.lat)*Math.PI/180;
+ const dLon=(currentShop.lng-locationData.lng)*Math.PI/180;
+ const a=Math.sin(dLat/2)**2+
+ Math.cos(locationData.lat*Math.PI/180)*
+ Math.cos(currentShop.lat*Math.PI/180)*Math.sin(dLon/2)**2;
+ return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+
+function getDelivery(){
+ const distance=getDistance();
+ if(getSubtotal()>=299 && distance!==null && distance<=2) return 0;
+ return 30;
+}
+
+function renderCart(){
+ let html="";
+ Object.keys(cart).forEach(i=>{
+ const item=currentShop.items[i];
+ html+=`<div class="row">
+ <span>${item.name}<br>₹${item.price}</span>
+ <div class="qty">
+ <button onclick="changeQty(${i},-1)">−</button>
+ <b>${cart[i]}</b>
+ <button onclick="changeQty(${i},1)">+</button>
+ </div>
+ </div>`;
+ });
+ document.getElementById("cartList").innerHTML=html||"Cart is empty";
+ const sub=getSubtotal();
+ const fee=getDelivery();
+ document.getElementById("subtotal").innerText="₹"+sub;
+ document.getElementById("delivery").innerText="₹"+fee;
+ document.getElementById("grand").innerText="₹"+(sub+fee);
+}
+
+function setPayment(method){
+ payment=method;
+ document.getElementById("onlineBtn").className=method==="ONLINE"?"active":"secondary";
+ document.getElementById("codBtn").className=method==="COD"?"active":"secondary";
+ document.getElementById("upiBox").classList.toggle("hidden",method!=="ONLINE");
+}
+
+function payUPI(){
+ const total=getSubtotal()+getDelivery();
+ if(getSubtotal()<=0){alert("Please add food to cart.");return;}
+ const uri="upi://pay?pa="+encodeURIComponent(UPI_ID)+
+ "&pn=KhanaGo&am="+total.toFixed(2)+"&cu=INR&tn=KhanaGo%20Order";
+ window.location.href=uri;
+}
+
+function getLocation(){
+ const status=document.getElementById("locationStatus");
+ if(!navigator.geolocation){
+ status.innerText="GPS is not supported by this browser.";
+ return;
+ }
+ status.innerText="Getting your location...";
+ navigator.geolocation.getCurrentPosition(pos=>{
+ locationData={
+ lat:pos.coords.latitude,
+ lng:pos.coords.longitude
+ };
+ status.innerText="Location detected successfully.";
+ renderCart();
+ },()=>{
+ status.innerText="Location permission denied. Please enter address manually.";
+ },{enableHighAccuracy:true,timeout:15000});
+}
+
+function placeOrder(){
+ const name=document.getElementById("customerName").value.trim();
+ const phone=document.getElementById("customerPhone").value.trim();
+ const address=document.getElementById("address").value.trim();
+ const subtotal=getSubtotal();
+
+ if(!currentShop){alert("Select a shop first.");return;}
+ if(subtotal<=0){alert("Please add items to cart.");return;}
+ if(!name||!phone||!address){
+ alert("Please enter name, phone and delivery address.");
+ return;
+ }
+ if(!/^[0-9]{10}$/.test(phone)){
+ alert("Enter a valid 10 digit mobile number.");
+ return;
+ }
+
+ const total=subtotal+getDelivery();
+ const order={
+ id:"KG"+Date.now().toString().slice(-8),
+ name,phone,address,
+ shop:currentShop.name,
+ items:Object.keys(cart).map(i=>({
+ name:currentShop.items[i].name,
+ qty:cart[i],
+ price:currentShop.items[i].price
+ })),
+ subtotal,
+ delivery:getDelivery(),
+ total,
+ payment,
+ paymentStatus:payment==="COD"?"COD - Pay on Delivery":"Pending Verification",
+ status:"Order Received",
+ date:new Date().toLocaleString("en-IN")
+ };
+
+ try{
+ const orders=JSON.parse(localStorage.getItem("khanago_orders")||"[]");
+ orders.unshift(order);
+ localStorage.setItem("khanago_orders",JSON.stringify(orders));
+ }catch(e){
+ alert("Could not save order on this device.");
+ return;
+ }
+
+ lastOrder=order;
+ document.getElementById("successDetails").innerHTML=`
+ <div class="status"><b>Order ID:</b> ${order.id}</div>
+ <p><b>Shop:</b> ${order.shop}</p>
+ <p><b>Name:</b> ${order.name}</p>
+ <p><b>Phone:</b> ${order.phone}</p>
+ <p><b>Address:</b> ${order.address}</p>
+ ${order.items.map(x=>`<p>${x.name} × ${x.qty} — ₹${x.price*x.qty}</p>`).join("")}
+ <hr>
+ <p>Item Total: ₹${subtotal}</p>
+ <p>Delivery: ₹${order.delivery}</p>
+ <h3>Total: ₹${total}</h3>
+ <p>Payment: ${order.paymentStatus}</p>
+ `;
+ showPage("successPage");
+
+ const message=
+ "NEW KHANAGO ORDER%0A"+
+ "Order ID: "+order.id+"%0A"+
+ "Shop: "+order.shop+"%0A"+
+ "Customer: "+order.name+"%0A"+
+ "Phone: "+order.phone+"%0A"+
+ "Address: "+order.address+"%0A"+
+ "Items: "+order.items.map(x=>x.name+" x "+x.qty).join(", ")+"%0A"+
+ "Total: Rs "+total+"%0A"+
+ "Payment: "+order.paymentStatus;
+
+ window.open("https://wa.me/"+ADMIN_WHATSAPP+"?text="+encodeURIComponent(
+ "NEW KHANAGO ORDER\n"+
+ "Order ID: "+order.id+"\n"+
+ "Shop: "+order.shop+"\n"+
+ "Customer: "+order.name+"\n"+
+ "Phone: "+order.phone+"\n"+
+ "Address: "+order.address+"\n"+
+ "Items: "+order.items.map(x=>x.name+" x "+x.qty).join(", ")+"\n"+
+ "Total: Rs "+total+"\n"+
+ "Payment: "+order.paymentStatus
+ ),"_blank");
+}
+
+function trackOrder(){
+ const id=document.getElementById("trackId").value.trim();
+ const result=document.getElementById("trackResult");
+ const orders=JSON.parse(localStorage.getItem("khanago_orders")||"[]");
+ const order=orders.find(x=>x.id.toLowerCase()===id.toLowerCase());
+
+ if(!order){
+ result.innerHTML="<p class='small'>Order not found on this device. Please check your Order ID.</p>";
+ return;
+ }
+
+ result.innerHTML=`
+ <div class="status">
+ <h3>${order.status}</h3>
+ <p><b>Order ID:</b> ${order.id}</p>
+ <p><b>Shop:</b> ${order.shop}</p>
+ <p><b>Total:</b> ₹${order.total}</p>
+ <p><b>Payment:</b> ${order.paymentStatus}</p>
+ <p><b>Date:</b> ${order.date}</p>
+ </div>`;
+}
+
+function sendHelp(){
+ const name=document.getElementById("helpName").value.trim();
+ const phone=document.getElementById("helpPhone").value.trim();
+ const msg=document.getElementById("helpText").value.trim();
+
+ if(!name||!phone||!msg){
+ alert("Please fill all details.");
+ return;
+ }
+ const text="KHANAGO CUSTOMER HELP\nName: "+name+
+ "\nPhone: "+phone+"\nMessage: "+msg;
+ window.open("https://wa.me/"+ADMIN_WHATSAPP+"?text="+encodeURIComponent(text),"_blank");
+}
+
+renderShops();
+</script>
+</body>
+</html>
