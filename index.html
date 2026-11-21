@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KhanaGo - Live Shops & Menu</title>
+<title>KhanaGo - Live Shops & Order Tracking</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial;background:#f5f6fa;color:#222}
@@ -20,6 +20,9 @@ input,textarea{width:100%;padding:12px;margin:7px 0;border:1px solid #ccc;border
 .hidden{display:none}
 .small{font-size:13px;color:#666}
 .item-actions{display:flex;gap:8px;align-items:center}
+.badge{display:inline-block;padding:6px 12px;border-radius:20px;font-weight:bold;background:#e6f7ef;color:#138a50;margin:6px 0}
+.badge.delayed{background:#fff3cd;color:#856404}
+.reason-box{background:#fff8e6;border-left:4px solid #e09f00;padding:10px 12px;border-radius:6px;margin:10px 0}
 h2{margin-top:10px}
 </style>
 </head>
@@ -27,11 +30,12 @@ h2{margin-top:10px}
 
 <header>
   <h1>🍔 KhanaGo</h1>
-  <p>Select a shop, view live menu & order</p>
+  <p>Select a shop, view live menu & track order</p>
 </header>
 
 <nav>
   <button onclick="showPage('shopsSection')">Shops</button>
+  <button onclick="showPage('trackSection')">Track Order</button>
   <button onclick="showPage('helpSection')">Help / Chat</button>
 </nav>
 
@@ -44,7 +48,7 @@ h2{margin-top:10px}
   <div class="grid" id="shopsList"></div>
 </section>
 
-<!-- 2. SELECTED SHOP MENU + LOCATION + CART -->
+<!-- 2. SELECTED SHOP MENU + LOCATION + CART + LIVE ORDER CARD -->
 <section id="menuSection" class="hidden">
   <button class="secondary" onclick="backToShops()">← Back to Shops</button>
   <h2 id="selectedShopTitle">Shop Menu</h2>
@@ -73,9 +77,22 @@ h2{margin-top:10px}
     <button onclick="placeOrder()">Place Order</button>
     <p class="small" id="orderStatus"></p>
   </div>
+
+  <div class="card hidden" id="activeOrderCard"></div>
 </section>
 
-<!-- 3. HELP SECTION -->
+<!-- 3. TRACK ORDER BY ID -->
+<section id="trackSection" class="hidden">
+  <div class="card">
+    <h2>Track Your Order</h2>
+    <p class="small">Apni Order ID daalein aur live status / delay reason dekhein.</p>
+    <input id="trackOrderIdInput" placeholder="Enter Order ID (e.g. abc123xyz)">
+    <button onclick="trackByIdInput()">Track Status</button>
+    <div id="trackedOrderResult"></div>
+  </div>
+</section>
+
+<!-- 4. HELP SECTION -->
 <section id="helpSection" class="hidden">
   <div class="card">
     <h2>Customer Help</h2>
@@ -95,7 +112,6 @@ h2{margin-top:10px}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <script>
-// 1. Firebase Console se apni asli configuration yahan paste karein
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
   authDomain: "YOUR_PROJECT.firebaseapp.com",
@@ -108,13 +124,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// 2. Delivery Fee Rules
 const BASE_FEE = 15;
 const PER_KM_RATE = 8;
 const FREE_ABOVE = 299;
 const FALLBACK_IMG = "https://via.placeholder.com/400x250?text=KhanaGo+Item";
 
-// Fallback data sirf tab kaam aayega jab Firestore `shops` collection khali ho
 const fallbackShops = [
   {
     id: "shop1",
@@ -135,19 +149,20 @@ let activeShopId = null;
 let cart = {};
 let userLocation = null;
 let distanceKm = null;
-
-function getActiveShop(){
-  return shops.find(s => s.id === activeShopId) || null;
-}
+let unsubscribeOrder = null;
+let unsubscribeTrackedOrder = null;
 
 function showPage(pageId){
-  ["shopsSection", "menuSection", "helpSection"].forEach(id => {
+  ["shopsSection", "menuSection", "trackSection", "helpSection"].forEach(id => {
     document.getElementById(id).classList.add("hidden");
   });
   document.getElementById(pageId).classList.remove("hidden");
 }
 
-// Firestore se real-time shops aur unke menu items load karna
+function getActiveShop(){
+  return shops.find(s => s.id === activeShopId) || null;
+}
+
 function listenToLiveShops(){
   db.collection("shops").onSnapshot((snapshot) => {
     const statusEl = document.getElementById("shopsSyncStatus");
@@ -184,7 +199,6 @@ function listenToLiveShops(){
 
     renderShops();
 
-    // Agar customer pehle se kisi shop ke menu par hai toh menu aur cart bhi live refresh honge
     if(activeShopId){
       const currentShop = getActiveShop();
       if(currentShop){
@@ -229,9 +243,7 @@ function openShop(idx){
   document.getElementById("distanceInfo").innerText = "Distance: -- km";
   document.getElementById("orderStatus").innerText = "";
 
-  if(userLocation){
-    calculateDistanceAndFee();
-  }
+  if(userLocation) calculateDistanceAndFee();
 
   renderMenu();
   renderCart();
@@ -367,6 +379,70 @@ function renderCart(){
   document.getElementById("grandTotal").innerText = "Grand Total: ₹" + grandTotal;
 }
 
+function escapeHtml(text){
+  return String(text || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function buildOrderSummaryHtml(orderId, o){
+  const itemsText = (o.items || []).map(x => `${escapeHtml(x.name)} × ${x.quantity} (₹${x.price * x.quantity})`).join("<br>");
+  const steps = ["Order Placed", "Preparing", "Ready", "Picked Up", "Delivered"];
+  const currentStatus = o.status || "Order Placed";
+  const isDelayed = currentStatus.toLowerCase() === "delayed";
+  const reasonText = (o.statusReason || "").trim();
+
+  const reasonHtml = reasonText
+    ? `<div class="reason-box">
+         <b>${isDelayed ? "⚠️ Order Delay Reason:" : "ℹ️ Status Note:"}</b><br>
+         ${escapeHtml(reasonText)}
+       </div>`
+    : (isDelayed
+        ? `<div class="reason-box"><b>⚠️ Order Delay:</b> Order mein delay ho raha hai (reason update hone ka intezar hai).</div>`
+        : "");
+
+  return `
+    <h3>🧾 Order Details & Live Status</h3>
+    <p><b>Order ID:</b> <code>${escapeHtml(orderId)}</code></p>
+    <p class="badge ${isDelayed ? "delayed" : ""}">Status: ${escapeHtml(currentStatus)}</p>
+    ${reasonHtml}
+    <p class="small">Stages: ${steps.join(" → ")}</p>
+    <p><b>Shop:</b> ${escapeHtml(o.shopName || "-")}</p>
+    <p><b>Customer:</b> ${escapeHtml(o.name || "-")} (${escapeHtml(o.phone || "-")})</p>
+    <p><b>Address:</b> ${escapeHtml(o.address || "-")}</p>
+    <p><b>Items:</b><br>${itemsText || "-"}</p>
+    <p><b>Items Total:</b> ₹${o.subtotal ?? 0}</p>
+    <p><b>Delivery Fee:</b> ₹${o.deliveryFee ?? 0} ${o.distanceKm != null ? `(${o.distanceKm} km)` : ""}</p>
+    <h3>Grand Total: ₹${o.total ?? 0}</h3>
+  `;
+}
+
+function watchOrderLive(orderId, targetElementId){
+  return db.collection("orders").doc(orderId).onSnapshot((doc) => {
+    const el = document.getElementById(targetElementId);
+    if(!doc.exists){
+      el.innerHTML = `<p class="small">Order ID <b>${escapeHtml(orderId)}</b> nahi mila.</p>`;
+      return;
+    }
+    el.classList.remove("hidden");
+    el.innerHTML = buildOrderSummaryHtml(doc.id, doc.data());
+  }, (err) => {
+    document.getElementById(targetElementId).innerHTML = `<p class="small">Live status error: ${escapeHtml(err.message)}</p>`;
+  });
+}
+
+function trackByIdInput(){
+  const id = document.getElementById("trackOrderIdInput").value.trim();
+  if(!id){
+    alert("Please enter an Order ID.");
+    return;
+  }
+  if(unsubscribeTrackedOrder) unsubscribeTrackedOrder();
+  unsubscribeTrackedOrder = watchOrderLive(id, "trackedOrderResult");
+}
+
 async function placeOrder(){
   const activeShop = getActiveShop();
   if(!activeShop){
@@ -395,7 +471,7 @@ async function placeOrder(){
   const total = subtotal + deliveryFee;
 
   try{
-    await db.collection("orders").add({
+    const docRef = await db.collection("orders").add({
       shopId: activeShop.id,
       shopName: activeShop.name,
       name,
@@ -407,12 +483,18 @@ async function placeOrder(){
       subtotal,
       deliveryFee,
       total,
-      status: "New",
+      status: "Order Placed",
+      statusReason: "",
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
+    localStorage.setItem("lastKhanaGoOrderId", docRef.id);
     document.getElementById("orderStatus").innerText =
-      `Order placed for ${activeShop.name}! Total: ₹${total} (Delivery: ₹${deliveryFee})`;
+      `Order placed! Order ID: ${docRef.id}. Niche live status dikh raha hai.`;
+
+    if(unsubscribeOrder) unsubscribeOrder();
+    unsubscribeOrder = watchOrderLive(docRef.id, "activeOrderCard");
+    document.getElementById("activeOrderCard").scrollIntoView({ behavior: "smooth" });
 
     const locText = userLocation
       ? `${userLocation.lat.toFixed(5)}, ${userLocation.lng.toFixed(5)} (${distanceKm ?? "--"} km)`
@@ -420,6 +502,7 @@ async function placeOrder(){
 
     const message =
       `New KhanaGo Order\n` +
+      `Order ID: ${docRef.id}\n` +
       `Shop: ${activeShop.name}\n` +
       `Name: ${name}\n` +
       `Phone: ${phone}\n` +
