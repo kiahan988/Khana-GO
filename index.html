@@ -12,7 +12,7 @@ header h1{margin:0;font-size:24px}
 header p{margin:5px 0 0;font-size:13px;opacity:0.95}
 
 nav{display:flex;gap:8px;justify-content:center;padding:12px 14px;background:#fff;border-bottom:1px solid #eceef2;flex-wrap:wrap}
-button{border:0;border-radius:11px;padding:11px 16px;background:#d94e28;color:#fff;font-weight:600;font-size:14px;cursor:pointer;transition:opacity 0.15s}
+button{border:0;border-radius:11px;padding:11px 16px;background:#d94e28;color:#fff;font-weight:600;font-size:14px;cursor:pointer;touch-action:manipulation}
 button:active{opacity:0.85}
 button.green{background:#138a50}
 button.secondary{background:#eef0f4;color:#222}
@@ -39,7 +39,7 @@ input:focus,textarea:focus{outline:none;border-color:#138a50}
 
 /* Payment Method & UPI QR Box */
 .pay-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 14px}
-.pay-choice{border:2px solid #e4e7ec;border-radius:12px;padding:12px;text-align:center;cursor:pointer;background:#fff;font-weight:600;font-size:14px}
+.pay-choice{border:2px solid #e4e7ec;border-radius:12px;padding:12px;text-align:center;cursor:pointer;background:#fff;font-weight:600;font-size:14px;touch-action:manipulation}
 .pay-choice.active{border-color:#138a50;background:#eef9f3;color:#138a50}
 .upi-box{border:1px solid #d5e8dd;background:#f7fcf9;border-radius:14px;padding:16px;margin:12px 0 16px;text-align:center}
 .qr-wrap{background:#fff;padding:10px;border-radius:12px;display:inline-block;border:1px solid #e5e8eb;margin:10px 0}
@@ -248,7 +248,7 @@ const firebaseConfig = {
   appId: "YOUR_APP_ID"
 };
 
-const UPI_ID = "9458834146@ybl";
+const UPI_ID = "9458834146@ybl"; //[span_5](start_span)[span_5](end_span)
 const UPI_PAYEE_NAME = "KhanaGo";
 const ADMIN_WHATSAPP_NUMBER = "917599044129";
 const OFFER_SEEN_KEY = "khanago_offer_popup_seen_v1";
@@ -277,6 +277,16 @@ const fallbackShops = [
     ]
   }
 ];
+
+let db = null;
+try {
+  if (typeof firebase !== "undefined" && firebaseConfig.apiKey && firebaseConfig.apiKey !== "YOUR_API_KEY") {
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
+  }
+} catch (e) {
+  console.warn("Firebase init warning:", e);
+}
 
 let shops = fallbackShops.slice();
 let activeShopId = null;
@@ -448,17 +458,4 @@ function renderMenu(){
   document.getElementById("menu").innerHTML = activeShop.menu.map((item, i) => `
     <div class="card">
       <img class="card-img" loading="lazy" src="${item.img || FALLBACK_IMG}" alt="${escapeHtml(item.name)}" onerror="this.src='${FALLBACK_IMG}'">
-      <h3 style="margin:4px 0">${escapeHtml(item.name)}</h3>
-      <p class="price" style="margin:6px 0 12px">₹${item.price}</p>
-      <button type="button" class="green" onclick="addToCart(${i})">Add to Cart</button>
-    </div>
-  `).join("");
-}
-
-function addToCart(i){
-  cart[i] = (cart[i] || 0) + 1;
-  renderCart();
-}
-
-function changeQty(i, delta){
-  cart[i] = (cart[i] || 0) + delta
+      <h3 style="margin:4px 0">${escapeHtml(i
