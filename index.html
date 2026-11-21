@@ -1,502 +1,345 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KhanaGo | Food Ordering</title>
-
-<style>
-:root {
-  --green:#15803d;
-  --dark:#166534;
-  --bg:#f1f5f9;
-  --white:#fff;
-  --text:#0f172a;
-  --muted:#64748b;
-  --border:#e2e8f0;
-}
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:var(--bg);color:var(--text);padding-bottom:30px}
-header{background:var(--green);color:white;text-align:center;padding:25px 12px}
-header h1{font-size:30px}
-header p{margin-top:7px}
-nav{background:white;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:12px;position:sticky;top:0;z-index:10;border-bottom:1px solid var(--border)}
-button{cursor:pointer}
-.btn{background:var(--green);color:white;border:0;padding:11px 16px;border-radius:8px;font-weight:bold}
-.btn:hover{background:var(--dark)}
-.outline{background:white;color:var(--green);border:1px solid var(--green)}
-.container{max-width:850px;margin:20px auto;padding:0 12px}
-.card{background:white;border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:0 2px 5px #00000008}
-h2{margin-bottom:15px}
-h3{margin:15px 0 10px}
-.field{margin-bottom:13px}
-label{display:block;font-weight:bold;color:var(--muted);font-size:14px;margin-bottom:6px}
-input,textarea,select{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:16px;background:white}
-.menu-item,.cart-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid var(--border)}
-.menu-item:last-child{border-bottom:0}
-.price{color:var(--green);font-weight:bold}
-.hidden{display:none!important}
-.msg{margin-top:12px;font-weight:bold;font-size:14px}
-.ok{color:var(--green)}
-.err{color:#dc2626}
-.order-box{background:#f8fafc;border:1px solid var(--border);padding:14px;border-radius:10px;margin:12px 0}
-.badge{display:inline-block;padding:5px 9px;background:#dcfce7;color:#166534;border-radius:20px;font-size:12px;font-weight:bold}
-.small{font-size:13px;color:var(--muted);margin-top:7px;line-height:1.5}
-.total{font-size:19px;font-weight:bold;margin:14px 0}
-button:disabled{opacity:.55;cursor:not-allowed}
-footer{text-align:center;color:var(--muted);padding:20px;font-size:13px}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KhanaGo - Fast Local Food Ordering</title>
+  <style>
+    :root {
+      --primary: #15803d;
+      --primary-dark: #166534;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background: var(--bg); color: var(--text); padding-bottom: 40px; }
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 20px 16px;
+      text-align: center;
+    }
+    header p { opacity: 0.9; margin-top: 4px; font-size: 0.95rem; }
+    .nav {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 12px;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn:hover { background: var(--primary-dark); }
+    .btn-outline {
+      background: #fff;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+    .btn-sm { padding: 7px 12px; font-size: 0.88rem; }
+    .container { max-width: 760px; margin: 20px auto; padding: 0 14px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .card h2, .card h3 { margin-bottom: 12px; }
+    .shop-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+    }
+    .shop-meta { font-size: 0.88rem; color: var(--muted); margin-top: 3px; }
+    .shop-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .field { margin-bottom: 12px; }
+    .field label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; color: var(--muted); }
+    .field input, .field textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .menu-item:last-child { border-bottom: none; }
+    .hidden { display: none; }
+    .msg { margin-top: 10px; font-size: 0.92rem; font-weight: 600; }
+    .ok { color: #15803d; }
+    .err { color: #dc2626; }
+  </style>
 </head>
-
 <body>
-
-<header>
-<h1>🍔 KhanaGo</h1>
-<p>Fast Local Food Ordering & Tracking</p>
-</header>
-
-<nav>
-<button class="btn" onclick="showSection('orderSec')">🍔 Order Food</button>
-<button class="btn outline" onclick="showSection('helpSec')">💬 Help / Chat</button>
-<button class="btn outline" onclick="showSection('adminSec')">🔐 Admin Dashboard</button>
-</nav>
-
-<div class="container">
-
-<section id="orderSec" class="card">
-<h2>🍽️ Our Food Menu</h2>
-
-<div class="menu-item">
-<div>
-<strong>Special Veg Thali</strong>
-<div class="small">Shree Bhojnalaya</div>
-<div class="price">₹179</div>
-</div>
-<button class="btn" onclick="addItem('Special Veg Thali',179)">+ Add</button>
-</div>
-
-<div class="menu-item">
-<div>
-<strong>Paneer Masala Sandwich</strong>
-<div class="small">Fresh & Delicious</div>
-<div class="price">₹99</div>
-</div>
-<button class="btn" onclick="addItem('Paneer Masala Sandwich',99)">+ Add</button>
-</div>
-
-<div class="menu-item">
-<div>
-<strong>Cheese Schezwan Veg Sandwich</strong>
-<div class="small">Spicy & Cheesy</div>
-<div class="price">₹119</div>
-</div>
-<button class="btn" onclick="addItem('Cheese Schezwan Veg Sandwich',119)">+ Add</button>
-</div>
-
-<div class="menu-item">
-<div>
-<strong>Brownie Shake</strong>
-<div class="small">Chocolate Dessert Shake</div>
-<div class="price">₹129</div>
-</div>
-<button class="btn" onclick="addItem('Brownie Shake',129)">+ Add</button>
-</div>
-
-<h3>🛒 Your Cart</h3>
-<div id="cartBox">Cart is empty.</div>
-<div class="total" id="cartTotal">Total: ₹0</div>
-
-<form id="orderForm">
-<h3>Delivery Details</h3>
-
-<div class="field">
-<label>Your Name</label>
-<input id="ordName" required maxlength="60" placeholder="Enter your name">
-</div>
-
-<div class="field">
-<label>Mobile Number</label>
-<input id="ordPhone" type="tel" required pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10 digit mobile number">
-</div>
-
-<div class="field">
-<label>Delivery Address</label>
-<textarea id="ordAddress" required maxlength="500" rows="3" placeholder="House, street, area"></textarea>
-</div>
-
-<button class="btn" id="orderBtn" type="submit" style="width:100%">Place Order</button>
-<div id="orderStatusMsg" class="msg"></div>
-</form>
-</section>
-
-<section id="helpSec" class="card hidden">
-<h2>💬 Customer Support</h2>
-<form id="helpForm">
-<div class="field">
-<label>Your Name</label>
-<input id="helpName" required maxlength="60" placeholder="Your name">
-</div>
-<div class="field">
-<label>Phone Number</label>
-<input id="helpPhone" required type="tel" pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10 digit mobile">
-</div>
-<div class="field">
-<label>Your Message</label>
-<textarea id="helpText" required maxlength="1000" rows="4" placeholder="How can we help you?"></textarea>
-</div>
-<button class="btn" id="helpBtn" style="width:100%">Send Message</button>
-<div id="helpStatusMsg" class="msg"></div>
-</form>
-</section>
-
-<section id="adminSec" class="card hidden">
-<h2>🔐 KhanaGo Admin Dashboard</h2>
-
-<div id="loginBox">
-<p class="small">Only authorized admin can access orders and customer messages.</p>
-<div class="field">
-<label>Admin Email</label>
-<input type="email" id="adminEmail" value="kishangihar8@gmail.com">
-</div>
-<div class="field">
-<label>Password</label>
-<input type="password" id="adminPass" required placeholder="Enter Firebase password">
-</div>
-<button class="btn" id="loginBtn" onclick="adminLogin()">Admin Login</button>
-<div id="adminMsg" class="msg"></div>
-</div>
-
-<div id="dashboardContent" class="hidden">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
-<strong>🟢 Live Admin Panel</strong>
-<button class="btn outline" onclick="adminLogout()">Logout</button>
-</div>
-
-<div class="order-box">
-<strong>Dashboard Connection</strong>
-<p class="small" id="connectionStatus">Connecting to Firebase...</p>
-</div>
-
-<h3>📦 Live Orders</h3>
-<div id="ordersList">Loading orders...</div>
-
-<h3>💬 Customer Help Messages</h3>
-<div id="helpsList">Loading messages...</div>
-</div>
-</section>
-</div>
-
-<footer>© 2026 KhanaGo | Fresh Food, Fast Delivery</footer>
-
-<script type="module">
-import { initializeApp } from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
- getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-import {
- getFirestore, collection, addDoc, onSnapshot,
- query, orderBy, updateDoc, doc, serverTimestamp
-} from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-/* PASTE YOUR REAL FIREBASE CONFIG HERE */
-const firebaseConfig = {
- apiKey: "PASTE_YOUR_API_KEY",
- authDomain: "khanago-11584.firebaseapp.com",
- projectId: "khanago-11584",
- storageBucket: "khanago-11584.firebasestorage.app",
- messagingSenderId: "PASTE_YOUR_SENDER_ID",
- appId: "PASTE_YOUR_APP_ID"
-};
-
-const ADMIN_EMAIL = "kishangihar8@gmail.com";
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-let cart = [];
-let unsubOrders = null;
-let unsubHelps = null;
-let busy = false;
-
-const $ = id => document.getElementById(id);
-
-window.showSection = id => {
- ["orderSec","helpSec","adminSec"].forEach(s =>
-  $(s).classList.toggle("hidden",s !== id)
- );
-};
-
-function message(id,text,type="ok"){
- $(id).textContent = text;
- $(id).className = "msg " + type;
-}
-
-function make(tag,text,className=""){
- const el=document.createElement(tag);
- el.textContent=text;
- if(className)el.className=className;
- return el;
-}
-
-window.addItem = (name,price) => {
- const item=cart.find(x=>x.name===name);
- if(item)item.qty++;
- else cart.push({name,price,qty:1});
- renderCart();
-};
-
-window.removeItem = name => {
- cart=cart.filter(x=>x.name!==name);
- renderCart();
-};
-
-function renderCart(){
- const box=$("cartBox");
- box.replaceChildren();
-
- if(!cart.length){
-  box.textContent="Cart is empty.";
-  $("cartTotal").textContent="Total: ₹0";
-  return;
- }
-
- cart.forEach(item=>{
-  const row=document.createElement("div");
-  row.className="cart-item";
-  row.append(
-   make("span",`${item.name} × ${item.qty} = ₹${item.price*item.qty}`),
-   Object.assign(make("button","Remove","btn outline"),{
-    onclick:()=>removeItem(item.name)
-   })
-  );
-  box.append(row);
- });
-
- const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
- $("cartTotal").textContent="Total: ₹"+total;
-}
-
-$("orderForm").addEventListener("submit",async e=>{
- e.preventDefault();
- if(busy)return;
-
- if(!cart.length){
-  message("orderStatusMsg","Please add food to your cart.","err");
-  return;
- }
-
- const btn=$("orderBtn");
- busy=true;
- btn.disabled=true;
- btn.textContent="Placing Order...";
-
- try{
-  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
-
-  const result=await addDoc(collection(db,"orders"),{
-   name:$("ordName").value.trim(),
-   phone:$("ordPhone").value.trim(),
-   address:$("ordAddress").value.trim(),
-   items:cart.map(i=>({...i})),
-   total,
-   status:"Order Placed",
-   createdAt:serverTimestamp()
-  });
-
-  cart=[];
-  renderCart();
-  e.target.reset();
-  message("orderStatusMsg","Order successfully placed! Order ID: "+result.id);
- }catch(err){
-  message("orderStatusMsg","Order failed: "+err.message,"err");
- }finally{
-  busy=false;
-  btn.disabled=false;
-  btn.textContent="Place Order";
- }
-});
-
-$("helpForm").addEventListener("submit",async e=>{
- e.preventDefault();
- const btn=$("helpBtn");
- btn.disabled=true;
-
- try{
-  await addDoc(collection(db,"helpMessages"),{
-   name:$("helpName").value.trim(),
-   phone:$("helpPhone").value.trim(),
-   message:$("helpText").value.trim(),
-   createdAt:serverTimestamp()
-  });
-  e.target.reset();
-  message("helpStatusMsg","Your message has been sent to KhanaGo!");
- }catch(err){
-  message("helpStatusMsg","Message failed: "+err.message,"err");
- }finally{
-  btn.disabled=false;
- }
-});
-
-window.adminLogin=async()=>{
- const email=$("adminEmail").value.trim().toLowerCase();
- const pass=$("adminPass").value;
- const btn=$("loginBtn");
-
- if(email!==ADMIN_EMAIL){
-  message("adminMsg","This email is not authorized.","err");
-  return;
- }
-
- btn.disabled=true;
- try{
-  await signInWithEmailAndPassword(auth,email,pass);
-  $("adminPass").value="";
-  message("adminMsg","");
- }catch(err){
-  message("adminMsg","Login failed: "+err.message,"err");
- }finally{
-  btn.disabled=false;
- }
-};
-
-window.adminLogout=async()=>{
- try{
-  await signOut(auth);
- }catch(err){
-  message("adminMsg",err.message,"err");
- }
-};
-
-window.changeOrderStatus=async(orderId,newStatus,select)=>{
- const allowed=[
-  "Order Placed","Preparing","Ready",
-  "Out for Delivery","Completed","Cancelled"
- ];
- if(!allowed.includes(newStatus))return;
-
- select.disabled=true;
- try{
-  await updateDoc(doc(db,"orders",orderId),{
-   status:newStatus,
-   updatedAt:serverTimestamp()
-  });
- }catch(err){
-  alert("Status update failed: "+err.message);
-  select.disabled=false;
- }
-};
-
-function stopListeners(){
- if(unsubOrders){unsubOrders();unsubOrders=null;}
- if(unsubHelps){unsubHelps();unsubHelps=null;}
-}
-
-function startListeners(){
- stopListeners();
- $("connectionStatus").textContent="Connected. Listening for live updates.";
-
- const qOrders=query(collection(db,"orders"),orderBy("createdAt","desc"));
-
- unsubOrders=onSnapshot(qOrders,snap=>{
-  const list=$("ordersList");
-  list.replaceChildren();
-
-  if(snap.empty){
-   list.textContent="No orders yet.";
-   return;
-  }
-
-  snap.forEach(d=>{
-   const o=d.data();
-   const card=document.createElement("div");
-   card.className="order-box";
-
-   card.append(make("strong",o.name||"Customer"));
-   card.append(make("p","Phone: "+(o.phone||"")));
-   card.append(make("p","Address: "+(o.address||"")));
-   card.append(make("p","Items: "+(o.items||[]).map(i=>
-    `${i.name} × ${i.qty}`
-   ).join(", ")));
-   card.append(make("p","Total: ₹"+(o.total||0)));
-
-   const status=make("span",o.status||"Order Placed","badge");
-   card.append(status);
-
-   const select=document.createElement("select");
-   const statuses=[
-    "Order Placed","Preparing","Ready",
-    "Out for Delivery","Completed","Cancelled"
-   ];
-
-   statuses.forEach(s=>{
-    const option=make("option",s);
-    option.value=s;
-    option.selected=(o.status||"Order Placed")===s;
-    select.append(option);
-   });
-
-   select.addEventListener("change",()=>{
-    window.changeOrderStatus(d.id,select.value,select);
-   });
-
-   const label=make("label","Update Order Status");
-   label.style.marginTop="12px";
-   card.append(label,select);
-   card.append(make("p","Order ID: "+d.id,"small"));
-   list.append(card);
-  });
- },err=>{
-  $("connectionStatus").textContent="Order error: "+err.message;
- });
-
- const qHelps=query(collection(db,"helpMessages"),orderBy("createdAt","desc"));
-
- unsubHelps=onSnapshot(qHelps,snap=>{
-  const list=$("helpsList");
-  list.replaceChildren();
-
-  if(snap.empty){
-   list.textContent="No help messages yet.";
-   return;
-  }
-
-  snap.forEach(d=>{
-   const h=d.data();
-   const card=document.createElement("div");
-   card.className="order-box";
-   card.append(make("strong",h.name||"Customer"));
-   card.append(make("p","Phone: "+(h.phone||"")));
-   card.append(make("p",h.message||""));
-   list.append(card);
-  });
- },err=>{
-  $("helpsList").textContent="Help messages error: "+err.message;
- });
-}
-
-onAuthStateChanged(auth,user=>{
- const login=$("loginBox");
- const dash=$("dashboardContent");
-
- if(user && user.email?.toLowerCase()===ADMIN_EMAIL){
-  login.classList.add("hidden");
-  dash.classList.remove("hidden");
-  startListeners();
- }else{
-  stopListeners();
-  dash.classList.add("hidden");
-  login.classList.remove("hidden");
-  $("connectionStatus").textContent="Not connected.";
-  if(user)signOut(auth);
- }
-});
-</script>
+  <header>
+    <h1>🍔 KhanaGo</h1>
+    <p>Fast Local Food Ordering</p>
+  </header>
+
+  <div class="nav">
+    <button class="btn" onclick="showSection('orderSec')">Order Food</button>
+    <button class="btn btn-outline" onclick="showSection('helpSec')">Help / Chat</button>
+  </div>
+
+  <div class="container">
+    <!-- CUSTOMER SHOPS & ORDER SECTION -->
+    <section id="orderSec" class="card">
+      <div id="shopsListView">
+        <h2>Partner Shops</h2>
+        <p class="shop-meta" style="margin-bottom:14px;">Kisi bhi shop ka menu dekhne ke liye "View Menu" par tap karein.</p>
+        <div id="shopsContainer"></div>
+      </div>
+
+      <div id="shopMenuView" class="hidden">
+        <div class="shop-header">
+          <div>
+            <h2 id="activeShopName" style="margin-bottom:2px;">Shop Name</h2>
+            <div id="activeShopSub" class="shop-meta"></div>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="backToShops()">← All Shops</button>
+        </div>
+        <div id="shopMenuItems"></div>
+      </div>
+
+      <div style="margin-top:18px; padding-top:14px; border-top:2px solid var(--border);">
+        <h3>Your Cart</h3>
+        <div id="cartBox" style="margin: 10px 0 14px; font-size: 0.95rem;">Cart is empty.</div>
+
+        <form id="orderForm">
+          <div class="field">
+            <label>Your Name</label>
+            <input type="text" id="ordName" required placeholder="Enter your name" />
+          </div>
+          <div class="field">
+            <label>Phone Number</label>
+            <input type="tel" id="ordPhone" required placeholder="10-digit mobile number" />
+          </div>
+          <div class="field">
+            <label>Delivery Address</label>
+            <input type="text" id="ordAddress" required placeholder="House / Street / Area" />
+          </div>
+          <button class="btn" type="submit" style="width:100%;">Place Order</button>
+          <div id="orderStatusMsg" class="msg"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- CUSTOMER HELP SECTION -->
+    <section id="helpSec" class="card hidden">
+      <h2>Customer Help</h2>
+      <form id="helpForm">
+        <div class="field">
+          <label>Your Name</label>
+          <input type="text" id="helpName" required placeholder="Your name" />
+        </div>
+        <div class="field">
+          <label>Phone Number</label>
+          <input type="tel" id="helpPhone" required placeholder="Your phone number" />
+        </div>
+        <div class="field">
+          <label>Message</label>
+          <textarea id="helpText" rows="3" required placeholder="How can we help you?"></textarea>
+        </div>
+        <button class="btn" type="submit" style="width:100%;">Send Message</button>
+        <div id="helpStatusMsg" class="msg"></div>
+      </form>
+    </section>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore, collection, addDoc, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCfoYb2nBRXAmWggHV-d77qEywaMXXHI7Y",
+      authDomain: "khanago-11584.firebaseapp.com",
+      projectId: "khanago-11584",
+      storageBucket: "khanago-11584.firebasestorage.app",
+      messagingSenderId: "472974685789",
+      appId: "1:472974685789:web:dc9affa20898ad2bf3ffb4",
+      measurementId: "G-6EH5CP0VXM"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const SHOPS = [
+      {
+        id: "shree-bhojnalaya",
+        name: "Shree Bhojnalaya",
+        category: "North Indian • Thali & Meals",
+        area: "Local Market",
+        menu: [
+          { id: "thali-1", name: "Special Veg Thali", desc: "Dal, Paneer, Sabzi, Roti, Rice & Salad", price: 179 },
+          { id: "roti-1", name: "Butter Roti (4 pcs)", desc: "Fresh tandoori rotis", price: 60 }
+        ]
+      },
+      {
+        id: "hunger-point",
+        name: "Hunger Point Cafe",
+        category: "Snacks • Sandwiches & Shakes",
+        area: "Main Road",
+        menu: [
+          { id: "sand-1", name: "Paneer Masala Sandwich", desc: "Fresh & Delicious", price: 99 },
+          { id: "sand-2", name: "Cheese Schezwan Veg Sandwich", desc: "Spicy & Cheesy", price: 119 },
+          { id: "shake-1", name: "Brownie Shake", desc: "Chocolate Dessert Shake", price: 129 }
+        ]
+      }
+    ];
+
+    let cart = [];
+
+    window.showSection = (id) => {
+      ["orderSec", "helpSec"].forEach(s => {
+        document.getElementById(s).classList.toggle("hidden", s !== id);
+      });
+    };
+
+    function renderShops() {
+      const container = document.getElementById("shopsContainer");
+      container.innerHTML = SHOPS.map(shop => `
+        <div class="shop-card">
+          <div>
+            <strong>${shop.name}</strong>
+            <div class="shop-meta">${shop.category} • ${shop.area}</div>
+          </div>
+          <button class="btn btn-sm" onclick="openShop('${shop.id}')">View Menu</button>
+        </div>
+      `).join("");
+    }
+
+    window.openShop = (shopId) => {
+      const shop = SHOPS.find(s => s.id === shopId);
+      if (!shop) return;
+      document.getElementById("shopsListView").classList.add("hidden");
+      document.getElementById("shopMenuView").classList.remove("hidden");
+      document.getElementById("activeShopName").textContent = shop.name;
+      document.getElementById("activeShopSub").textContent = `${shop.category} • ${shop.area}`;
+
+      document.getElementById("shopMenuItems").innerHTML = shop.menu.map(item => `
+        <div class="menu-item">
+          <div>
+            <strong>${item.name}</strong><br />
+            <small style="color:var(--muted);">${item.desc}</small><br />
+            <strong style="color:var(--primary);">₹${item.price}</strong>
+          </div>
+          <button class="btn btn-sm" onclick="addItem('${shop.name.replace(/'/g, "\\'")}', '${item.name.replace(/'/g, "\\'")}', ${item.price})">+ Add</button>
+        </div>
+      `).join("");
+    };
+
+    window.backToShops = () => {
+      document.getElementById("shopMenuView").classList.add("hidden");
+      document.getElementById("shopsListView").classList.remove("hidden");
+    };
+
+    window.addItem = (shopName, itemName, price) => {
+      const existing = cart.find(i => i.shopName === shopName && i.name === itemName);
+      if (existing) existing.qty += 1;
+      else cart.push({ shopName, name: itemName, price, qty: 1 });
+      renderCart();
+    };
+
+    function renderCart() {
+      const box = document.getElementById("cartBox");
+      if (!cart.length) {
+        box.textContent = "Cart is empty.";
+        return;
+      }
+      const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+      box.innerHTML = cart.map(i => `${i.name} <em>(${i.shopName})</em> × ${i.qty} = ₹${i.price * i.qty}`).join("<br>") +
+        `<br><strong style="display:inline-block; margin-top:6px;">Total: ₹${total}</strong>`;
+    }
+
+    document.getElementById("orderForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const msgEl = document.getElementById("orderStatusMsg");
+      if (!cart.length) {
+        msgEl.className = "msg err";
+        msgEl.textContent = "Pehle kisi shop ke andar jaakar kam se kam 1 item add karein.";
+        return;
+      }
+      const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+      const shopNames = [...new Set(cart.map(i => i.shopName))].join(", ");
+      try {
+        await addDoc(collection(db, "orders"), {
+          name: document.getElementById("ordName").value.trim(),
+          phone: document.getElementById("ordPhone").value.trim(),
+          address: document.getElementById("ordAddress").value.trim(),
+          shop: shopNames,
+          items: cart,
+          total: total,
+          status: "Order Placed",
+          createdAt: serverTimestamp()
+        });
+        cart = [];
+        renderCart();
+        e.target.reset();
+        msgEl.className = "msg ok";
+        msgEl.textContent = "Order placed successfully!";
+      } catch (err) {
+        msgEl.className = "msg err";
+        msgEl.textContent = "Error: " + err.message;
+      }
+    });
+
+    document.getElementById("helpForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const msgEl = document.getElementById("helpStatusMsg");
+      try {
+        await addDoc(collection(db, "helpMessages"), {
+          name: document.getElementById("helpName").value.trim(),
+          phone: document.getElementById("helpPhone").value.trim(),
+          message: document.getElementById("helpText").value.trim(),
+          createdAt: serverTimestamp()
+        });
+        e.target.reset();
+        msgEl.className = "msg ok";
+        msgEl.textContent = "Message sent!";
+      } catch (err) {
+        msgEl.className = "msg err";
+        msgEl.textContent = "Error: " + err.message;
+      }
+    });
+
+    renderShops();
+  </script>
 </body>
 </html>
