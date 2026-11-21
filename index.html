@@ -4,481 +4,359 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KhanaGo | Food Delivery</title>
-<meta name="theme-color" content="#f15a24">
+<title>KhanaGo - Food Delivery</title>
 <style>
-:root{--orange:#f15a24;--dark:#252525;--muted:#777;--bg:#fffaf6;--line:#eee}
+:root{--orange:#f15a24;--dark:#202124;--muted:#777;--bg:#f7f7f8}
 *{box-sizing:border-box}
-body{margin:0;background:#fff;color:var(--dark);font-family:Arial,Helvetica,sans-serif}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--dark)}
 button,input,textarea{font:inherit}
 button{cursor:pointer;border:0}
-.topbar{background:#fff;position:sticky;top:0;z-index:20;border-bottom:1px solid var(--line)}
-.nav{max-width:1180px;margin:auto;padding:13px 18px;display:flex;align-items:center;gap:18px}
-.logo{font-size:27px;font-weight:900;color:var(--orange);white-space:nowrap}
-.location{min-width:0;flex:1}
-.location strong{display:block;font-size:13px}
-.location small{color:var(--muted)}
-.navbtn{background:#fff3ec;color:var(--orange);padding:11px 14px;border-radius:10px;font-weight:bold}
-.cartnav{background:var(--orange);color:white;padding:11px 16px;border-radius:10px;font-weight:bold}
-.container{max-width:1180px;margin:auto;padding:20px 18px}
-.hero{background:linear-gradient(115deg,#fff0e6,#fff8f1);border-radius:22px;padding:35px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;overflow:hidden}
-.hero h1{font-size:clamp(27px,5vw,43px);margin:0 0 10px;line-height:1.12}
-.hero p{color:#666;margin:0 0 20px}
-.hero .heroicon{font-size:90px}
-.search{display:flex;gap:8px;max-width:540px}
-.search input{flex:1;min-width:0}
-input,textarea{border:1px solid #ddd;border-radius:10px;padding:13px;background:#fff;width:100%;outline:none}
-input:focus,textarea:focus{border-color:var(--orange)}
-.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:28px 0 15px}
-.sectionhead h2{margin:0;font-size:23px}
+header{background:white;padding:15px 5%;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:5;box-shadow:0 2px 10px #0000000d}
+.logo{font-size:25px;font-weight:900;color:var(--orange)}
+.logo span{color:#222}
+.header-btn{background:#fff0e9;color:var(--orange);padding:11px 15px;border-radius:10px;font-weight:bold}
+main{max-width:1100px;margin:auto;padding:20px 15px}
+.hero{background:linear-gradient(120deg,#ffede4,#fff8f3);padding:25px;border-radius:18px;margin:10px 0 20px}
+.hero h1{font-size:30px;margin:0 0 10px}
+.hero p{color:#666;line-height:1.5}
+.search{width:100%;padding:15px;border:1px solid #ddd;border-radius:12px;background:white;margin:10px 0 20px}
+.section-title{font-size:21px;margin:22px 0 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:15px}
+.card{background:white;border-radius:15px;overflow:hidden;box-shadow:0 3px 15px #0000000a}
+.card img{width:100%;height:145px;object-fit:cover;background:#eee}
+.card-body{padding:14px}
+.card h3{margin:0 0 8px}
 .muted{color:var(--muted);font-size:13px}
-.categories{display:flex;gap:12px;overflow-x:auto;padding:5px 0 12px}
-.category{min-width:88px;background:#fff;border:1px solid var(--line);border-radius:15px;padding:13px 10px;text-align:center;color:#333}
-.category.active{border:2px solid var(--orange);background:#fff5ef;color:var(--orange)}
-.category .emoji{font-size:29px;display:block;margin-bottom:7px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.restaurant{border:1px solid var(--line);border-radius:17px;overflow:hidden;background:white;transition:.2s;cursor:pointer}
-.restaurant:hover{box-shadow:0 8px 25px #00000012;transform:translateY(-2px)}
-.restaurant img{width:100%;height:175px;object-fit:cover;background:#f7eee7}
-.restaurantbody{padding:14px}
-.restaurantbody h3{margin:0 0 7px;font-size:18px}
-.meta{font-size:13px;color:#666;display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}
-.pill{background:#f4f4f4;padding:5px 8px;border-radius:7px}
-.rating{color:#16834a;font-weight:bold}
-.primary{background:var(--orange);color:#fff;padding:13px 18px;border-radius:10px;font-weight:bold}
-.secondary{background:#f3f3f3;color:#333;padding:11px 15px;border-radius:10px;font-weight:bold}
-.full{width:100%}
-.page{display:none}
-.page.active{display:block}
-.back{background:#fff1e9;color:var(--orange);padding:10px 14px;border-radius:9px;font-weight:bold;margin-bottom:15px}
-.shopbanner{border-radius:17px;width:100%;height:230px;object-fit:cover;background:#f7eee7}
-.shopinfo{padding:17px 0;border-bottom:1px solid var(--line)}
-.shopinfo h1{margin:0 0 8px;font-size:27px}
-.menurow{display:flex;justify-content:space-between;gap:15px;padding:17px 0;border-bottom:1px solid var(--line)}
-.menurow h3{margin:0 0 6px}
-.menurow p{color:#777;font-size:13px;margin:0 0 10px}
-.menurow img{width:112px;height:105px;object-fit:cover;border-radius:12px;background:#f5eee9}
-.menuprice{font-weight:bold;margin-right:10px}
-.addbtn{background:#fff;color:var(--orange);border:1px solid var(--orange);padding:8px 17px;border-radius:8px;font-weight:bold}
-.panel{border:1px solid var(--line);border-radius:16px;padding:18px;margin:15px 0;background:white}
-.cartline{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
-.qty button{background:#fff0e8;color:var(--orange);border-radius:6px;padding:6px 10px;font-weight:bold}
-.totalrow{display:flex;justify-content:space-between;padding:9px 0}
-.grand{font-size:20px;font-weight:bold;border-top:1px solid var(--line);margin-top:7px;padding-top:14px}
-.notice{background:#fff3e9;color:#85401e;padding:12px;border-radius:10px;font-size:13px;margin:10px 0}
-.status{padding:11px;border-radius:9px;background:#f6f6f6;margin:12px 0;font-size:13px}
-.chatbox{height:270px;overflow-y:auto;background:#fafafa;border:1px solid var(--line);padding:12px;border-radius:12px}
-.msg{max-width:85%;padding:10px 12px;margin:8px 0;border-radius:12px;font-size:14px;overflow-wrap:anywhere}
-.mine{margin-left:auto;background:#ffe1d2}
-.theirs{background:#eee}
-.chatcontrols{display:flex;gap:8px;margin-top:10px}
-.chatcontrols input{flex:1}
-.empty{padding:28px;text-align:center;color:#777;background:#fafafa;border-radius:13px}
-footer{margin-top:45px;background:#242424;color:white;padding:30px 18px;text-align:center}
-footer p{color:#bbb;font-size:13px}
-.hide{display:none!important}
-@media(max-width:800px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero .heroicon{font-size:65px}}
-@media(max-width:540px){.nav{gap:9px;padding:11px}.logo{font-size:22px}.location{font-size:12px}.navbtn,.cartnav{padding:10px;font-size:12px}.container{padding:15px 13px}.hero{padding:25px 18px}.hero .heroicon{font-size:48px}.grid{grid-template-columns:1fr 1fr;gap:11px}.restaurant img{height:125px}.restaurantbody{padding:10px}.restaurantbody h3{font-size:15px}.meta{font-size:11px;gap:5px}.sectionhead h2{font-size:20px}.shopbanner{height:175px}}
+.primary{background:var(--orange);color:white;padding:13px 17px;border-radius:10px;font-weight:bold}
+.secondary{background:#fff0e9;color:var(--orange);padding:11px 15px;border-radius:10px;font-weight:bold}
+.full{width:100%;margin-top:12px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.price{font-weight:bold;font-size:17px}
+.panel{background:white;border-radius:15px;padding:18px;margin:15px 0}
+input,textarea{width:100%;padding:13px;border:1px solid #ddd;border-radius:10px;margin:7px 0 12px;background:white}
+label{font-size:13px;font-weight:bold}
+.hidden{display:none!important}
+.food-img{height:110px!important}
+.qty{display:flex;align-items:center;gap:12px}
+.qty button{background:#fff0e9;color:var(--orange);padding:7px 12px;border-radius:7px;font-weight:bold}
+#cartBar{position:fixed;bottom:12px;left:4%;width:92%;max-width:600px;margin:auto;background:#242424;color:white;padding:14px 18px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;z-index:6;box-shadow:0 4px 18px #0004}
+#toast{position:fixed;bottom:85px;left:5%;width:90%;background:#222;color:white;padding:13px;border-radius:10px;text-align:center;z-index:10;display:none}
+footer{text-align:center;color:#888;padding:35px 10px;font-size:13px}
+@media(max-width:550px){.hero h1{font-size:24px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.card img{height:115px}.card-body{padding:10px}.card h3{font-size:15px}}
 </style>
 </head>
 <body>
-
-<header class="topbar">
- <div class="nav">
-  <div class="logo">KhanaGo</div>
-  <div class="location">
-   <strong>📍 Deliver to</strong>
-   <small id="navAddress">Select your location</small>
-  </div>
-  <button class="navbtn" id="detectBtn">Location</button>
-  <button class="cartnav" id="cartTop">🛒 Cart <span id="cartCount">0</span></button>
- </div>
+<header>
+ <div class="logo">Khana<span>Go</span></div>
+ <button class="header-btn" onclick="showCart()">🛒 Cart <span id="cartCount">0</span></button>
 </header>
 
-<main class="container">
-
-<!-- HOME PAGE -->
-<section id="homePage" class="page active">
+<main>
+<section id="welcome">
  <div class="hero">
-  <div>
-   <h1>Good food.<br>Good mood.</h1>
-   <p>Your favourite food, delivered to your doorstep.</p>
-   <div class="search">
-    <input id="searchInput" placeholder="Search food or restaurant...">
-    <button class="primary" id="searchBtn">Search</button>
-   </div>
-  </div>
-  <div class="heroicon">🍔</div>
+  <h1>Delicious food, delivered to you!</h1>
+  <p>Apne favourite restaurants se tasty food order karein.</p>
  </div>
-
- <div class="sectionhead">
-  <h2>What's on your mind?</h2>
- </div>
- <div class="categories" id="categories">
-  <button class="category active" data-cat="All"><span class="emoji">🍽️</span>All</button>
-  <button class="category" data-cat="Pizza"><span class="emoji">🍕</span>Pizza</button>
-  <button class="category" data-cat="Burger"><span class="emoji">🍔</span>Burger</button>
-  <button class="category" data-cat="Biryani"><span class="emoji">🍛</span>Biryani</button>
-  <button class="category" data-cat="Chinese"><span class="emoji">🥡</span>Chinese</button>
-  <button class="category" data-cat="Sandwich"><span class="emoji">🥪</span>Sandwich</button>
-  <button class="category" data-cat="Dessert"><span class="emoji">🍰</span>Dessert</button>
-  <button class="category" data-cat="Drinks"><span class="emoji">🥤</span>Drinks</button>
- </div>
-
- <div class="sectionhead">
-  <h2>Restaurants near you</h2>
-  <span class="muted" id="restaurantCount"></span>
- </div>
- <div id="homeStatus" class="status">Restaurants load ho rahe hain...</div>
- <div class="grid" id="restaurantGrid"></div>
-</section>
-
-<!-- RESTAURANT DETAILS PAGE -->
-<section id="restaurantPage" class="page">
- <button class="back" id="backHome">← Back to restaurants</button>
- <img id="shopImage" class="shopbanner" src="" alt="Restaurant">
- <div class="shopinfo">
-  <h1 id="shopName">Restaurant</h1>
-  <p id="shopDescription" class="muted"></p>
-  <div class="meta">
-   <span class="rating" id="shopRating">★ New</span>
-   <span id="shopTime">Delivery time varies</span>
-   <span id="shopAddress"></span>
-  </div>
- </div>
- <div class="sectionhead"><h2>Explore Menu</h2></div>
- <input id="menuSearch" placeholder="Search in this menu...">
- <div id="menuStatus" class="status">Menu load ho raha hai...</div>
- <div id="menuList"></div>
-</section>
-
-<!-- CART AND CHECKOUT -->
-<section id="cartPage" class="page">
- <button class="back" id="backFromCart">← Continue shopping</button>
- <h1>Your Cart</h1>
  <div class="panel">
-  <div id="cartItems"></div>
-  <div class="totalrow"><span>Item total</span><strong id="itemTotal">₹0</strong></div>
-  <div class="totalrow"><span>Delivery distance</span><strong id="distanceText">Not calculated</strong></div>
-  <div class="totalrow"><span>Delivery charge</span><strong id="deliveryText">₹0</strong></div>
-  <div class="totalrow grand"><span>To Pay</span><strong id="payTotal">₹0</strong></div>
-  <div class="notice">Delivery: first 2 km ₹30, uske baad har extra km ₹10.</div>
- </div>
-
- <div class="panel">
-  <h2>Delivery Address</h2>
-  <button class="secondary full" id="checkoutLocationBtn">📍 Detect Current Location</button>
-  <div id="checkoutLocationStatus" class="muted" style="margin:10px 0">Location select karein.</div>
-  <label>Your name</label>
-  <input id="customerName" placeholder="Full name">
-  <label>Mobile number</label>
-  <input id="customerPhone" type="tel" maxlength="10" placeholder="10 digit mobile number">
-  <label>Full address</label>
-  <textarea id="customerAddress" rows="3" placeholder="House no., street, area, city"></textarea>
+  <h2>Welcome to KhanaGo 👋</h2>
+  <p class="muted">Pehle apni delivery details bhariye. Uske baad aapko available shops dikhengi.</p>
+  <label>Your Name</label>
+  <input id="custName" placeholder="Apna naam likhein">
+  <label>Mobile Number</label>
+  <input id="custPhone" type="tel" maxlength="10" placeholder="10 digit mobile number">
+  <label>Area / Colony</label>
+  <input id="custArea" placeholder="Area ya colony">
+  <label>House No. / Street Address</label>
+  <textarea id="custAddress" rows="2" placeholder="Poora delivery address"></textarea>
   <label>Landmark</label>
-  <input id="customerLandmark" placeholder="Nearby landmark">
-  <label>Order instructions</label>
-  <textarea id="orderNote" rows="2" placeholder="Optional instructions"></textarea>
-  <h3>Payment method</h3>
-  <div class="notice">Cash on Delivery (COD)</div>
-  <button class="primary full" id="placeOrderBtn">Place Order</button>
+  <input id="custLandmark" placeholder="Nearby landmark">
+  <button class="secondary full" onclick="getLocation()">📍 Use My Current Location</button>
+  <p class="muted" id="locationText">Delivery location abhi select nahi hui.</p>
+  <button class="primary full" onclick="saveCustomer()">Continue to KhanaGo →</button>
  </div>
 </section>
 
-<!-- ORDER PAGE -->
-<section id="ordersPage" class="page">
- <h1>My Orders</h1>
- <p class="muted">Aapke recent orders aur unka status.</p>
- <div id="ordersList"></div>
+<section id="home" class="hidden">
+ <div class="hero">
+  <h1>Good food. Good mood. ❤️</h1>
+  <p id="deliveryAddress"></p>
+  <button class="secondary" onclick="editDetails()">Change Address</button>
+ </div>
+ <input class="search" id="searchBox" placeholder="🔍 Search restaurant or food..." oninput="renderShops()">
+ <h2 class="section-title">Restaurants near you</h2>
+ <div id="shopList" class="grid"><p>Restaurants load ho rahe hain...</p></div>
 </section>
 
-<!-- SUPPORT PAGE -->
-<section id="supportPage" class="page">
- <h1>Help & Support</h1>
- <p class="muted">KhanaGo support team se chat karein.</p>
+<section id="shopPage" class="hidden">
+ <button class="secondary" onclick="goHome()">← Back to restaurants</button>
+ <div id="shopDetails" class="panel"></div>
+ <h2 class="section-title">Menu</h2>
+ <div id="menuList" class="grid"></div>
+</section>
+
+<section id="cartPage" class="hidden">
+ <button class="secondary" onclick="goHome()">← Continue shopping</button>
+ <h2 class="section-title">Your Cart 🛒</h2>
+ <div id="cartItems"></div>
  <div class="panel">
-  <div class="chatbox" id="chatMessages">Support chat connect ho rahi hai...</div>
-  <div class="chatcontrols">
-   <input id="chatInput" placeholder="Write your message...">
-   <button class="primary" id="sendChatBtn">Send</button>
-  </div>
+  <h3>Bill Details</h3>
+  <div class="row"><span>Food total</span><b id="foodTotal">₹0</b></div>
+  <div class="row"><span>Delivery charge</span><b id="deliveryFee">₹30</b></div>
+  <hr>
+  <div class="row"><b>Grand Total</b><b id="grandTotal">₹30</b></div>
+  <p class="muted">Delivery: pehle 2 km ₹30, uske baad har extra km ₹10. Distance ka abhi straight-line estimate hai; road distance alag ho sakta hai.</p>
+ </div>
+ <button class="primary full" onclick="showCheckout()">Proceed to Checkout</button>
+</section>
+
+<section id="checkoutPage" class="hidden">
+ <button class="secondary" onclick="showCart()">← Back to cart</button>
+ <h2 class="section-title">Confirm Your Order</h2>
+ <div id="checkoutSummary" class="panel"></div>
+ <div class="panel">
+  <h3>Delivery Details</h3>
+  <p id="checkoutAddress"></p>
+  <label>Special instructions (optional)</label>
+  <textarea id="instructions" placeholder="Delivery ke liye koi khaas instruction?"></textarea>
+  <p><b>Payment Method: Cash on Delivery</b></p>
+  <button class="primary full" onclick="placeOrder()">Place Order</button>
  </div>
 </section>
 
+<section id="successPage" class="hidden">
+ <div class="panel" style="text-align:center;padding:35px 18px">
+  <div style="font-size:55px">🎉</div>
+  <h2>Order Placed!</h2>
+  <p id="orderNumber"></p>
+  <p class="muted">Aapka order restaurant ko bhej diya gaya hai.</p>
+  <button class="primary full" onclick="goHome()">Back to Home</button>
+ </div>
+</section>
 </main>
 
-<footer>
- <div class="logo">KhanaGo</div>
- <p>Food you love, delivered with care.</p>
- <p>
-  <a href="#" id="ordersLink" style="color:white">My Orders</a>
-  &nbsp; | &nbsp;
-  <a href="#" id="supportLink" style="color:white">Help & Support</a>
- </p>
- <p>© 2026 KhanaGo. All rights reserved.</p>
-</footer>
+<div id="cartBar" class="hidden" onclick="showCart()">
+ <span><b id="barCount">0</b> items in cart</span>
+ <b>View Cart →</b>
+</div>
+<div id="toast"></div>
+<footer>© 2026 KhanaGo. Fresh food, delivered with care.</footer>
 
-<script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
- getFirestore,collection,getDocs,addDoc,doc,setDoc,query,where,
- onSnapshot,serverTimestamp,orderBy,limit
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import {getAuth,signInAnonymously,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-/* YOUR FIREBASE PROJECT */
-const firebaseConfig={
- apiKey:"AIzaSyCfoYb2nBRXAmWggHV-d77qEywaMXXHI7Y",
- authDomain:"khanago-11584.firebaseapp.com",
- projectId:"khanago-11584",
- storageBucket:"khanago-11584.firebasestorage.app",
- messagingSenderId:"472974685789",
- appId:"1:472974685789:web:dc9affa20898ad2bf3ffb4",
- measurementId:"G-6EH5CP0VXM"
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+ apiKey: "AIzaSyCfoYb2nBRXAmWggHV-d77qEywaMXXHI7Y",
+ authDomain: "khanago-11584.firebaseapp.com",
+ projectId: "khanago-11584",
+ storageBucket: "khanago-11584.firebasestorage.app",
+ messagingSenderId: "472974685789",
+ appId: "1:472974685789:web:dc9affa20898ad2bf3ffb4",
+ measurementId: "G-6EH5CP0VXM"
 };
 
-const app=initializeApp(firebaseConfig);
-const db=getFirestore(app);
-const auth=getAuth(app);
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-let user=null;
-let shops=[];
-let selectedShop=null;
-let menuItems=[];
-let cart=[];
-let customerLat=null,customerLng=null;
-let deliveryKm=null,deliveryCharge=0;
-let currentCategory="All";
-let chatStop=null,orderStop=null;
+let user=null, customer={}, userLocation=null;
+let shops=[], selectedShop=null, cart={};
 
-const $=id=>document.getElementById(id);
-const rupees=n=>"₹"+Math.round(Number(n)||0);
-const escapeHTML=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-
-function showPage(page){
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- $(page).classList.add("active");
- window.scrollTo({top:0,behavior:"smooth"});
+function toast(message){
+ const el=document.getElementById("toast");
+ el.textContent=message;el.style.display="block";
+ setTimeout(()=>el.style.display="none",3000);
 }
-
-function shopTitle(s){return s.name||s.shopName||s.restaurantName||"KhanaGo Restaurant"}
-function shopPhoto(s){return s.imageUrl||s.image||s.photoURL||"https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900"}
-function shopLat(s){return Number(s.latitude??s.lat??s.location?.latitude)}
-function shopLng(s){return Number(s.longitude??s.lng??s.location?.longitude)}
-
-function notify(message){
- alert(message);
+function showSection(id){
+ ["welcome","home","shopPage","cartPage","checkoutPage","successPage"].forEach(x=>
+ document.getElementById(x).classList.toggle("hidden",x!==id));
+ document.getElementById("cartBar").classList.toggle("hidden",!Object.keys(cart).length || id==="cartPage" || id==="checkoutPage");
+ window.scrollTo(0,0);
 }
-
-/* CUSTOMER ANONYMOUS LOGIN */
-onAuthStateChanged(auth,async u=>{
- if(u){
-  user=u;
-  loadCustomerOrders();
-  startSupportChat();
- }
-});
-
-signInAnonymously(auth).catch(e=>{
- console.error(e);
- $("homeStatus").textContent="Firebase login error: "+e.message;
-});
-
-/* LOAD RESTAURANTS */
-async function loadShops(){
- try{
-  const snap=await getDocs(collection(db,"shops"));
-  shops=[];
-  snap.forEach(d=>{
-   const s={id:d.id,...d.data()};
-   if(s.approved===true) shops.push(s);
-  });
+function getLocation(){
+ if(!navigator.geolocation){toast("Aapke browser mein location available nahi hai.");return;}
+ document.getElementById("locationText").textContent="Location mil rahi hai...";
+ navigator.geolocation.getCurrentPosition(pos=>{
+  userLocation={lat:pos.coords.latitude,lng:pos.coords.longitude};
+  document.getElementById("locationText").textContent="✅ Location successfully mil gayi.";
+ },err=>{
+  document.getElementById("locationText").textContent="Location nahi mili. Permission allow karke dobara try karein.";
+ },{enableHighAccuracy:true,timeout:15000});
+}
+function saveCustomer(){
+ const name=document.getElementById("custName").value.trim();
+ const phone=document.getElementById("custPhone").value.trim();
+ const area=document.getElementById("custArea").value.trim();
+ const address=document.getElementById("custAddress").value.trim();
+ const landmark=document.getElementById("custLandmark").value.trim();
+ if(!name||!/^[0-9]{10}$/.test(phone)||!area||!address){toast("Naam, sahi mobile number, area aur address bhariye.");return;}
+ if(!userLocation){toast("Pehle current location select karein.");return;}
+ customer={name,phone,area,address,landmark};
+ document.getElementById("deliveryAddress").textContent="📍 "+area+", "+address;
+ loadShops();
+}
+function editDetails(){showSection("welcome");}
+function loadShops(){
+ showSection("home");
+ document.getElementById("shopList").innerHTML="<p>Restaurants load ho rahe hain...</p>";
+ db.collection("shops").where("approved","==",true).get().then(snapshot=>{
+  shops=snapshot.docs.map(d=>({id:d.id,...d.data()}));
   renderShops();
-  $("homeStatus").textContent=shops.length?
-   "Choose a restaurant and explore its menu.":
-   "Abhi koi approved restaurant available nahi hai.";
- }catch(e){
-  console.error(e);
-  $("homeStatus").textContent="Restaurants load nahi hue. Firebase Firestore rules check karein.";
- }
+ }).catch(err=>{
+  console.error(err);
+  document.getElementById("shopList").innerHTML="<p>Restaurants load nahi ho paaye. Firebase Firestore Rules check karni hongi.</p>";
+ });
 }
-
 function renderShops(){
- const term=$("searchInput").value.trim().toLowerCase();
- const grid=$("restaurantGrid");
- grid.innerHTML="";
- const filtered=shops.filter(s=>{
-  const name=shopTitle(s).toLowerCase();
-  const category=String(s.category||s.cuisine||"").toLowerCase();
-  const searchMatch=!term||name.includes(term)||category.includes(term);
-  const categoryMatch=currentCategory==="All"||
-   category.includes(currentCategory.toLowerCase())||
-   (s.tags||[]).some(t=>String(t).toLowerCase().includes(currentCategory.toLowerCase()));
-  return searchMatch&&categoryMatch;
- });
- $("restaurantCount").textContent=filtered.length+" restaurants";
-
- filtered.forEach(s=>{
-  const card=document.createElement("article");
-  card.className="restaurant";
-  card.innerHTML=`
-   <img src="${escapeHTML(shopPhoto(s))}" alt="${escapeHTML(shopTitle(s))}" loading="lazy">
-   <div class="restaurantbody">
-    <h3>${escapeHTML(shopTitle(s))}</h3>
-    <div class="muted">${escapeHTML(s.cuisine||s.category||"Food & Restaurant")}</div>
-    <div class="meta">
-     <span class="rating">★ ${escapeHTML(s.rating||"New")}</span>
-     <span>⏱ ${escapeHTML(s.deliveryTime||"30-40 min")}</span>
-    </div>
-    <div class="meta"><span>${escapeHTML(s.address||s.locationName||"Location not added")}</span></div>
-   </div>`;
-  card.addEventListener("click",()=>openShop(s));
-  card.querySelector("img").onerror=e=>{e.target.src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900"};
-  grid.appendChild(card);
- });
- if(!filtered.length)grid.innerHTML='<div class="empty">Koi restaurant nahi mila. Dusra search karein.</div>';
+ const q=document.getElementById("searchBox").value.toLowerCase();
+ const filtered=shops.filter(s=>(s.name||"").toLowerCase().includes(q)||(s.category||"").toLowerCase().includes(q));
+ const el=document.getElementById("shopList");
+ if(!filtered.length){el.innerHTML="<p>Abhi koi approved restaurant available nahi hai.</p>";return;}
+ el.innerHTML=filtered.map(s=>`
+ <div class="card">
+  <img src="${safe(s.image||"https://placehold.co/600x350?text=KhanaGo")}" alt="Restaurant">
+  <div class="card-body">
+   <h3>${safe(s.name||"Restaurant")}</h3>
+   <p class="muted">${safe(s.category||"Food")} · ${safe(s.address||"")}</p>
+   <div class="row"><span>⭐ ${safe(s.rating||"New")}</span><span class="muted">${safe(s.deliveryTime||"Delivery time varies")}</span></div>
+   <button class="primary full" onclick="openShop('${s.id}')">View Menu</button>
+  </div>
+ </div>`).join("");
 }
-
-/* OPEN RESTAURANT DETAILS */
-async function openShop(shop){
- selectedShop=shop;
- $("shopImage").src=shopPhoto(shop);
- $("shopName").textContent=shopTitle(shop);
- $("shopDescription").textContent=shop.description||shop.cuisine||"Fresh and delicious food.";
- $("shopRating").textContent="★ "+(shop.rating||"New");
- $("shopTime").textContent="⏱ "+(shop.deliveryTime||"30-40 min");
- $("shopAddress").textContent=shop.address||"";
- $("menuStatus").textContent="Menu load ho raha hai...";
- $("menuList").innerHTML="";
- $("menuSearch").value="";
- showPage("restaurantPage");
- try{
-  const snap=await getDocs(collection(db,"menuItems"));
-  menuItems=[];
-  snap.forEach(d=>{
-   const m={id:d.id,...d.data()};
-   const sid=m.shopId||m.restaurantId||m.shopID;
-   if(sid===shop.id && m.available!==false && m.isAvailable!==false)menuItems.push(m);
-  });
-  renderMenu();
-  $("menuStatus").textContent=menuItems.length?"Select your favourite food.":"Is restaurant ka menu abhi available nahi hai.";
- }catch(e){
-  console.error(e);
-  $("menuStatus").textContent="Menu load nahi hua. Firestore rules check karein.";
- }
-}
-
-/* MENU */
-function renderMenu(){
- const root=$("menuList");
- root.innerHTML="";
- const term=$("menuSearch").value.toLowerCase();
- const filtered=menuItems.filter(m=>
-  String(m.name||m.title||m.itemName||"").toLowerCase().includes(term)
- );
- if(!filtered.length){
-  root.innerHTML='<div class="empty">Menu item nahi mila.</div>';
-  return;
- }
- filtered.forEach(m=>{
-  const name=m.name||m.title||m.itemName||"Food Item";
-  const price=Number(m.price||m.sellingPrice||0);
-  const image=m.imageUrl||m.image||"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300";
-  const row=document.createElement("div");
-  row.className="menurow";
-  row.innerHTML=`
-   <div style="flex:1">
-    <h3>${escapeHTML(name)}</h3>
-    <p>${escapeHTML(m.description||"Freshly prepared and delicious.")}</p>
-    <span class="menuprice">${rupees(price)}</span>
-    <button class="addbtn">ADD +</button>
-   </div>
-   <img src="${escapeHTML(image)}" alt="${escapeHTML(name)}">
-  `;
-  row.querySelector("button").addEventListener("click",()=>addCart(m));
-  row.querySelector("img").onerror=e=>{e.target.src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300"};
-  root.appendChild(row);
- });
-}
-
-/* CART */
-function addCart(m){
+function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function openShop(id){
+ selectedShop=shops.find(s=>s.id===id);
  if(!selectedShop)return;
- if(cart.length && cart[0].shopId!==selectedShop.id){
-  return notify("Aapke cart mein doosre restaurant ka item hai. Pehle cart empty karein.");
+ if(Object.keys(cart).length && Object.values(cart).some(i=>i.shopId!==id)){
+  if(!confirm("Dusre restaurant ka cart clear karke is restaurant ka menu kholein?"))return;
+  cart={};
  }
- const id=m.id;
- const found=cart.find(x=>x.id===id);
- if(found)found.qty++;
- else cart.push({
-  id,
-  shopId:selectedShop.id,
-  name:m.name||m.title||m.itemName||"Food",
-  price:Number(m.price||m.sellingPrice||0),
-  qty:1
- });
- renderCart();
- $("cartCount").textContent=cart.reduce((n,x)=>n+x.qty,0);
+ document.getElementById("shopDetails").innerHTML=`
+ <h2>${safe(selectedShop.name)}</h2>
+ <p class="muted">${safe(selectedShop.category||"Restaurant")} · ${safe(selectedShop.address||"")}</p>
+ <p>${safe(selectedShop.description||"Fresh and delicious food.")}</p>`;
+ renderMenu();
+ showSection("shopPage");
 }
-
-function changeQty(id,change){
- const item=cart.find(x=>x.id===id);
- if(!item)return;
- item.qty+=change;
- if(item.qty<=0)cart=cart.filter(x=>x.id!==id);
- renderCart();
+function renderMenu(){
+ const menu=Array.isArray(selectedShop.menu)?selectedShop.menu:[];
+ const el=document.getElementById("menuList");
+ if(!menu.length){el.innerHTML="<p>Is restaurant ka menu abhi add nahi hua hai.</p>";return;}
+ el.innerHTML=menu.map((m,i)=>`
+ <div class="card">
+  <img class="food-img" src="${safe(m.image||"https://placehold.co/500x300?text=Food")}" alt="Food">
+  <div class="card-body">
+   <h3>${safe(m.name||"Food item")}</h3>
+   <p class="muted">${safe(m.description||"")}</p>
+   <div class="row"><span class="price">₹${Number(m.price)||0}</span>
+   <button class="secondary" onclick="addItem(${i})">ADD +</button></div>
+  </div>
+ </div>`).join("");
 }
-
-function renderCart(){
- $("cartCount").textContent=cart.reduce((n,x)=>n+x.qty,0);
- const root=$("cartItems");
- root.innerHTML="";
- if(!cart.length){
-  root.innerHTML='<div class="empty">Your cart is empty. Restaurant se food add karein.</div>';
-  $("itemTotal").textContent="₹0";
-  $("distanceText").textContent="Not calculated";
-  $("deliveryText").textContent="₹0";
-  $("payTotal").textContent="₹0";
-  deliveryCharge=0;
-  return;
+function addItem(i){
+ const item=selectedShop.menu[i];
+ if(!item||!item.name||!Number.isFinite(Number(item.price))||Number(item.price)<0){toast("Menu item ki details sahi nahi hain.");return;}
+ const key=selectedShop.id+"_"+i;
+ if(!cart[key])cart[key]={...item,shopId:selectedShop.id,index:i,qty:0};
+ cart[key].qty++;
+ updateCartCount();toast(item.name+" cart mein add ho gaya.");
+}
+function updateCartCount(){
+ const count=Object.values(cart).reduce((a,b)=>a+b.qty,0);
+ document.getElementById("cartCount").textContent=count;
+ document.getElementById("barCount").textContent=count;
+ document.getElementById("cartBar").classList.toggle("hidden",count===0);
+}
+function cartTotal(){return Object.values(cart).reduce((a,b)=>a+(Number(b.price)||0)*b.qty,0);}
+function distanceKm(a,b){
+ const R=6371,rad=x=>x*Math.PI/180;
+ const dLat=rad(b.lat-a.lat),dLng=rad(b.lng-a.lng);
+ const x=Math.sin(dLat/2)**2+Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dLng/2)**2;
+ return 2*R*Math.asin(Math.sqrt(x));
+}
+function getDelivery(){
+ if(!selectedShop||!userLocation||!Number.isFinite(Number(selectedShop.lat))||!Number.isFinite(Number(selectedShop.lng)))return {km:null,fee:30};
+ const km=distanceKm(userLocation,{lat:Number(selectedShop.lat),lng:Number(selectedShop.lng)});
+ return {km,fee:km<=2?30:30+Math.ceil(km-2)*10};
+}
+function showCart(){
+ if(!Object.keys(cart).length){toast("Aapka cart khaali hai.");return;}
+ const items=Object.values(cart);
+ const d=getDelivery();
+ document.getElementById("cartItems").innerHTML=items.map((x,i)=>`
+ <div class="panel row">
+ <div><b>${safe(x.name)}</b><p class="muted">₹${Number(x.price)} each</p></div>
+ <div class="qty"><button onclick="changeQty('${x.shopId}_${x.index}',-1)">−</button><b>${x.qty}</b><button onclick="changeQty('${x.shopId}_${x.index}',1)">+</button></div>
+ </div>`).join("");
+ const total=cartTotal();
+ document.getElementById("foodTotal").textContent="₹"+total;
+ document.getElementById("deliveryFee").textContent="₹"+d.fee;
+ document.getElementById("grandTotal").textContent="₹"+(total+d.fee);
+ showSection("cartPage");
+}
+function changeQty(key,delta){
+ if(!cart[key])return;
+ cart[key].qty+=delta;
+ if(cart[key].qty<=0)delete cart[key];
+ updateCartCount();
+ if(!Object.keys(cart).length){goHome();return;}
+ showCart();
+}
+function showCheckout(){
+ const d=getDelivery(),total=cartTotal();
+ document.getElementById("checkoutSummary").innerHTML=`
+ <p>Restaurant: <b>${safe(selectedShop.name)}</b></p>
+ <p>Food total: ₹${total}</p>
+ <p>Delivery charge: ₹${d.fee}</p>
+ <h3>Payable: ₹${total+d.fee}</h3>`;
+ document.getElementById("checkoutAddress").textContent=customer.name+", "+customer.phone+", "+customer.area+", "+customer.address+", "+customer.landmark;
+ showSection("checkoutPage");
+}
+async function placeOrder(){
+ if(!user){toast("Account connect ho raha hai. Dobara try karein.");return;}
+ if(!Object.keys(cart).length){toast("Cart khaali hai.");return;}
+ const btn=document.querySelector("#checkoutPage .primary");
+ btn.disabled=true;btn.textContent="Order place ho raha hai...";
+ try{
+  const d=getDelivery();
+  const food=cartTotal();
+  const items=Object.values(cart).map(x=>({name:x.name,price:Number(x.price),qty:x.qty}));
+  const order={
+   customerUid:user.uid,
+   name:customer.name,
+   phone:customer.phone,
+   address:[customer.area,customer.address,customer.landmark].filter(Boolean).join(", "),
+   items,
+   total:food+d.fee,
+   foodTotal:food,
+   deliveryCharge:d.fee,
+   distanceKm:d.km,
+   shopId:selectedShop.id,
+   shopName:selectedShop.name,
+   status:"Order Placed",
+   paymentMethod:"Cash on Delivery",
+   instructions:document.getElementById("instructions").value.trim(),
+   location:userLocation,
+   createdAt:firebase.firestore.FieldValue.serverTimestamp()
+  };
+  const ref=await db.collection("orders").add(order);
+  cart={};updateCartCount();
+  document.getElementById("orderNumber").textContent="Order ID: "+ref.id;
+  showSection("successPage");
+ }catch(err){
+  console.error(err);
+  toast("Order nahi hua: "+(err.code==="permission-denied"?"Firebase Rules permission nahi de rahe.":"Internet ya Firebase error. Dobara try karein."));
+ }finally{
+  btn.disabled=false;btn.textContent="Place Order";
  }
- cart.forEach(item=>{
-  const line=document.createElement("div");
-  line.className="cartline";
-  line.innerHTML=`
-   <div><strong>${escapeHTML(item.name)}</strong><div class="muted">${rupees(item.price)} each</div></div>
-   <div class="qty">
-    <button class="minus">−</button>
-    <strong>${item.qty}</strong>
-    <button class="plus">+</button>
-   </div>
-   <strong>${rupees(item.price*item.qty)}</strong>`;
-  line.querySelector(".minus").onclick=()=>changeQty(item.id,-1);
-  line.querySelector(".plus").onclick=()=>changeQty(item.id,1);
-  root.appendChild(line);
- });
- updateTotals();
 }
-
-function subtotal(){
- return cart.reduce((n,x)=>n+x.price*x.qty,0);
-}
-
-function calculateFee(km){
- if(km===null||!Number.isFinite(km))return 0;
- if(km<=2)return 30;
- return 30+Math.ceil(km-2)*10;
-}
-
-function updateTotals(){
- const sub=subtotal();
- $("itemTotal").textContent=rupees(sub);
- $("distanceText").textContent=deliveryKm===null?"Not calculated":deliveryKm.toFixed(1)+" km";
- $("deliveryText").textContent=deliveryKm===null?"Calculate after location":rupees(deliveryCharge);
- $("payTotal").textContent=rupees(sub+(deliveryKm===null?0:deliveryCharge));
-}
-
-/* CUSTOMER LOCATION */
-function detectLocation(){
- if(!navigator.geolocation)return notify("Aapke browser mein location available nahi hai.");
- $("checkoutLoc
+function goHome(){showSection("home");}
+auth.signInAnonymously().then(result=>{
+ user=result.user;
+}).catch(err=>{
+ console.error(err);
+ toast("Firebase login nahi hua. Authentication settings check karein.");
+});
+</script>
+</body>
+</html>
